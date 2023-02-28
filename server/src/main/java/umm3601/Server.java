@@ -13,6 +13,7 @@ import org.bson.UuidRepresentation;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.RouteOverviewPlugin;
 import io.javalin.http.InternalServerErrorResponse;
+import umm3601.item.RequestController;
 import umm3601.user.UserController;
 
 public class Server {
@@ -42,6 +43,7 @@ public class Server {
 
     // Initialize dependencies
     UserController userController = new UserController(database);
+    RequestController requestController = new RequestController(database);
 
     Javalin server = Javalin.create(config ->
       config.plugins.register(new RouteOverviewPlugin("/api"))
@@ -73,6 +75,11 @@ public class Server {
     // Add new user with the user info being in the JSON body
     // of the HTTP request
     server.post("/api/users", userController::addNewUser);
+
+    //Request api endpoints
+
+    //List requests, filtered using query parameters
+    server.get("/api/requests", requestController::getRequests);
 
     // This catches any uncaught exceptions thrown in the server
     // code and turns them into a 500 response ("Internal Server
