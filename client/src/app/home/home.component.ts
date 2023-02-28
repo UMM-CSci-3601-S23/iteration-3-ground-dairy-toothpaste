@@ -7,5 +7,6 @@ import {Component} from '@angular/core';
   providers: []
 })
 export class HomeComponent {
+  public userRole: 'client' | 'donor' | 'volunteer';
 
 }
