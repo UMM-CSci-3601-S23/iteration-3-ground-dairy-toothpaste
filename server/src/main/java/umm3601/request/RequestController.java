@@ -26,7 +26,7 @@ public class RequestController {
 
   private final JacksonMongoCollection<Request> requestCollection;
 
-  public RequestController(MongoDatabase database){
+  public RequestController(MongoDatabase database) {
     requestCollection = JacksonMongoCollection.builder().build(
       database,
       "requests",
