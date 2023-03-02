@@ -62,11 +62,11 @@ import io.javalin.json.JavalinJackson;
 // also a lot of "magic strings" that Checkstyle doesn't actually
 // flag as a problem) make more sense.
 @SuppressWarnings({ "MagicNumber" })
-class UserControllerSpec {
+class RequestControllerSpec {
 
   // An instance of the controller we're testing that is prepared in
   // `setupEach()`, and then exercised in the various tests below.
-  private UserController userController;
+  private RequestController requestController;
 
   // A Mongo object ID that is initialized in `setupEach()` and used
   // in a few of the tests. It isn't used all that often, though,
@@ -86,10 +86,10 @@ class UserControllerSpec {
   private Context ctx;
 
   @Captor
-  private ArgumentCaptor<ArrayList<User>> userArrayListCaptor;
+  private ArgumentCaptor<ArrayList<Request>> requestArrayListCaptor;
 
   @Captor
-  private ArgumentCaptor<User> userCaptor;
+  private ArgumentCaptor<Request> requestCaptor;
 
   @Captor
   private ArgumentCaptor<Map<String, String>> mapCaptor;
@@ -128,59 +128,47 @@ class UserControllerSpec {
     MockitoAnnotations.openMocks(this);
 
     // Setup database
-    MongoCollection<Document> userDocuments = db.getCollection("users");
-    userDocuments.drop();
-    List<Document> testUsers = new ArrayList<>();
-    testUsers.add(
+    MongoCollection<Document> requestDocuments = db.getCollection("requests");
+    requestDocuments.drop();
+    List<Document> testRequests = new ArrayList<>();
+    testRequests.add(
         new Document()
-            .append("name", "Chris")
-            .append("age", 25)
-            .append("company", "UMM")
-            .append("email", "chris@this.that")
-            .append("role", "admin")
-            .append("avatar", "https://gravatar.com/avatar/8c9616d6cc5de638ea6920fb5d65fc6c?d=identicon"));
-    testUsers.add(
+            .append("itemType", "food")
+            .append("description", "apple")
+            .append("foodType", "fruit"));
+    testRequests.add(
         new Document()
-            .append("name", "Pat")
-            .append("age", 37)
-            .append("company", "IBM")
-            .append("email", "pat@something.com")
-            .append("role", "editor")
-            .append("avatar", "https://gravatar.com/avatar/b42a11826c3bde672bce7e06ad729d44?d=identicon"));
-    testUsers.add(
+            .append("itemType", "other")
+            .append("description", "Paper Plate")
+            .append("foodType", ""));
+    testRequests.add(
         new Document()
-            .append("name", "Jamie")
-            .append("age", 37)
-            .append("company", "OHMNET")
-            .append("email", "jamie@frogs.com")
-            .append("role", "viewer")
-            .append("avatar", "https://gravatar.com/avatar/d4a6c71dd9470ad4cf58f78c100258bf?d=identicon"));
+            .append("itemType", "toiletries")
+            .append("description", "tooth paste")
+            .append("foodType", ""));
 
     samsId = new ObjectId();
     Document sam = new Document()
         .append("_id", samsId)
-        .append("name", "Sam")
-        .append("age", 45)
-        .append("company", "OHMNET")
-        .append("email", "sam@frogs.com")
-        .append("role", "viewer")
-        .append("avatar", "https://gravatar.com/avatar/08b7610b558a4cbbd20ae99072801f4d?d=identicon");
+        .append("itemType", "food")
+        .append("description", "steak")
+        .append("foodType", "meat");
 
-    userDocuments.insertMany(testUsers);
-    userDocuments.insertOne(sam);
+    requestDocuments.insertMany(testRequests);
+    requestDocuments.insertOne(sam);
 
-    userController = new UserController(db);
+    requestController = new RequestController(db);
   }
 
   @Test
-  void canGetAllUsers() throws IOException {
+  void canGetAllRequests() throws IOException {
     // When something asks the (mocked) context for the queryParamMap,
     // it will return an empty map (since there are no query params in this case where we want all users)
     when(ctx.queryParamMap()).thenReturn(Collections.emptyMap());
 
     // Now, go ahead and ask the userController to getUsers
     // (which will, indeed, ask the context for its queryParamMap)
-    userController.getUsers(ctx);
+    requestController.getRequests(ctx);
 
     // We are going to capture an argument to a function, and the type of that argument will be
     // of type ArrayList<User> (we said so earlier using a Mockito annotation like this):
@@ -193,152 +181,39 @@ class UserControllerSpec {
 
     // Specifically, we want to pay attention to the ArrayList<User> that is passed as input
     // when ctx.json is called --- what is the argument that was passed? We capture it and can refer to it later
-    verify(ctx).json(userArrayListCaptor.capture());
+    verify(ctx).json(requestArrayListCaptor.capture());
     verify(ctx).status(HttpStatus.OK);
 
     // Check that the database collection holds the same number of documents as the size of the captured List<User>
-    assertEquals(db.getCollection("users").countDocuments(), userArrayListCaptor.getValue().size());
+    assertEquals(db.getCollection("requests").countDocuments(), requestArrayListCaptor.getValue().size());
   }
 
   @Test
-  void canGetUsersWithAge37() throws IOException {
-    // Add a query param map to the context that maps "age" to "37".
+  void canGetRequestsWithItemType() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(UserController.AGE_KEY, Arrays.asList(new String[] {"37"}));
+    queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));
+    queryParams.put(RequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class))
-      .thenReturn(Validator.create(Integer.class, "37", UserController.AGE_KEY));
+    when(ctx.queryParam(RequestController.ITEM_TYPE_KEY)).thenReturn("food");
+    when(ctx.queryParam(RequestController.SORT_ORDER_KEY)).thenReturn("desc");
 
-    userController.getUsers(ctx);
+    requestController.getRequests(ctx);
 
-    verify(ctx).json(userArrayListCaptor.capture());
-    verify(ctx).status(HttpStatus.OK);
-    assertEquals(2, userArrayListCaptor.getValue().size());
-    for (User user : userArrayListCaptor.getValue()) {
-      assertEquals(37, user.age);
-    }
-  }
-
-  // We've included another approach for testing if everything behaves when we ask for users that are 37
-  @Test
-  void canGetUsersWithAge37Redux() throws JsonMappingException, JsonProcessingException {
-    // When the controller calls `ctx.queryParamMap`, return the expected map for an
-    // "?age=37" query.
-    when(ctx.queryParamMap()).thenReturn(Map.of(UserController.AGE_KEY, List.of("37")));
-    // When the controller calls `ctx.queryParamAsClass() to get the value associated with
-    // the "age" key, return an appropriate Validator.
-    Validator<Integer> validator = Validator.create(Integer.class, "37", UserController.AGE_KEY);
-    when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class)).thenReturn(validator);
-
-    // Call the method under test.
-    userController.getUsers(ctx);
-
-    // Verify that `getUsers` included a call to `ctx.status(HttpStatus.OK)` at some point.
+    verify(ctx).json(requestArrayListCaptor.capture());
     verify(ctx).status(HttpStatus.OK);
 
-    // Instead of using the Captor like in many other tests, we will use an ArgumentMatcher
-    // Verify that `ctx.json()` is called with a `List` of `User`s.
-    // Each of those `User`s should have age 37.
-    verify(ctx).json(argThat(new ArgumentMatcher<List<User>>() {
-      @Override
-      public boolean matches(List<User> users) {
-        for (User user : users) {
-          assertEquals(37, user.age);
-        }
-        return true;
-      }
-    }));
-  }
-
-  /**
-   * Test that if the user sends a request with an illegal value in
-   * the age field (i.e., something that can't be parsed to a number)
-   * we get a reasonable error code back.
-   */
-  @Test
-  void respondsAppropriatelyToNonNumericAge() {
-    Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(UserController.AGE_KEY, Arrays.asList(new String[] {"bad"}));
-    when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class))
-      .thenReturn(Validator.create(Integer.class, "bad", UserController.AGE_KEY));
-
-    // This should now throw a `ValidationException` because
-    // our request has an age that can't be parsed to a number,
-    // but I don't yet know how to make the message be anything specific
-    assertThrows(ValidationException.class, () -> {
-      userController.getUsers(ctx);
-    });
-  }
-
-  /**
-   * Test that if the user sends a request with an illegal value in
-   * the age field (i.e., too big of a number)
-   * we get a reasonable error code back.
-   */
-  @Test
-  void respondsAppropriatelyToTooLargeNumberAge() {
-    Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(UserController.AGE_KEY, Arrays.asList(new String[] {"151"}));
-    when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class))
-      .thenReturn(Validator.create(Integer.class, "151", UserController.AGE_KEY));
-
-    // This should now throw a `ValidationException` because
-    // our request has an age that is larger than 150, which isn't allowed,
-    // but I don't yet know how to make the message be anything specific
-    assertThrows(ValidationException.class, () -> {
-      userController.getUsers(ctx);
-    });
-  }
-
-/**
-   * Test that if the user sends a request with an illegal value in
-   * the age field (i.e., too small of a number)
-   * we get a reasonable error code back.
-   */
-  @Test
-  void respondsAppropriatelyToTooSmallNumberAge() {
-    Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(UserController.AGE_KEY, Arrays.asList(new String[] {"-1"}));
-    when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class))
-      .thenReturn(Validator.create(Integer.class, "-1", UserController.AGE_KEY));
-
-    // This should now throw a `ValidationException` because
-    // our request has an age that is smaller than 0, which isn't allowed,
-    // but I don't yet know how to make the message be anything specific
-    assertThrows(ValidationException.class, () -> {
-      userController.getUsers(ctx);
-    });
-  }
-
-  @Test
-  void canGetUsersWithCompany() throws IOException {
-    Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(UserController.COMPANY_KEY, Arrays.asList(new String[] {"OHMNET"}));
-    queryParams.put(UserController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
-    when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParam(UserController.COMPANY_KEY)).thenReturn("OHMNET");
-    when(ctx.queryParam(UserController.SORT_ORDER_KEY)).thenReturn("desc");
-
-    userController.getUsers(ctx);
-
-    verify(ctx).json(userArrayListCaptor.capture());
-    verify(ctx).status(HttpStatus.OK);
-
-    // Confirm that all the users passed to `json` work for OHMNET.
-    for (User user : userArrayListCaptor.getValue()) {
-      assertEquals("OHMNET", user.company);
+    // Confirm that all the requests passed to `json` work for OHMNET.
+    for (Request request : requestArrayListCaptor.getValue()) {
+      assertEquals("OHMNET", request.itemType);
     }
   }
 
   @Test
-  public void canGetUsersWithCompanyLowercase() throws IOException {
+  public void canGetRequestWithCompanyUppercase() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(UserController.COMPANY_KEY, Arrays.asList(new String[] {"ohm"}));
+    queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"FOOD"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParam(UserController.COMPANY_KEY)).thenReturn("ohm");
+    when(ctx.queryParam(RequestController.)).thenReturn("ohm");
 
     userController.getUsers(ctx);
 

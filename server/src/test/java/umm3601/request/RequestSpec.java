@@ -6,48 +6,48 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class UserSpec {
+public class RequestSpec {
 
   private static final String FAKE_ID_STRING_1 = "fakeIdOne";
   private static final String FAKE_ID_STRING_2 = "fakeIdTwo";
 
-  private User user1;
-  private User user2;
+  private Request request1;
+  private Request request2;
 
   @BeforeEach
   void setupEach() {
-    user1 = new User();
-    user2 = new User();
+    request1 = new Request();
+    request2 = new Request();
   }
 
   @Test
-  void usersWithEqualIdAreEqual() {
-    user1._id = FAKE_ID_STRING_1;
-    user2._id = FAKE_ID_STRING_1;
+  void requestWithEqualIdAreEqual() {
+    request1._id = FAKE_ID_STRING_1;
+    request2._id = FAKE_ID_STRING_1;
 
-    assertTrue(user1.equals(user2));
+    assertTrue(request1.equals(request2));
   }
 
   @Test
-  void usersWithDifferentIdAreNotEqual() {
-    user1._id = FAKE_ID_STRING_1;
-    user2._id = FAKE_ID_STRING_2;
+  void requestWithDifferentIdAreNotEqual() {
+    request1._id = FAKE_ID_STRING_1;
+    request2._id = FAKE_ID_STRING_2;
 
-    assertFalse(user1.equals(user2));
+    assertFalse(request1.equals(request2));
   }
 
   @Test
   void hashCodesAreBasedOnId() {
-    user1._id = FAKE_ID_STRING_1;
-    user2._id = FAKE_ID_STRING_1;
+    request1._id = FAKE_ID_STRING_1;
+    request2._id = FAKE_ID_STRING_1;
 
-    assertTrue(user1.hashCode() == user2.hashCode());
+    assertTrue(request1.hashCode() == request2.hashCode());
   }
 
   @Test
-  void usersAreNotEqualToOtherKindsOfThings() {
-    user1._id = FAKE_ID_STRING_1;
-    // a user is not equal to its id even though id is used for checking equality
-    assertFalse(user1.equals(FAKE_ID_STRING_1));
+  void requestAreNotEqualToOtherKindsOfThings() {
+    request1._id = FAKE_ID_STRING_1;
+    // a request is not equal to its id even though id is used for checking equality
+    assertFalse(request1.equals(FAKE_ID_STRING_1));
   }
 }
