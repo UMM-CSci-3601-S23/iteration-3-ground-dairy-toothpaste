@@ -9,4 +9,9 @@ import {Component} from '@angular/core';
 export class HomeComponent {
   public userRole: 'client' | 'donor' | 'volunteer';
 
+  changeRole(newRole: HomeComponent['userRole']){
+    this.userRole = newRole;
+  }
+
 }
+

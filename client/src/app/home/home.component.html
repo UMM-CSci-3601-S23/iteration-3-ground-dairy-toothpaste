@@ -3,19 +3,31 @@
     <mat-card class="home-card">
       <mat-card-header>
         <mat-card-title>
-          PocketShelf: brought to you by the Steven's County food shelf in collaboration with the University of Minnesota Morris!
+          PocketShelf: brought to you by the SC food shelf in collaboration with UMM!
         </mat-card-title>
       </mat-card-header>
     </mat-card>
-    <li></li>
+    <div class="tactile-stuff">
     <mat-form-field class="input-field">
       <mat-label>I am a...</mat-label>
-      <mat-select [(ngModel)]="userRole" data-test="userRoleSelect">
+      <mat-select
+      [(ngModel)]="userRole"
+      (selectionChange)="changeRole(userRole)"
+      data-test="userRoleSelect"
+      required >
         <mat-option>--</mat-option>
         <mat-option value="donor">Donor</mat-option>
         <mat-option value="client">Client</mat-option>
         <mat-option value="volunteer">Volunteer</mat-option>
       </mat-select>
     </mat-form-field>
+    <button class="continue-button"
+    mat-raised-button
+    routerLink = ""
+    matRipple
+    [disabled]="!userRole">
+      Continue
+    </button>
+    </div>
   </div>
 </div>
