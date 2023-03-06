@@ -1,4 +1,4 @@
-package umm3601.user;
+package umm3601.request;
 
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
@@ -204,64 +204,50 @@ class RequestControllerSpec {
 
     // Confirm that all the requests passed to `json` work for OHMNET.
     for (Request request : requestArrayListCaptor.getValue()) {
-      assertEquals("OHMNET", request.itemType);
+      assertEquals("food", request.itemType);
     }
   }
 
   @Test
-  public void canGetRequestWithCompanyUppercase() throws IOException {
+  public void canGetRequestWithItemTypeUppercase() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"FOOD"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParam(RequestController.)).thenReturn("ohm");
+    when(ctx.queryParam(RequestController.ITEM_TYPE_KEY)).thenReturn("FOOD");
 
-    userController.getUsers(ctx);
+    requestController.getRequests(ctx);
 
-    verify(ctx).json(userArrayListCaptor.capture());
+    verify(ctx).json(requestArrayListCaptor.capture());
     verify(ctx).status(HttpStatus.OK);
 
-    // Confirm that all the users passed to `json` work for OHMNET.
-    for (User user : userArrayListCaptor.getValue()) {
-      assertEquals("OHMNET", user.company);
+    for (Request request : requestArrayListCaptor.getValue()) {
+      assertEquals("FOOD", request.itemType);
     }
   }
 
   @Test
-  void getUsersByRole() throws IOException {
+  void getUsersByItemTypeAndFoodType() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(UserController.ROLE_KEY, Arrays.asList(new String[] {"viewer"}));
+    queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));
+    queryParams.put(RequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"fruit"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass(UserController.ROLE_KEY, String.class))
-      .thenReturn(Validator.create(String.class, "viewer", UserController.ROLE_KEY));
+    when(ctx.queryParam(RequestController.ITEM_TYPE_KEY)).thenReturn("food");
+    when(ctx.queryParamAsClass(RequestController.FOOD_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "fruit", RequestController.FOOD_TYPE_KEY));
 
-    userController.getUsers(ctx);
+    requestController.getRequests(ctx);
 
-    verify(ctx).json(userArrayListCaptor.capture());
+    verify(ctx).json(requestArrayListCaptor.capture());
     verify(ctx).status(HttpStatus.OK);
-    assertEquals(2, userArrayListCaptor.getValue().size());
-  }
-
-  @Test
-  void getUsersByCompanyAndAge() throws IOException {
-    Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(UserController.COMPANY_KEY, Arrays.asList(new String[] {"OHMNET"}));
-    queryParams.put(UserController.AGE_KEY, Arrays.asList(new String[] {"37"}));
-    when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParam(UserController.COMPANY_KEY)).thenReturn("OHMNET");
-    when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class))
-      .thenReturn(Validator.create(Integer.class, "37", UserController.AGE_KEY));
-
-    userController.getUsers(ctx);
-
-    verify(ctx).json(userArrayListCaptor.capture());
-    verify(ctx).status(HttpStatus.OK);
-    assertEquals(1, userArrayListCaptor.getValue().size());
-    for (User user : userArrayListCaptor.getValue()) {
-      assertEquals("OHMNET", user.company);
-      assertEquals(37, user.age);
+    assertEquals(1, requestArrayListCaptor.getValue().size());
+    for (Request request : requestArrayListCaptor.getValue()) {
+      assertEquals("food", request.itemType);
+      assertEquals("fruit", request.foodType);
     }
   }
+}
 
+  /*
   @Test
   void getUserWithExistentId() throws IOException {
     String id = samsId.toHexString();
@@ -521,3 +507,4 @@ class RequestControllerSpec {
   }
 
 }
+ */

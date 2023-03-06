@@ -20,6 +20,7 @@ import io.javalin.http.NotFoundResponse;
 public class RequestController {
   static final String ITEM_TYPE_KEY = "itemType";
   static final String FOOD_TYPE_KEY = "foodType";
+  static final String SORT_ORDER_KEY = "sortorder";
 
   private static final String ITEM_TYPE_REGEX = "^(food|toiletries|other)$";
   private static final String FOOD_TYPE_REGEX = "^(/w+)$";
