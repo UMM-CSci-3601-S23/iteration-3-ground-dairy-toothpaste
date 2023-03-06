@@ -18,7 +18,7 @@ import umm3601.user.UserController;
 
 public class Server {
 
-  private static final int SERVER_PORT = 4567;
+  private static final int SERVER_PORT = 4568;
 
   public static void main(String[] args) {
 
