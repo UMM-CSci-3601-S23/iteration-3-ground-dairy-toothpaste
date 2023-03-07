@@ -33,4 +33,9 @@ export class RequestService {
       params: httpParams,
     });
   }
+
+  addRequest(newRequest: Partial<Request>): Observable<string> {
+    // Send post request to add a new Request with the Request data as the body.
+    return this.httpClient.post<{id: string}>(this.requestUrl, newRequest).pipe(map(res => res.id));
+  }
 }
