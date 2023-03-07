@@ -12,7 +12,6 @@ import org.bson.UuidRepresentation;
 
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.RouteOverviewPlugin;
-import io.javalin.http.InternalServerErrorResponse;
 import umm3601.request.RequestController;
 import umm3601.user.UserController;
 
