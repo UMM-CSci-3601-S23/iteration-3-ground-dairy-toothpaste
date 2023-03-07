@@ -15,12 +15,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
 import { MockRequestService } from 'src/testing/request.service.mock';
-import { Request } from './request';
+import { ItemType, Request } from './request';
 import { RequestDonorComponent } from './request-donor.component';
 import { RequestService } from './request.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { request } from 'http';
 
 const COMMON_IMPORTS: unknown[] = [
   FormsModule,
@@ -42,7 +41,7 @@ const COMMON_IMPORTS: unknown[] = [
 ];
 
 describe('Donor Request View', () => {
-  let requestDonorComponent: RequestDonorComponent;
+  let donorList: RequestDonorComponent;
   let fixture: ComponentFixture<RequestDonorComponent>;
 
   beforeEach(() => {
@@ -56,11 +55,64 @@ describe('Donor Request View', () => {
   beforeEach(waitForAsync (() => {
     TestBed.compileComponents().then(() => {
       fixture = TestBed.createComponent(RequestDonorComponent);
-      requestDonorComponent = fixture.componentInstance;
+      donorList = fixture.componentInstance;
+      fixture.detectChanges();
     });
   }));
 
   it('contains all requests', () => {
-    expect(requestDonorComponent.serverFilteredRequests.length).toBe(4);
+    expect(donorList.serverFilteredRequests.length).toBe(4);
+  });
+
+  it('contains a request for food', () => {
+    expect(donorList.serverFilteredRequests.some((request: Request) => request.itemType === 'food')).toBe(true);
+  });
+
+  it('contains a request for toiletries', () => {
+    expect(donorList.serverFilteredRequests.some((request: Request) => request.itemType === 'toiletries')).toBe(true);
+  });
+
+  it('contains a request for other', () => {
+    expect(donorList.serverFilteredRequests.some((request: Request) => request.itemType === 'other')).toBe(true);
+  });
+
+  it('contains a request for itemType food and foodType meat', () => {
+    expect(donorList.serverFilteredRequests.some((request: Request) => request.itemType === 'food'
+     && request.foodType === 'meat')).toBe(true);
+  });
+});
+
+describe('Misbehaving Donor view', () => {
+  let donorList: RequestDonorComponent;
+  let fixture: ComponentFixture<RequestDonorComponent>;
+
+  let requestServiceStub: {
+    getRequests: () => Observable<Request[]>;
+  };
+
+  beforeEach(() => {
+    requestServiceStub = {
+      getRequests: () => new Observable(observer => {
+        observer.error('getRequests() Observer generates an error');
+      })
+    };
+
+    TestBed.configureTestingModule({
+      imports: [COMMON_IMPORTS],
+      declarations: [RequestDonorComponent],
+      providers: [{provide: RequestService, useValue: requestServiceStub}]
+    });
+  });
+
+  beforeEach(waitForAsync(() => {
+    TestBed.compileComponents().then(() => {
+      fixture = TestBed.createComponent(RequestDonorComponent);
+      donorList = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+  }));
+
+  it('generates an error if we don\'t set up a RequestDonorService', () => {
+    expect(donorList.serverFilteredRequests).toBeUndefined();
   });
 });
