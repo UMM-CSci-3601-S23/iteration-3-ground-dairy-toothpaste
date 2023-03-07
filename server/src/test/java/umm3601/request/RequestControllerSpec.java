@@ -174,6 +174,7 @@ class RequestControllerSpec {
     assertEquals(db.getCollection("requests").countDocuments(), requestArrayListCaptor.getValue().size());
   }
 
+  /* */
   @Test
   void canGetRequestsWithItemType() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
@@ -221,8 +222,6 @@ class RequestControllerSpec {
     when(ctx.queryParamAsClass(RequestController.ITEM_TYPE_KEY, String.class))
       .thenReturn(Validator.create(String.class, "FOOD", RequestController.ITEM_TYPE_KEY));
 
-    requestController.getRequests(ctx);
-
     verify(ctx).json(requestArrayListCaptor.capture());
     verify(ctx).status(HttpStatus.OK);
 
@@ -232,7 +231,11 @@ class RequestControllerSpec {
   } */
 
   @Test
+<<<<<<< Updated upstream
   void getRequestByItemTypeAndFoodType() throws IOException {
+=======
+  void getRequestsByItemTypeAndFoodType() throws IOException {
+>>>>>>> Stashed changes
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));
     queryParams.put(RequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"fruit"}));
@@ -252,6 +255,7 @@ class RequestControllerSpec {
       assertEquals("fruit", request.foodType);
     }
   }
+<<<<<<< Updated upstream
 
   @Test
   void getRequestByID() throws IOException {
@@ -268,44 +272,48 @@ class RequestControllerSpec {
 
   }
 }
+=======
+>>>>>>> Stashed changes
 
-  /*
+
+
   @Test
-  void getUserWithExistentId() throws IOException {
+  void getRequestsWithExistentId() throws IOException {
     String id = samsId.toHexString();
     when(ctx.pathParam("id")).thenReturn(id);
 
-    userController.getUser(ctx);
+    requestController.getRequest(ctx);
 
-    verify(ctx).json(userCaptor.capture());
+    verify(ctx).json(requestCaptor.capture());
     verify(ctx).status(HttpStatus.OK);
-    assertEquals("Sam", userCaptor.getValue().name);
-    assertEquals(samsId.toHexString(), userCaptor.getValue()._id);
+    assertEquals("food", requestCaptor.getValue().itemType);
+    assertEquals(samsId.toHexString(), requestCaptor.getValue()._id);
   }
 
   @Test
-  void getUserWithBadId() throws IOException {
+  void getRequestsWithBadId() throws IOException {
     when(ctx.pathParam("id")).thenReturn("bad");
 
     Throwable exception = assertThrows(BadRequestResponse.class, () -> {
-      userController.getUser(ctx);
+      requestController.getRequest(ctx);
     });
 
-    assertEquals("The requested user id wasn't a legal Mongo Object ID.", exception.getMessage());
+    assertEquals("The desired request id wasn't a legal Mongo Object ID.", exception.getMessage());
   }
 
   @Test
-  void getUserWithNonexistentId() throws IOException {
+  void getRequestsWithNonexistentId() throws IOException {
     String id = "588935f5c668650dc77df581";
     when(ctx.pathParam("id")).thenReturn(id);
 
     Throwable exception = assertThrows(NotFoundResponse.class, () -> {
-      userController.getUser(ctx);
+      requestController.getRequest(ctx);
     });
 
-    assertEquals("The requested user was not found", exception.getMessage());
+    assertEquals("The desired request was not found", exception.getMessage());
   }
-
+}
+  /*
   @Test
   void addUser() throws IOException {
     String testNewUser = "{"
