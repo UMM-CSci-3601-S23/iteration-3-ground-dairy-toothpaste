@@ -26,7 +26,7 @@ public class RequestController {
   static final String FOOD_TYPE_KEY = "foodType";
   static final String SORT_ORDER_KEY = "sortorder";
 
-  private static final String ITEM_TYPE_REGEX = "^(food|toiletries|other)$";
+  private static final String ITEM_TYPE_REGEX = "^(food|toiletries|other|FOOD)$";
   private static final String FOOD_TYPE_REGEX = "^(|dairy|grain|meat|fruit|vegetables)$";
 
   private final JacksonMongoCollection<Request> requestCollection;

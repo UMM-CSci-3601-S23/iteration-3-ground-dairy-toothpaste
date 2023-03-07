@@ -3,6 +3,7 @@ package umm3601.request;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +35,8 @@ import io.javalin.validation.Validator;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.json.JavalinJackson;
+import io.javalin.http.NotFoundResponse;
+import io.javalin.http.BadRequestResponse;
 
 /**
  * Tests the logic of the UserController
@@ -213,29 +216,29 @@ class RequestControllerSpec {
       assertEquals("meat", request.foodType);
     }
   }
-  /*
+
   @Test
   public void canGetRequestWithItemTypeUppercase() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"FOOD"}));
+    queryParams.put(RequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
     when(ctx.queryParamAsClass(RequestController.ITEM_TYPE_KEY, String.class))
       .thenReturn(Validator.create(String.class, "FOOD", RequestController.ITEM_TYPE_KEY));
 
+    requestController.getRequests(ctx);
+
     verify(ctx).json(requestArrayListCaptor.capture());
     verify(ctx).status(HttpStatus.OK);
 
+    // Confirm that all the requests passed to `json` work for food.
     for (Request request : requestArrayListCaptor.getValue()) {
-      assertEquals("FOOD", request.itemType);
+      assertEquals("food", request.itemType);
     }
-  } */
+  }
 
   @Test
-<<<<<<< Updated upstream
-  void getRequestByItemTypeAndFoodType() throws IOException {
-=======
   void getRequestsByItemTypeAndFoodType() throws IOException {
->>>>>>> Stashed changes
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));
     queryParams.put(RequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"fruit"}));
@@ -255,7 +258,6 @@ class RequestControllerSpec {
       assertEquals("fruit", request.foodType);
     }
   }
-<<<<<<< Updated upstream
 
   @Test
   void getRequestByID() throws IOException {
@@ -271,11 +273,6 @@ class RequestControllerSpec {
     assertEquals("meat", requestCaptor.getValue().foodType);
 
   }
-}
-=======
->>>>>>> Stashed changes
-
-
 
   @Test
   void getRequestsWithExistentId() throws IOException {
