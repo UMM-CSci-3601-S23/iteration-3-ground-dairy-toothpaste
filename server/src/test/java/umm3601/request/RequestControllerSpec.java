@@ -1,9 +1,14 @@
 package umm3601.request;
 
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static com.mongodb.client.model.Filters.eq;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +16,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerAddress;
@@ -27,19 +35,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatcher;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import io.javalin.validation.BodyValidator;
+import io.javalin.validation.ValidationException;
 import io.javalin.validation.Validator;
+import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-import io.javalin.json.JavalinJackson;
 import io.javalin.http.NotFoundResponse;
-import io.javalin.http.BadRequestResponse;
+import io.javalin.json.JavalinJackson;
 
 /**
- * Tests the logic of the UserController
+ * Tests the logic of the RequestController
  *
  * @throws IOException
  */
@@ -69,7 +80,7 @@ class RequestControllerSpec {
   private static MongoDatabase db;
 
   // Used to translate between JSON and POJOs.
-  //private static JavalinJackson javalinJackson = new JavalinJackson();
+  private static JavalinJackson javalinJackson = new JavalinJackson();
 
   @Mock
   private Context ctx;
@@ -309,229 +320,121 @@ class RequestControllerSpec {
 
     assertEquals("The desired request was not found", exception.getMessage());
   }
-}
-  /*
-  @Test
-  void addUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"Test User\","
-        + "\"age\": 25,"
-        + "\"company\": \"testers\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
-    when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
-    userController.addNewUser(ctx);
+  @Test
+  void addRequest() throws IOException {
+    String testNewRequest = "{"
+        + "\"itemType\": \"food\","
+        + "\"foodType\": \"meat\""
+        + "}";
+    when(ctx.bodyValidator(Request.class))
+      .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+
+    requestController.addNewRequest(ctx);
     verify(ctx).json(mapCaptor.capture());
 
     // Our status should be 201, i.e., our new user was successfully created.
     verify(ctx).status(HttpStatus.CREATED);
 
-    //Verify that the user was added to the database with the correct ID
-    Document addedUser = db.getCollection("users")
+    //Verify that the request was added to the database with the correct ID
+    Document addedRequest = db.getCollection("requests")
       .find(eq("_id", new ObjectId(mapCaptor.getValue().get("id")))).first();
 
-    // Successfully adding the user should return the newly generated, non-empty MongoDB ID for that user.
-    assertNotEquals("", addedUser.get("_id"));
-    assertEquals("Test User", addedUser.get("name"));
-    assertEquals(25, addedUser.get(UserController.AGE_KEY));
-    assertEquals("testers", addedUser.get(UserController.COMPANY_KEY));
-    assertEquals("test@example.com", addedUser.get("email"));
-    assertEquals("viewer", addedUser.get(UserController.ROLE_KEY));
-    assertNotNull(addedUser.get("avatar"));
+    // Successfully adding the request should return the newly generated, non-empty MongoDB ID for that request.
+    assertNotEquals("", addedRequest.get("_id"));
+    assertEquals("food", addedRequest.get("itemType"));
+    assertEquals("meat", addedRequest.get("foodType"));
   }
 
   @Test
-  void addInvalidEmailUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"Test User\","
-        + "\"age\": 25,"
-        + "\"company\": \"testers\","
-        + "\"email\": \"invalidemail\","
-        + "\"role\": \"viewer\""
-        + "}";
-    when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
+  void addNullFoodTypeRequest() throws IOException {
+    String testNewRequest = "{"
+    + "\"itemType\": \"notRight\""
+    + "}";
+    when(ctx.bodyValidator(Request.class))
+      .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
 
-    assertThrows(ValidationException.class, () -> {
-      userController.addNewUser(ctx);
-    });
-
-    // Our status should be 400, because our request contained information that didn't validate.
-    // However, I'm not yet sure how to test the specifics about validation problems encountered.
-    // verify(ctx).status(HttpStatus.BAD_REQUEST);
-  }
-
-  @Test
-  void addInvalidAgeUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"Test User\","
-        + "\"age\": \"notanumber\","
-        + "\"company\": \"testers\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
-    when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
-
-    assertThrows(ValidationException.class, () -> {
-      userController.addNewUser(ctx);
+    assertThrows(NullPointerException.class, () -> {
+      requestController.addNewRequest(ctx);
     });
   }
 
   @Test
-  void add0AgeUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"Test User\","
-        + "\"age\": 0,"
-        + "\"company\": \"testers\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
-    when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
+  void addNullItemTypeRequest() throws IOException {
+    String testNewRequest = "{"
+    + "\"foodType\": \"meat\""
+    + "}";
+    when(ctx.bodyValidator(Request.class))
+      .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
 
-    assertThrows(ValidationException.class, () -> {
-      userController.addNewUser(ctx);
+    assertThrows(NullPointerException.class, () -> {
+      requestController.addNewRequest(ctx);
     });
   }
 
   @Test
-  void add150AgeUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"Test User\","
-        + "\"age\": 150,"
-        + "\"company\": \"testers\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
-    when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
+  void addInvalidItemTypeRequest() throws IOException {
+    String testNewRequest = "{"
+    + "\"itemType\": \"notRight\","
+    + "\"foodType\": \"meat\""
+    + "}";
+    when(ctx.bodyValidator(Request.class))
+      .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
 
     assertThrows(ValidationException.class, () -> {
-      userController.addNewUser(ctx);
-    });
-  }
-
-  @Test
-  void addNullNameUser() throws IOException {
-    String testNewUser = "{"
-        + "\"age\": 25,"
-        + "\"company\": \"testers\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
-    when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
-
-    assertThrows(ValidationException.class, () -> {
-      userController.addNewUser(ctx);
-    });
-  }
-
-  @Test
-  void addInvalidNameUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"\","
-        + "\"age\": 25,"
-        + "\"company\": \"testers\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
-    when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
-
-    assertThrows(ValidationException.class, () -> {
-      userController.addNewUser(ctx);
+      requestController.addNewRequest(ctx);
     });
   }
 
   @Test
   void addInvalidRoleUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"Test User\","
-        + "\"age\": 25,"
-        + "\"company\": \"testers\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"invalidrole\""
-        + "}";
-    when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
+    String testNewRequest = "{"
+    + "\"itemType\": \"food\","
+    + "\"foodType\": \"notRight\""
+    + "}";
+    when(ctx.bodyValidator(Request.class))
+      .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
 
     assertThrows(ValidationException.class, () -> {
-      userController.addNewUser(ctx);
+      requestController.addNewRequest(ctx);
     });
   }
 
-  @Test
-  void addNullCompanyUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"Test User\","
-        + "\"age\": 25,"
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
-    when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
-
-    assertThrows(ValidationException.class, () -> {
-      userController.addNewUser(ctx);
-    });
-  }
 
   @Test
-  void addInvalidCompanyUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"\","
-        + "\"age\": 25,"
-        + "\"company\": \"\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
-    when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
-
-    assertThrows(ValidationException.class, () -> {
-      userController.addNewUser(ctx);
-    });
-  }
-
-  @Test
-  void deleteFoundUser() throws IOException {
+  void deleteFoundRequest() throws IOException {
     String testID = samsId.toHexString();
     when(ctx.pathParam("id")).thenReturn(testID);
 
-    // User exists before deletion
-    assertEquals(1, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
+    // Request exists before deletion
+    assertEquals(1, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
 
-    userController.deleteUser(ctx);
+    requestController.deleteRequest(ctx);
 
     verify(ctx).status(HttpStatus.OK);
 
-    // User is no longer in the database
-    assertEquals(0, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
+    // request is no longer in the database
+    assertEquals(0, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
   }
 
   @Test
-  void tryToDeleteNotFoundUser() throws IOException {
+  void tryToDeleteNotFoundRequest() throws IOException {
     String testID = samsId.toHexString();
     when(ctx.pathParam("id")).thenReturn(testID);
 
-    userController.deleteUser(ctx);
-    // User is no longer in the database
-    assertEquals(0, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
+    requestController.deleteRequest(ctx);
+    // Request is no longer in the database
+    assertEquals(0, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
 
     assertThrows(NotFoundResponse.class, () -> {
-      userController.deleteUser(ctx);
+      requestController.deleteRequest(ctx);
     });
 
     verify(ctx).status(HttpStatus.NOT_FOUND);
 
-    // User is still not in the database
-    assertEquals(0, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
+    // Request is still not in the database
+    assertEquals(0, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
   }
 
 }
- */
+

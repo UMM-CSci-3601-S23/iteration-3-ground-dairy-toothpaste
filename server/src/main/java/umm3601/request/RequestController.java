@@ -137,8 +137,7 @@ public class RequestController {
      */
     Request newRequest = ctx.bodyValidator(Request.class)
       .check(req -> req.itemType.matches(ITEM_TYPE_REGEX), "Request must contain valid item type")
-      .check(req -> req.foodType.matches(FOOD_TYPE_REGEX), "Request must contain valid food type")
-      .get();
+      .check(req -> req.foodType.matches(FOOD_TYPE_REGEX), "Request must contain valid food type").get();
 
     requestCollection.insertOne(newRequest);
 
