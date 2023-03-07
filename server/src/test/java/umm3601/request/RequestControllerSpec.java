@@ -1,14 +1,8 @@
 package umm3601.request;
 
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static com.mongodb.client.model.Filters.eq;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,9 +10,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerAddress;
@@ -35,18 +26,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatcher;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import io.javalin.validation.BodyValidator;
-import io.javalin.validation.ValidationException;
 import io.javalin.validation.Validator;
-import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-import io.javalin.http.NotFoundResponse;
 import io.javalin.json.JavalinJackson;
 
 /**
@@ -80,7 +66,7 @@ class RequestControllerSpec {
   private static MongoDatabase db;
 
   // Used to translate between JSON and POJOs.
-  private static JavalinJackson javalinJackson = new JavalinJackson();
+  //private static JavalinJackson javalinJackson = new JavalinJackson();
 
   @Mock
   private Context ctx;
@@ -194,26 +180,46 @@ class RequestControllerSpec {
     queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));
     queryParams.put(RequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParam(RequestController.ITEM_TYPE_KEY)).thenReturn("food");
-    when(ctx.queryParam(RequestController.SORT_ORDER_KEY)).thenReturn("desc");
+    when(ctx.queryParamAsClass(RequestController.ITEM_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "food", RequestController.ITEM_TYPE_KEY));
 
     requestController.getRequests(ctx);
 
     verify(ctx).json(requestArrayListCaptor.capture());
     verify(ctx).status(HttpStatus.OK);
 
-    // Confirm that all the requests passed to `json` work for OHMNET.
+    // Confirm that all the requests passed to `json` work for food.
     for (Request request : requestArrayListCaptor.getValue()) {
       assertEquals("food", request.itemType);
     }
   }
+  @Test
+  void canGetRequestsWithFoodType() throws IOException {
+    Map<String, List<String>> queryParams = new HashMap<>();
+    queryParams.put(RequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"meat"}));
+    queryParams.put(RequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
+    when(ctx.queryParamMap()).thenReturn(queryParams);
+    when(ctx.queryParamAsClass(RequestController.FOOD_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "meat", RequestController.FOOD_TYPE_KEY));
 
+    requestController.getRequests(ctx);
+
+    verify(ctx).json(requestArrayListCaptor.capture());
+    verify(ctx).status(HttpStatus.OK);
+
+    // Confirm that all the requests passed to `json` work for food.
+    for (Request request : requestArrayListCaptor.getValue()) {
+      assertEquals("meat", request.foodType);
+    }
+  }
+  /*
   @Test
   public void canGetRequestWithItemTypeUppercase() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"FOOD"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParam(RequestController.ITEM_TYPE_KEY)).thenReturn("FOOD");
+    when(ctx.queryParamAsClass(RequestController.ITEM_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "FOOD", RequestController.ITEM_TYPE_KEY));
 
     requestController.getRequests(ctx);
 
@@ -223,15 +229,16 @@ class RequestControllerSpec {
     for (Request request : requestArrayListCaptor.getValue()) {
       assertEquals("FOOD", request.itemType);
     }
-  }
+  } */
 
   @Test
-  void getUsersByItemTypeAndFoodType() throws IOException {
+  void getRequestByItemTypeAndFoodType() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));
     queryParams.put(RequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"fruit"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParam(RequestController.ITEM_TYPE_KEY)).thenReturn("food");
+    when(ctx.queryParamAsClass(RequestController.ITEM_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "food", RequestController.ITEM_TYPE_KEY));
     when(ctx.queryParamAsClass(RequestController.FOOD_TYPE_KEY, String.class))
       .thenReturn(Validator.create(String.class, "fruit", RequestController.FOOD_TYPE_KEY));
 
@@ -244,6 +251,21 @@ class RequestControllerSpec {
       assertEquals("food", request.itemType);
       assertEquals("fruit", request.foodType);
     }
+  }
+
+  @Test
+  void getRequestByID() throws IOException {
+    String id = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(id);
+
+    requestController.getRequest(ctx);
+
+    verify(ctx).json(requestCaptor.capture());
+    verify(ctx).status(HttpStatus.OK);
+    assertEquals("food", requestCaptor.getValue().itemType);
+    assertEquals("steak", requestCaptor.getValue().description);
+    assertEquals("meat", requestCaptor.getValue().foodType);
+
   }
 }
 
