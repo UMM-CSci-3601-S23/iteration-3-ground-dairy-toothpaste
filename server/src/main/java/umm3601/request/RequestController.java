@@ -4,7 +4,11 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Sorts;
+
 import org.bson.Document;
 import org.bson.UuidRepresentation;
 import org.bson.conversions.Bson;
@@ -20,9 +24,10 @@ import io.javalin.http.NotFoundResponse;
 public class RequestController {
   static final String ITEM_TYPE_KEY = "itemType";
   static final String FOOD_TYPE_KEY = "foodType";
+  static final String SORT_ORDER_KEY = "sortorder";
 
   private static final String ITEM_TYPE_REGEX = "^(food|toiletries|other)$";
-  private static final String FOOD_TYPE_REGEX = "^(/w+)$";
+  private static final String FOOD_TYPE_REGEX = "^(|dairy|grain|meat|fruit|vegetables)$";
 
   private final JacksonMongoCollection<Request> requestCollection;
 
@@ -65,7 +70,7 @@ public class RequestController {
    */
   public void getRequests(Context ctx) {
     Bson combinedFilter = constructFilter(ctx);
-    //Bson sortingOrder = constructSortingOrder(ctx);
+    Bson sortingOrder = constructSortingOrder(ctx);
 
     // All three of the find, sort, and into steps happen "in parallel" inside the
     // database system. So MongoDB is going to find the requests with the specified
@@ -73,7 +78,7 @@ public class RequestController {
     // results into an initially empty ArrayList.
     ArrayList<Request> matchingRequests = requestCollection
       .find(combinedFilter)
-      //.sort(sortingOrder)
+      .sort(sortingOrder)
       .into(new ArrayList<>());
 
     // Set the JSON body of the response to be the list of requests returned by the database.
@@ -106,7 +111,7 @@ public class RequestController {
 
     return combinedFilter;
   }
-/*
+
   private Bson constructSortingOrder(Context ctx) {
     // Sort the results. Use the `sortby` query param (default "name")
     // as the field to sort by, and the query param `sortorder` (default
@@ -115,6 +120,6 @@ public class RequestController {
     String sortOrder = Objects.requireNonNullElse(ctx.queryParam("sortorder"), "asc");
     Bson sortingOrder = sortOrder.equals("desc") ?  Sorts.descending(sortBy) : Sorts.ascending(sortBy);
     return sortingOrder;
-  }*/
+  }
 
 }
