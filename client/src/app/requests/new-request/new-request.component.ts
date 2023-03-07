@@ -13,6 +13,8 @@ import { RequestService } from '../request.service';
 })
 export class NewRequestComponent {
 
+  public type: ItemType = 'other';
+
   newRequestForm = new FormGroup({
     // We want descriptions to be short and sweet, yet still required so we have at least some idea what
     // the client wants
@@ -22,12 +24,12 @@ export class NewRequestComponent {
       Validators.maxLength(200),
     ])),
 
-    itemType: new FormControl<ItemType>('food',Validators.compose([
+    itemType: new FormControl<ItemType>('other',Validators.compose([
       Validators.required,
       Validators.pattern('^(food|toiletries|other)$'),
     ])),
 
-    foodType: new FormControl<FoodType>('meat',Validators.compose([
+    foodType: new FormControl<FoodType>('',Validators.compose([
       Validators.pattern('^(dairy|grain|meat|fruit|vegetables|)$'),
     ])),
   });
@@ -65,14 +67,14 @@ export class NewRequestComponent {
   }
 
   submitForm() {
-    this.requestService.newRequest(this.newRequestForm.value).subscribe({
+    this.requestService.addRequest(this.newRequestForm.value).subscribe({
       next: (newId) => {
         this.snackBar.open(
-          `Request sucessfully submitted`,
+          `Request successfully submitted`,
           null,
           { duration: 2000 }
         );
-        this.router.navigate(['/users/', newId]);
+        this.router.navigate(['/requests', newId]);
       },
       error: err => {
         this.snackBar.open(
@@ -83,5 +85,9 @@ export class NewRequestComponent {
       },
       // complete: () => console.log('Add user completes!')
     });
+  }
+
+  changeType(type: ItemType){
+    this.type = type;
   }
 }
