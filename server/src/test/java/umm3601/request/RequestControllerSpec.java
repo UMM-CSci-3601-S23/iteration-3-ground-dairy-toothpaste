@@ -33,7 +33,6 @@ import org.mockito.MockitoAnnotations;
 import io.javalin.validation.Validator;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-import io.javalin.json.JavalinJackson;
 
 /**
  * Tests the logic of the UserController
@@ -267,6 +266,7 @@ class RequestControllerSpec {
     assertEquals("meat", requestCaptor.getValue().foodType);
 
   }
+
 }
 
   /*
