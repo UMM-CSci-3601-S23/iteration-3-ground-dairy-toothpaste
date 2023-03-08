@@ -22,7 +22,7 @@
 
       <mat-form-field class="input-field">
         <mat-label>Food Type</mat-label>
-        <mat-select (selectionChange)="getRequestsFromServer()" [(ngModel)]="requestItemType" data-test="requestItemTypeSelect">
+        <mat-select (selectionChange)="getRequestsFromServer()" [(ngModel)]="requestFoodType" data-test="requestFoodTypeSelect">
           <mat-option>--</mat-option>
           <mat-option value="dairy">Dairy</mat-option>
           <mat-option value="grain">Grain</mat-option>
@@ -42,7 +42,7 @@
     <mat-card-content>
       <mat-nav-list class="donor-nav-list">
         <h3 mat-subheader>Requests</h3>
-        <a mat-list-item *ngFor="let request of this.filteredRequests" [routerLink]="['/requests', request._id]" class="request-list-item">
+        <a mat-list-item *ngFor="let request of this.serverFilteredRequests" [routerLink]="['/requests/donor', request._id]" class="request-list-item">
           <span matListItemTitle class="donor-list-itemType">{{request.itemType}}</span>
           <span matListItemLine class="donor-list-foodType">{{request.foodType}}</span>
           <span matListItemBody class="donor-list-description">{{request.description}}</span>

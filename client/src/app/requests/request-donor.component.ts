@@ -52,8 +52,7 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
   }
 
   public updateFilter(): void {
-    this.filteredRequests = this.requestService.filterRequests(
-      this.serverFilteredRequests, { foodType: this.requestFoodType });
+    this.filteredRequests = this.serverFilteredRequests;
   }
   ngOnInit(): void {
       this.getRequestsFromServer();
