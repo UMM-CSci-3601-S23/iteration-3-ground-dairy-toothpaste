@@ -33,4 +33,13 @@ export class RequestService {
       params: httpParams,
     });
   }
+
+  filterRequests(requests: Request[], filters: {foodType: FoodType }): Request[] {
+    let filteredRequests = requests;
+
+    if (filters.foodType) {
+      filteredRequests = filteredRequests.filter(request => request.foodType.toLowerCase().indexOf(filters.foodType) !== -1);
+    }
+    return filteredRequests;
+  }
 }

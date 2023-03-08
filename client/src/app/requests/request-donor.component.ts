@@ -14,6 +14,7 @@ import { RequestService } from './request.service';
 
 export class RequestDonorComponent implements OnInit, OnDestroy {
   public serverFilteredRequests: Request[];
+  public filteredRequests: Request[];
 
   public requestItemType: ItemType;
   public requestDescription: string;
@@ -50,6 +51,10 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
     });
   }
 
+  public updateFilter(): void {
+    this.filteredRequests = this.requestService.filterRequests(
+      this.serverFilteredRequests, { foodType: this.requestFoodType });
+  }
   ngOnInit(): void {
       this.getRequestsFromServer();
   }
