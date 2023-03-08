@@ -28,8 +28,6 @@ export class RequestService {
         httpParams = httpParams.set(this.foodTypeKey, filters.foodType);
       }
     }
-    console.log('The params are: %s', httpParams);
-    console.log('The url is: %s', this.requestUrl);
     return this.httpClient.get<Request[]>(this.requestUrl, {
       params: httpParams,
     });
