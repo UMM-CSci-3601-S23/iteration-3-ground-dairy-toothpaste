@@ -8,18 +8,24 @@ import java.util.Objects;
 
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Sorts;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import com.mongodb.client.result.DeleteResult;
+
 
 import org.bson.Document;
 import org.bson.UuidRepresentation;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.mongojack.JacksonMongoCollection;
+import java.util.Map;
 
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
+import com.mongodb.client.result.DeleteResult;
+import java.security.NoSuchAlgorithmException;
 
 
 public class RequestController {
@@ -27,7 +33,7 @@ public class RequestController {
   static final String FOOD_TYPE_KEY = "foodType";
   static final String SORT_ORDER_KEY = "sortorder";
 
-  private static final String ITEM_TYPE_REGEX = "^(food|toiletries|other)$";
+  private static final String ITEM_TYPE_REGEX = "^(food|toiletries|other|FOOD)$";
   private static final String FOOD_TYPE_REGEX = "^(|dairy|grain|meat|fruit|vegetables)$";
 
   private final JacksonMongoCollection<Request> requestCollection;
@@ -123,6 +129,34 @@ public class RequestController {
     return sortingOrder;
   }
 
+  public void addNewRequest(Context ctx) {
+    /*
+     * The follow chain of statements uses the Javalin validator system
+     * to verify that instance of `User` provided in this context is
+     * a "legal" request. It checks the following things (in order):
+     *    - itemType is valid
+     *    - foodType is Valid
+     */
+    Request newRequest = ctx.bodyValidator(Request.class)
+      .check(req -> req.itemType.matches(ITEM_TYPE_REGEX), "Request must contain valid item type")
+      .check(req -> req.foodType.matches(FOOD_TYPE_REGEX), "Request must contain valid food type").get();
+
+    requestCollection.insertOne(newRequest);
+
+    ctx.json(Map.of("id", newRequest._id));
+    // 201 is the HTTP code for when we successfully
+    // create a new resource (a request in this case).
+    // See, e.g., https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+    // for a description of the various response codes.
+    ctx.status(HttpStatus.CREATED);
+  }
+
+  /**
+   * Delete the user specified by the `id` parameter in the request.
+   *
+   * @param ctx a Javalin HTTP context
+   */
+
   public void deleteRequest(Context ctx) {
     String id = ctx.pathParam("id");
     DeleteResult deleteResult = requestCollection.deleteOne(eq("_id", new ObjectId(id)));
@@ -134,5 +168,23 @@ public class RequestController {
           + "; perhaps illegal ID or an ID for an item not in the system?");
     }
     ctx.status(HttpStatus.OK);
+  }
+
+
+  /**
+   * Utility function to generate the md5 hash for a given string
+   *
+   * @param str the string to generate a md5 for
+   */
+  @SuppressWarnings("lgtm[java/weak-cryptographic-algorithm]")
+  public String md5(String str) throws NoSuchAlgorithmException {
+    MessageDigest md = MessageDigest.getInstance("MD5");
+    byte[] hashInBytes = md.digest(str.toLowerCase().getBytes(StandardCharsets.UTF_8));
+
+    StringBuilder result = new StringBuilder();
+    for (byte b : hashInBytes) {
+      result.append(String.format("%02x", b));
+    }
+    return result.toString();
   }
 }

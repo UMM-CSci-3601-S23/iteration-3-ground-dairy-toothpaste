@@ -80,8 +80,11 @@ public class Server {
     //List requests, filtered using query parameters
     server.get("/api/requests/donor", requestController::getRequests);
 
+    server.post("/api/requests/new", requestController::addNewRequest);
+
     //Deleting requests
     server.delete("/api/requests/{id}]", requestController::deleteRequest);
+
 
     // This catches any uncaught exceptions thrown in the server
     // code and turns them into a 500 response ("Internal Server
