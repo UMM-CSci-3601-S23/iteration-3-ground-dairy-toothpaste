@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 })
 export class RequestService {
   // The URL for the requests part of the server API
-  readonly requestUrl: string = `${environment.apiUrl}requests`;
+  readonly requestUrl: string = `${environment.apiUrl}requests/donor`;
 
   private readonly itemTypeKey = 'itemType';
   private readonly foodTypeKey = 'foodType';
@@ -28,9 +28,15 @@ export class RequestService {
         httpParams = httpParams.set(this.foodTypeKey, filters.foodType);
       }
     }
-
     return this.httpClient.get<Request[]>(this.requestUrl, {
       params: httpParams,
     });
+
+  }
+
+  filterRequests(requests: Request[]): Request[] {
+    const filteredRequests = requests;
+
+    return filteredRequests;
   }
 }

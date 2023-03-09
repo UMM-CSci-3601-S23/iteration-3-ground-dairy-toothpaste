@@ -30,6 +30,7 @@ import { HomeComponent } from './home/home.component';
 import { UserCardComponent } from './users/user-card.component';
 import { UserListComponent } from './users/user-list.component';
 import { UserProfileComponent } from './users/user-profile.component';
+import { RequestDonorComponent } from './requests/request-donor.component';
 
 
 const MATERIAL_MODULES: any[] = [
@@ -59,6 +60,7 @@ const MATERIAL_MODULES: any[] = [
     UserCardComponent,
     UserProfileComponent,
     AddUserComponent,
+    RequestDonorComponent,
   ],
   imports: [
     BrowserModule,
