@@ -53,6 +53,6 @@
     },
     "itemType": "food",
     "description": "If possible I'd like to be able to add more vegetables to my meals",
-    "foodType": "vegetables"
+    "foodType": "vegetable"
   }
 ]

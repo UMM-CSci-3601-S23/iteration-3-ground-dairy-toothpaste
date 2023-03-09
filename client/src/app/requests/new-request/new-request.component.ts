@@ -30,7 +30,7 @@ export class NewRequestComponent {
     ])),
 
     foodType: new FormControl<FoodType>('',Validators.compose([
-      Validators.pattern('^(dairy|grain|meat|fruit|vegetables|)$'),
+      Validators.pattern('^(dairy|grain|meat|fruit|vegetable|)$'),
     ])),
   });
 
@@ -45,7 +45,7 @@ export class NewRequestComponent {
       { type: 'pattern', message: 'Item type must be food, toiletries, or other' },
     ],
     foodType: [
-      {type: 'pattern', message: 'Food type must be one of dairy, grain, meat, fruit, or vegetables'},
+      {type: 'pattern', message: 'Food type must be one of dairy, grain, meat, fruit, or vegetable'},
     ]
   };
 
