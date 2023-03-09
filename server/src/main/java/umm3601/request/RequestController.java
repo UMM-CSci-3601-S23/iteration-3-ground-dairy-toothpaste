@@ -10,6 +10,8 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Sorts;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import com.mongodb.client.result.DeleteResult;
+
 
 import org.bson.Document;
 import org.bson.UuidRepresentation;
@@ -154,6 +156,7 @@ public class RequestController {
    *
    * @param ctx a Javalin HTTP context
    */
+
   public void deleteRequest(Context ctx) {
     String id = ctx.pathParam("id");
     DeleteResult deleteResult = requestCollection.deleteOne(eq("_id", new ObjectId(id)));
@@ -166,6 +169,7 @@ public class RequestController {
     }
     ctx.status(HttpStatus.OK);
   }
+
 
   /**
    * Utility function to generate the md5 hash for a given string
