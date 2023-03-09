@@ -402,6 +402,7 @@ class RequestControllerSpec {
     });
   }
 
+
   @Test
   void deleteFoundRequest() throws IOException {
     String testID = samsId.toHexString();
@@ -437,40 +438,4 @@ class RequestControllerSpec {
     assertEquals(0, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
   }
 
-}
-
- @Test
- void deleteFoundRequest() throws IOException {
-   String testID = samsId.toHexString();
-   when(ctx.pathParam("id")).thenReturn(testID);
-
-   // Request exists before deletion
-   assertEquals(1, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
-
-   requestController.deleteRequest(ctx);
-
-   verify(ctx).status(HttpStatus.OK);
-
-   // Request is no longer in the database
-   assertEquals(0, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
- }
-
- @Test
- void tryToDeleteNotFoundRequest() throws IOException {
-   String testID = samsId.toHexString();
-   when(ctx.pathParam("id")).thenReturn(testID);
-
-   requestController.deleteRequest(ctx);
-   // Request is no longer in the database
-   assertEquals(0, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
-
-   assertThrows(NotFoundResponse.class, () -> {
-     requestController.deleteRequest(ctx);
-   });
-
-   verify(ctx).status(HttpStatus.NOT_FOUND);
-
-   // Request is still not in the database
-   assertEquals(0, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
- }
 }
