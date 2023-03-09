@@ -65,6 +65,7 @@ export class UserService {
     }
     // Send the HTTP GET request with the given URL and parameters.
     // That will return the desired `Observable<User[]>`.
+
     return this.httpClient.get<User[]>(this.userUrl, {
       params: httpParams,
     });
