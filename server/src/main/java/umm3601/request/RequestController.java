@@ -5,26 +5,21 @@ import static com.mongodb.client.model.Filters.eq;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Sorts;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import com.mongodb.client.result.DeleteResult;
-
-
 import org.bson.Document;
 import org.bson.UuidRepresentation;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.mongojack.JacksonMongoCollection;
 import java.util.Map;
-
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
-import com.mongodb.client.result.DeleteResult;
 import java.security.NoSuchAlgorithmException;
 
 
