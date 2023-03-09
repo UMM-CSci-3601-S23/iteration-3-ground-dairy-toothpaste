@@ -13,7 +13,7 @@ import { RequestService } from '../request.service';
 })
 export class NewRequestComponent {
 
-  public type: ItemType = 'other';
+  public type: ItemType = 'food';
 
   newRequestForm = new FormGroup({
     // We want descriptions to be short and sweet, yet still required so we have at least some idea what
