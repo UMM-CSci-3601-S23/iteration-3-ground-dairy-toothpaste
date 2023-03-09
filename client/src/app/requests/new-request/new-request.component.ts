@@ -24,7 +24,7 @@ export class NewRequestComponent {
       Validators.maxLength(200),
     ])),
 
-    itemType: new FormControl<ItemType>('other',Validators.compose([
+    itemType: new FormControl<ItemType>('food',Validators.compose([
       Validators.required,
       Validators.pattern('^(food|toiletries|other)$'),
     ])),

@@ -15,7 +15,6 @@
         [(ngModel)]="type"
         formControlName="itemType"
         data-test="itemTypeSelect">
-          <mat-option>--</mat-option>
           <mat-option value="food">Food</mat-option>
           <mat-option value="toiletries">Toiletries</mat-option>
           <mat-option value="other">Other</mat-option>
@@ -58,7 +57,7 @@
       <button
         mat-button
         type="button"
-        color="primary"
+        color="dark-primary"
         [disabled]="!newRequestForm.valid"
         type="submit"
         data-test="confirmNewRequestButton"
