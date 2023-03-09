@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { UserListComponent } from './users/user-list.component';
 import { UserProfileComponent } from './users/user-profile.component';
 import { AddUserComponent } from './users/add-user.component';
+import { NewRequestComponent } from './requests/new-request/new-request.component';
 import { RequestDonorComponent } from './requests/request-donor.component';
 import { RequestVolunteerComponent } from './requests/request-volunteer.component';
 
@@ -17,6 +18,9 @@ const routes: Routes = [
   {path: 'users/:id', component: UserProfileComponent, title: 'User Profile'},
   {path: 'requests/donor', component: RequestDonorComponent, title: 'Donor View'},
   {path: 'requests/volunteer', component: RequestVolunteerComponent, title: 'Volunteer View'}
+  {path: 'requests/client', component: NewRequestComponent, title: 'New Request'},
+  {path: 'requests/donor', component: RequestDonorComponent, title: 'Donor View'}
+
 ];
 
 @NgModule({
