@@ -17,9 +17,9 @@ const routes: Routes = [
   {path: 'users/new', component: AddUserComponent, title: 'Add User'},
   {path: 'users/:id', component: UserProfileComponent, title: 'User Profile'},
   {path: 'requests/donor', component: RequestDonorComponent, title: 'Donor View'},
-  {path: 'requests/volunteer', component: RequestVolunteerComponent, title: 'Volunteer View'}
+  {path: 'requests/volunteer', component: RequestVolunteerComponent, title: 'Volunteer View'},
   {path: 'requests/client', component: NewRequestComponent, title: 'New Request'},
-  {path: 'requests/donor', component: RequestDonorComponent, title: 'Donor View'}
+  {path: 'requests/donor', component: RequestDonorComponent, title: 'Donor View'},
 
 ];
 

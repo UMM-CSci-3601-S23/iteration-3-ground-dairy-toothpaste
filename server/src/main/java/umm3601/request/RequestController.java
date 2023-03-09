@@ -20,7 +20,6 @@ import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
-import com.mongodb.client.result.DeleteResult;
 import java.security.NoSuchAlgorithmException;
 
 
