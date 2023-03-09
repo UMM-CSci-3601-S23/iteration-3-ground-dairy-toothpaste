@@ -166,8 +166,8 @@ describe('NewRequestComponent', () => {
       expect(foodTypeControl.valid).toBeTruthy();
     });
 
-    it('should allow "vegetables"', () => {
-      foodTypeControl.setValue('vegetables');
+    it('should allow "vegetable"', () => {
+      foodTypeControl.setValue('vegetable');
       expect(foodTypeControl.valid).toBeTruthy();
     });
 
