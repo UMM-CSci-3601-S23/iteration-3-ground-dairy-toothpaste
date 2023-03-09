@@ -61,6 +61,7 @@ const MATERIAL_MODULES: any[] = [
     UserCardComponent,
     UserProfileComponent,
     AddUserComponent,
+    NewRequestComponent,
   ],
   imports: [
     BrowserModule,
