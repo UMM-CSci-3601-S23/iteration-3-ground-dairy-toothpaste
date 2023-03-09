@@ -15,6 +15,7 @@
         [(ngModel)]="type"
         formControlName="itemType"
         data-test="itemTypeSelect">
+          <mat-option value ="--">--</mat-option>
           <mat-option value="food">Food</mat-option>
           <mat-option value="toiletries">Toiletries</mat-option>
           <mat-option value="other">Other</mat-option>
@@ -28,7 +29,6 @@
         <mat-select
         [disabled]="type !== 'food'"
         formControlName="foodType"
-
         >
           <mat-option value="dairy">Dairy</mat-option>
           <mat-option value="grain">Grain</mat-option>

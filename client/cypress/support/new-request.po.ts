@@ -6,7 +6,7 @@ export class NewRequestPage {
   private readonly title = '.new-request-title';
   private readonly button = '[data-test=confirmNewRequestButton]';
   private readonly snackBar = '.mat-mdc-simple-snack-bar';
-  private readonly itemTypeFieldName = 'itemTypeSelect';
+  private readonly itemTypeFieldName = 'itemType';
   private readonly foodTypeFieldName = 'foodType';
   private readonly descFieldName = 'description';
   private readonly formFieldSelector = `mat-form-field`;
@@ -18,6 +18,10 @@ export class NewRequestPage {
 
   getTitle() {
     return cy.get(this.title);
+  }
+
+  capitalize(str: string){
+    return str[0].toUpperCase() + str.substr(1);
   }
 
   newRequestButton() {
@@ -36,6 +40,10 @@ export class NewRequestPage {
     cy.get('mat-option').contains(`${value}`).click();
   }
 
+  getMatSelect(formControlName: string){
+    return cy.get(`mat-select[formControlName=${formControlName}]`).click();
+  }
+
   getFormField(fieldName: string) {
     return cy.get(`${this.formFieldSelector} [formcontrolname=${fieldName}]`);
   }
@@ -46,10 +54,11 @@ export class NewRequestPage {
 
   newRequest(newRequest: Request) {
     this.getFormField(this.descFieldName).type(newRequest.description);
-    this.selectMatSelectValue(this.getFormField('itemTypeSelect'), newRequest.itemType);
+    this.setMatSelect('itemType', this.capitalize(newRequest.itemType));
     if (newRequest.itemType === 'food'){
-      this.selectMatSelectValue(this.getFormField('foodType'), newRequest.itemType);
+      this.setMatSelect('foodType', this.capitalize(newRequest.foodType));
     }
     return this.newRequestButton().click();
   }
+
 }
