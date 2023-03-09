@@ -49,9 +49,7 @@ import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
-
 import io.javalin.json.JavalinJackson;
-
 
 /**
  * Tests the logic of the RequestController
@@ -289,11 +287,6 @@ class RequestControllerSpec {
 
   }
 
-
-
-
-  /*
-
   @Test
   void getRequestsWithExistentId() throws IOException {
     String id = samsId.toHexString();
@@ -409,7 +402,6 @@ class RequestControllerSpec {
     });
   }
 
-
   @Test
   void deleteFoundRequest() throws IOException {
     String testID = samsId.toHexString();
@@ -447,8 +439,6 @@ class RequestControllerSpec {
 
 }
 
- */
-
  @Test
  void deleteFoundRequest() throws IOException {
    String testID = samsId.toHexString();
@@ -484,4 +474,3 @@ class RequestControllerSpec {
    assertEquals(0, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
  }
 }
-

@@ -31,7 +31,9 @@ import { UserCardComponent } from './users/user-card.component';
 import { UserListComponent } from './users/user-list.component';
 import { UserProfileComponent } from './users/user-profile.component';
 import { RequestDonorComponent } from './requests/request-donor.component';
+import { RequestVolunteerComponent } from './requests/request-volunteer.component';
 import { NewRequestComponent } from './requests/new-request/new-request.component';
+
 
 
 const MATERIAL_MODULES: any[] = [
@@ -63,6 +65,7 @@ const MATERIAL_MODULES: any[] = [
     AddUserComponent,
     NewRequestComponent,
     RequestDonorComponent,
+    RequestVolunteerComponent,
   ],
   imports: [
     BrowserModule,
