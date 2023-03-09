@@ -1,12 +1,12 @@
 <div class="flex-row">
   <div class="flex-1">
-
+    <!--Filters-->
     <mat-card class="search-card">
       <mat-card-header>
         <mat-card-title class="donor-view-title">Needs requested</mat-card-title>
       </mat-card-header>
     <mat-card-content>
-
+      <!--Item Type Filter-->
       <div class="flex-row gap-8 flex-wrap">
         <mat-form-field class="input-field">
           <mat-label>Item Type</mat-label>
@@ -19,7 +19,7 @@
         </mat-form-field>
       </div>
 
-
+      <!--Food Type Filter-->
       <mat-form-field class="input-field">
         <mat-label>Food Type</mat-label>
         <mat-select (selectionChange)="getRequestsFromServer()" [(ngModel)]="requestFoodType" data-test="requestFoodTypeSelect">
@@ -37,14 +37,15 @@
   </div>
 </div>
 
+<!--List View-->
 <div class="flex-row">
   <div class="flex-1" *ngIf="serverFilteredRequests; else requestsError">
     <mat-card-content>
       <mat-nav-list class="donor-nav-list">
         <h3 mat-subheader>Requests</h3>
-        <a mat-list-item *ngFor="let request of this.serverFilteredRequests" [routerLink]="['/requests/donor', request._id]" class="request-list-item">
-          <span matListItemTitle class="donor-list-itemType">{{request.itemType}}</span>
-          <span matListItemLine class="donor-list-foodType">{{request.foodType}}</span>
+        <a mat-list-item *ngFor="let request of this.serverFilteredRequests" [routerLink]="['/requests/donor', request._id]" class="donor-list-item">
+          <span matListItemTitle class="donor-list-itemType">Item Type: {{request.itemType}}</span>
+          <span matListItemLine class="donor-list-foodType">Food Type: {{request.foodType}}</span>
           <span matListItemBody class="donor-list-description">{{request.description}}</span>
         </a>
       </mat-nav-list>

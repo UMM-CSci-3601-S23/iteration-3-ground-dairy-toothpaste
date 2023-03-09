@@ -24,7 +24,7 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
 
   constructor(private requestService: RequestService, private snackBar: MatSnackBar) {
   }
-
+  //Gets the requests from the server with the correct filters
   getRequestsFromServer(): void {
     this.requestService.getRequests({
       itemType: this.requestItemType,
@@ -50,7 +50,7 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
       },
     });
   }
-
+  //
   public updateFilter(): void {
     this.filteredRequests = this.serverFilteredRequests;
   }
