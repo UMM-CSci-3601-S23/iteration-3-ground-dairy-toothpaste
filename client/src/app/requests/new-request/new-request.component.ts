@@ -86,8 +86,4 @@ export class NewRequestComponent {
       // complete: () => console.log('Add user completes!')
     });
   }
-
-  changeType(type: ItemType){
-    this.type = type;
-  }
 }

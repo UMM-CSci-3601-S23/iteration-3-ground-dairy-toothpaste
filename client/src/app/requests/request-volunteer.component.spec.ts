@@ -115,4 +115,10 @@ describe('Misbehaving Volunteer view', () => {
   it('generates an error if we don\'t set up a RequestVolunteerService', () => {
     expect(volunteerList.serverFilteredRequests).toBeUndefined();
   });
+
+  it('updateFilter properly reassigns our request list', ()=>{
+    volunteerList.updateFilter();
+    expect(volunteerList.filteredRequests === volunteerList.serverFilteredRequests).toBeTruthy();
+  });
+
 });

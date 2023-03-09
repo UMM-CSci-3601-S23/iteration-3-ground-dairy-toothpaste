@@ -176,5 +176,21 @@ describe('NewRequestComponent', () => {
       expect(foodTypeControl.valid).toBeFalsy();
     });
   });
+  describe('The getErrorMessage method', ()=>{
+    let itemTypeControl: AbstractControl;
+
+    beforeEach(() => {
+      itemTypeControl = newRequestForm.controls.itemType;
+    });
+
+    it('should return "unknown error" when passed an invalid error code', ()=> {
+      expect(newRequestComponent.getErrorMessage('foodType') === 'Unknown error');
+    });
+
+    it('should return "required" error when itemType is empty', ()=> {
+      itemTypeControl.setValue('--');
+      expect(newRequestComponent.getErrorMessage('itemType')).toBeTruthy();
+    });
+  });
 });
 

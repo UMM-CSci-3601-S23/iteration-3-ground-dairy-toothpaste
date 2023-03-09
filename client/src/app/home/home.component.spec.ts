@@ -32,4 +32,8 @@ describe('Home', () => {
     expect(component).toBeTruthy();
   });
 
+  it('Change role works', ()=>{
+    component.changeRole('client');
+    expect(component.userRole === 'client').toBeTruthy();
+  });
 });
