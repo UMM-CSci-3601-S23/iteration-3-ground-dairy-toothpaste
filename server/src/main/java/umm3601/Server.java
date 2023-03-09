@@ -78,7 +78,7 @@ public class Server {
     //Request api endpoints
 
     //List requests, filtered using query parameters
-    server.get("/api/requests", requestController::getRequests);
+    server.get("/api/requests/donor", requestController::getRequests);
 
     //Deleting requests
     server.delete("/api/requests/{id}]", requestController::deleteRequest);
