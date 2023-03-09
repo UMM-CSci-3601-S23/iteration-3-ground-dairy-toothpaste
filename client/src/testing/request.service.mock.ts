@@ -43,11 +43,5 @@ export class MockRequestService extends RequestService {
       return of(MockRequestService.testRequests);
   }
 
-  getRequestById(id: string): Observable<Request> {
-    if (id === MockRequestService.testRequests[0]._id) {
-      return of(MockRequestService.testRequests[0]);
-    } else {
-      return (null);
-    }
-  }
+
 }

@@ -115,4 +115,9 @@ describe('Misbehaving Donor view', () => {
   it('generates an error if we don\'t set up a RequestDonorService', () => {
     expect(donorList.serverFilteredRequests).toBeUndefined();
   });
+
+  it('updateFilter properly reassigns our request list', ()=>{
+    donorList.updateFilter();
+    expect(donorList.filteredRequests === donorList.serverFilteredRequests).toBeTruthy();
+  });
 });
