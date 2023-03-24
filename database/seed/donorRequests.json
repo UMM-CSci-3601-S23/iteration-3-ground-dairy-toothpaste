@@ -1,0 +1,58 @@
+[
+  {
+    "_id": {
+      "$oid": "588935f57546a2daea44de7c"
+    },
+    "itemType": "food",
+    "description": "Fresh Apples",
+    "foodType": "fruit"
+  },
+  {
+    "_id": {
+      "$oid": "588935f5597715f06f3e8f6c"
+    },
+    "itemType": "toiletries",
+    "description": "Toothpaste",
+    "foodType": ""
+  },
+  {
+    "_id": {
+      "$oid": "588935f51c55b55c75a84848"
+    },
+    "itemType": "other",
+    "description": "Plates",
+    "foodType": ""
+  },
+  {
+    "_id": {
+      "$oid": "588935f52787254123f71fed"
+    },
+    "itemType": "food",
+    "description": "Milk",
+    "foodType": "dairy"
+  },
+  {
+    "_id": {
+      "$oid": "588935f5de613130e931ffd5"
+    },
+    "itemType": "food",
+    "description": "Bread",
+    "foodType": "grain"
+  },
+  {
+    "_id": {
+      "$oid": "588935f55b432bb2ff322160"
+    },
+    "itemType": "food",
+    "description": "Ground beef",
+    "foodType": "meat"
+  },
+  {
+    "_id": {
+      "$oid": "588935f5556f992bf8f37c01"
+    },
+    "itemType": "food",
+    "description": "Assorted Vegetables",
+    "foodType": "vegetable"
+  }
+]
