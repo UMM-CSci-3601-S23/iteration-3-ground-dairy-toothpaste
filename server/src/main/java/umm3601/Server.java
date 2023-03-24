@@ -13,6 +13,7 @@ import org.bson.UuidRepresentation;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.RouteOverviewPlugin;
 import umm3601.request.ClientRequestController;
+import umm3601.request.DonorRequestController;
 import umm3601.user.UserController;
 
 public class Server {
@@ -42,7 +43,8 @@ public class Server {
 
     // Initialize dependencies
     UserController userController = new UserController(database);
-    ClientRequestController requestController = new ClientRequestController(database);
+    ClientRequestController clientRequestController = new ClientRequestController(database);
+    DonorRequestController donorRequestController = new DonorRequestController(database);
 
     Javalin server = Javalin.create(config ->
       config.plugins.register(new RouteOverviewPlugin("/api"))
@@ -78,12 +80,16 @@ public class Server {
     //Request api endpoints
 
     //List requests, filtered using query parameters
-    server.get("/api/requests/donor", requestController::getRequests);
+    server.get("/api/clientRequests", clientRequestController::getRequests);
+    server.get("/api/donorRequests", donorRequestController::getRequests);
 
-    server.post("/api/requests/new", requestController::addNewRequest);
+    // Add a new request
+    server.post("/api/clientRequests", clientRequestController::addNewRequest);
+    server.post("/api/donorRequests", donorRequestController::addNewRequest);
 
     //Deleting requests
-    server.delete("/api/requests/{id}]", requestController::deleteRequest);
+    server.delete("/api/clientRequests/{id}]", clientRequestController::deleteRequest);
+    server.delete("/api/donorRequests/{id}]", donorRequestController::deleteRequest);
 
 
     // This catches any uncaught exceptions thrown in the server
