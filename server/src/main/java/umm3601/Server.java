@@ -12,7 +12,7 @@ import org.bson.UuidRepresentation;
 
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.RouteOverviewPlugin;
-import umm3601.request.RequestController;
+import umm3601.request.ClientRequestController;
 import umm3601.user.UserController;
 
 public class Server {
@@ -42,7 +42,7 @@ public class Server {
 
     // Initialize dependencies
     UserController userController = new UserController(database);
-    RequestController requestController = new RequestController(database);
+    ClientRequestController requestController = new ClientRequestController(database);
 
     Javalin server = Javalin.create(config ->
       config.plugins.register(new RouteOverviewPlugin("/api"))

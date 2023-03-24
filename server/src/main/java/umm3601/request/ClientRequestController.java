@@ -26,7 +26,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 
-public class RequestController {
+public class ClientRequestController {
   static final String ITEM_TYPE_KEY = "itemType";
   static final String FOOD_TYPE_KEY = "foodType";
   static final String SORT_ORDER_KEY = "sortorder";
@@ -36,7 +36,7 @@ public class RequestController {
 
   private final JacksonMongoCollection<Request> requestCollection;
 
-  public RequestController(MongoDatabase database) {
+  public ClientRequestController(MongoDatabase database) {
     requestCollection = JacksonMongoCollection.builder().build(
       database,
       "requests",

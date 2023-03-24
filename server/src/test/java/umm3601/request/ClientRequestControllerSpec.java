@@ -62,11 +62,11 @@ import io.javalin.json.JavalinJackson;
 // also a lot of "magic strings" that Checkstyle doesn't actually
 // flag as a problem) make more sense.
 @SuppressWarnings({ "MagicNumber" })
-class RequestControllerSpec {
+class ClientRequestControllerSpec {
 
   // An instance of the controller we're testing that is prepared in
   // `setupEach()`, and then exercised in the various tests below.
-  private RequestController requestController;
+  private ClientRequestController requestController;
 
   // A Mongo object ID that is initialized in `setupEach()` and used
   // in a few of the tests. It isn't used all that often, though,
@@ -157,7 +157,7 @@ class RequestControllerSpec {
     requestDocuments.insertMany(testRequests);
     requestDocuments.insertOne(sam);
 
-    requestController = new RequestController(db);
+    requestController = new ClientRequestController(db);
   }
 
   @Test
@@ -192,11 +192,11 @@ class RequestControllerSpec {
   @Test
   void canGetRequestsWithItemType() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));
-    queryParams.put(RequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
+    queryParams.put(ClientRequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));
+    queryParams.put(ClientRequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass(RequestController.ITEM_TYPE_KEY, String.class))
-      .thenReturn(Validator.create(String.class, "food", RequestController.ITEM_TYPE_KEY));
+    when(ctx.queryParamAsClass(ClientRequestController.ITEM_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "food", ClientRequestController.ITEM_TYPE_KEY));
 
     requestController.getRequests(ctx);
 
@@ -211,11 +211,11 @@ class RequestControllerSpec {
   @Test
   void canGetRequestsWithFoodType() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(RequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"meat"}));
-    queryParams.put(RequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
+    queryParams.put(ClientRequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"meat"}));
+    queryParams.put(ClientRequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass(RequestController.FOOD_TYPE_KEY, String.class))
-      .thenReturn(Validator.create(String.class, "meat", RequestController.FOOD_TYPE_KEY));
+    when(ctx.queryParamAsClass(ClientRequestController.FOOD_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "meat", ClientRequestController.FOOD_TYPE_KEY));
 
     requestController.getRequests(ctx);
 
@@ -231,11 +231,11 @@ class RequestControllerSpec {
   @Test
   public void canGetRequestWithItemTypeUppercase() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"FOOD"}));
-    queryParams.put(RequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
+    queryParams.put(ClientRequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"FOOD"}));
+    queryParams.put(ClientRequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass(RequestController.ITEM_TYPE_KEY, String.class))
-      .thenReturn(Validator.create(String.class, "FOOD", RequestController.ITEM_TYPE_KEY));
+    when(ctx.queryParamAsClass(ClientRequestController.ITEM_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "FOOD", ClientRequestController.ITEM_TYPE_KEY));
 
     requestController.getRequests(ctx);
 
@@ -251,13 +251,13 @@ class RequestControllerSpec {
   @Test
   void getRequestsByItemTypeAndFoodType() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));
-    queryParams.put(RequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"fruit"}));
+    queryParams.put(ClientRequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));
+    queryParams.put(ClientRequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"fruit"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass(RequestController.ITEM_TYPE_KEY, String.class))
-      .thenReturn(Validator.create(String.class, "food", RequestController.ITEM_TYPE_KEY));
-    when(ctx.queryParamAsClass(RequestController.FOOD_TYPE_KEY, String.class))
-      .thenReturn(Validator.create(String.class, "fruit", RequestController.FOOD_TYPE_KEY));
+    when(ctx.queryParamAsClass(ClientRequestController.ITEM_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "food", ClientRequestController.ITEM_TYPE_KEY));
+    when(ctx.queryParamAsClass(ClientRequestController.FOOD_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "fruit", ClientRequestController.FOOD_TYPE_KEY));
 
     requestController.getRequests(ctx);
 
