@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -249,6 +250,46 @@ class DonorRequestControllerSpec {
   }
 
   @Test
+  void canSortAscending() throws IOException {
+    Map<String, List<String>> queryParams = new HashMap<>();
+    queryParams.put(ClientRequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"meat"}));
+    queryParams.put(ClientRequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"asc"}));
+    when(ctx.queryParamMap()).thenReturn(queryParams);
+    when(ctx.queryParamAsClass(ClientRequestController.FOOD_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "meat", ClientRequestController.FOOD_TYPE_KEY));
+
+    requestController.getRequests(ctx);
+
+    verify(ctx).json(requestArrayListCaptor.capture());
+    verify(ctx).status(HttpStatus.OK);
+
+    // Confirm that all the requests passed to `json` work for food.
+    for (Request request : requestArrayListCaptor.getValue()) {
+      assertEquals("meat", request.foodType);
+    }
+  }
+
+  @Test
+  void canSortDescending() throws IOException {
+    Map<String, List<String>> queryParams = new HashMap<>();
+    queryParams.put(ClientRequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"meat"}));
+    queryParams.put(ClientRequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
+    when(ctx.queryParamMap()).thenReturn(queryParams);
+    when(ctx.queryParamAsClass(ClientRequestController.FOOD_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "meat", ClientRequestController.FOOD_TYPE_KEY));
+
+    requestController.getRequests(ctx);
+
+    verify(ctx).json(requestArrayListCaptor.capture());
+    verify(ctx).status(HttpStatus.OK);
+
+    // Confirm that all the requests passed to `json` work for food.
+    for (Request request : requestArrayListCaptor.getValue()) {
+      assertEquals("meat", request.foodType);
+    }
+  }
+
+  @Test
   void getRequestsByItemTypeAndFoodType() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put(ClientRequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));
@@ -461,4 +502,8 @@ class DonorRequestControllerSpec {
     assertEquals(0, db.getCollection("donorRequests").countDocuments(eq("_id", new ObjectId(testID))));
   }
 
+  @Test
+  void tryMd5Hash() throws NoSuchAlgorithmException {
+    assertNotNull(requestController.md5("Hello World!"));
+  }
 }
