@@ -39,7 +39,7 @@ public class ClientRequestController {
   public ClientRequestController(MongoDatabase database) {
     requestCollection = JacksonMongoCollection.builder().build(
       database,
-      "requests",
+      "clientRequests",
       Request.class,
       UuidRepresentation.STANDARD);
   }
