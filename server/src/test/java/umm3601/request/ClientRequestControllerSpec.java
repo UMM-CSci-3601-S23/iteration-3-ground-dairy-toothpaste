@@ -128,7 +128,7 @@ class ClientRequestControllerSpec {
     MockitoAnnotations.openMocks(this);
 
     // Setup database
-    MongoCollection<Document> requestDocuments = db.getCollection("requests");
+    MongoCollection<Document> requestDocuments = db.getCollection("clientRequests");
     requestDocuments.drop();
     List<Document> testRequests = new ArrayList<>();
     testRequests.add(
@@ -185,7 +185,7 @@ class ClientRequestControllerSpec {
     verify(ctx).status(HttpStatus.OK);
 
     // Check that the database collection holds the same number of documents as the size of the captured List<User>
-    assertEquals(db.getCollection("requests").countDocuments(), requestArrayListCaptor.getValue().size());
+    assertEquals(db.getCollection("clientRequests").countDocuments(), requestArrayListCaptor.getValue().size());
   }
 
   /* */
@@ -337,7 +337,7 @@ class ClientRequestControllerSpec {
     verify(ctx).status(HttpStatus.CREATED);
 
     //Verify that the request was added to the database with the correct ID
-    Document addedRequest = db.getCollection("requests")
+    Document addedRequest = db.getCollection("clientRequests")
       .find(eq("_id", new ObjectId(mapCaptor.getValue().get("id")))).first();
 
     // Successfully adding the request should return the newly generated, non-empty MongoDB ID for that request.
@@ -416,7 +416,7 @@ class ClientRequestControllerSpec {
     verify(ctx).status(HttpStatus.CREATED);
 
     //Verify that the request was added to the database with the correct ID
-    Document addedRequest = db.getCollection("requests")
+    Document addedRequest = db.getCollection("clientRequests")
       .find(eq("_id", new ObjectId(mapCaptor.getValue().get("id")))).first();
 
     // Successfully adding the request should return the newly generated, non-empty MongoDB ID for that request.
@@ -432,14 +432,14 @@ class ClientRequestControllerSpec {
     when(ctx.pathParam("id")).thenReturn(testID);
 
     // Request exists before deletion
-    assertEquals(1, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
+    assertEquals(1, db.getCollection("clientRequests").countDocuments(eq("_id", new ObjectId(testID))));
 
     requestController.deleteRequest(ctx);
 
     verify(ctx).status(HttpStatus.OK);
 
     // request is no longer in the database
-    assertEquals(0, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
+    assertEquals(0, db.getCollection("clientRequests").countDocuments(eq("_id", new ObjectId(testID))));
   }
 
   @Test
@@ -449,7 +449,7 @@ class ClientRequestControllerSpec {
 
     requestController.deleteRequest(ctx);
     // Request is no longer in the database
-    assertEquals(0, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
+    assertEquals(0, db.getCollection("clientRequests").countDocuments(eq("_id", new ObjectId(testID))));
 
     assertThrows(NotFoundResponse.class, () -> {
       requestController.deleteRequest(ctx);
@@ -458,7 +458,7 @@ class ClientRequestControllerSpec {
     verify(ctx).status(HttpStatus.NOT_FOUND);
 
     // Request is still not in the database
-    assertEquals(0, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
+    assertEquals(0, db.getCollection("clientRequests").countDocuments(eq("_id", new ObjectId(testID))));
   }
 
 }
