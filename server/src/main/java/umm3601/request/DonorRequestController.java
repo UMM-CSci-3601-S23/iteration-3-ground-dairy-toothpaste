@@ -21,9 +21,12 @@ import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 import java.security.NoSuchAlgorithmException;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 
-public class RequestController {
+public class DonorRequestController {
   static final String ITEM_TYPE_KEY = "itemType";
   static final String FOOD_TYPE_KEY = "foodType";
   static final String SORT_ORDER_KEY = "sortorder";
@@ -33,10 +36,10 @@ public class RequestController {
 
   private final JacksonMongoCollection<Request> requestCollection;
 
-  public RequestController(MongoDatabase database) {
+  public DonorRequestController(MongoDatabase database) {
     requestCollection = JacksonMongoCollection.builder().build(
       database,
-      "requests",
+      "donorRequests",
       Request.class,
       UuidRepresentation.STANDARD);
   }
@@ -136,6 +139,10 @@ public class RequestController {
       .check(req -> req.itemType.matches(ITEM_TYPE_REGEX), "Request must contain valid item type")
       .check(req -> req.foodType.matches(FOOD_TYPE_REGEX), "Request must contain valid food type").get();
 
+    // Add the date to the request formatted as an ISO 8601 string
+    newRequest.dateAdded = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
+
+    // Insert the newRequest into the requestCollection
     requestCollection.insertOne(newRequest);
 
     ctx.json(Map.of("id", newRequest._id));
@@ -151,7 +158,6 @@ public class RequestController {
    *
    * @param ctx a Javalin HTTP context
    */
-
   public void deleteRequest(Context ctx) {
     String id = ctx.pathParam("id");
     DeleteResult deleteResult = requestCollection.deleteOne(eq("_id", new ObjectId(id)));

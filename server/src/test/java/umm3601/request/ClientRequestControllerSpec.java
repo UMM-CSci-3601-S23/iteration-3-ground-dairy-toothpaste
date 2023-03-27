@@ -8,10 +8,12 @@ import static org.mockito.Mockito.when;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -61,11 +63,11 @@ import io.javalin.json.JavalinJackson;
 // also a lot of "magic strings" that Checkstyle doesn't actually
 // flag as a problem) make more sense.
 @SuppressWarnings({ "MagicNumber" })
-class RequestControllerSpec {
+class ClientRequestControllerSpec {
 
   // An instance of the controller we're testing that is prepared in
   // `setupEach()`, and then exercised in the various tests below.
-  private RequestController requestController;
+  private ClientRequestController requestController;
 
   // A Mongo object ID that is initialized in `setupEach()` and used
   // in a few of the tests. It isn't used all that often, though,
@@ -127,7 +129,7 @@ class RequestControllerSpec {
     MockitoAnnotations.openMocks(this);
 
     // Setup database
-    MongoCollection<Document> requestDocuments = db.getCollection("requests");
+    MongoCollection<Document> requestDocuments = db.getCollection("clientRequests");
     requestDocuments.drop();
     List<Document> testRequests = new ArrayList<>();
     testRequests.add(
@@ -156,7 +158,7 @@ class RequestControllerSpec {
     requestDocuments.insertMany(testRequests);
     requestDocuments.insertOne(sam);
 
-    requestController = new RequestController(db);
+    requestController = new ClientRequestController(db);
   }
 
   @Test
@@ -184,18 +186,18 @@ class RequestControllerSpec {
     verify(ctx).status(HttpStatus.OK);
 
     // Check that the database collection holds the same number of documents as the size of the captured List<User>
-    assertEquals(db.getCollection("requests").countDocuments(), requestArrayListCaptor.getValue().size());
+    assertEquals(db.getCollection("clientRequests").countDocuments(), requestArrayListCaptor.getValue().size());
   }
 
   /* */
   @Test
   void canGetRequestsWithItemType() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));
-    queryParams.put(RequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
+    queryParams.put(ClientRequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));
+    queryParams.put(ClientRequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass(RequestController.ITEM_TYPE_KEY, String.class))
-      .thenReturn(Validator.create(String.class, "food", RequestController.ITEM_TYPE_KEY));
+    when(ctx.queryParamAsClass(ClientRequestController.ITEM_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "food", ClientRequestController.ITEM_TYPE_KEY));
 
     requestController.getRequests(ctx);
 
@@ -210,11 +212,11 @@ class RequestControllerSpec {
   @Test
   void canGetRequestsWithFoodType() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(RequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"meat"}));
-    queryParams.put(RequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
+    queryParams.put(ClientRequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"meat"}));
+    queryParams.put(ClientRequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass(RequestController.FOOD_TYPE_KEY, String.class))
-      .thenReturn(Validator.create(String.class, "meat", RequestController.FOOD_TYPE_KEY));
+    when(ctx.queryParamAsClass(ClientRequestController.FOOD_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "meat", ClientRequestController.FOOD_TYPE_KEY));
 
     requestController.getRequests(ctx);
 
@@ -230,11 +232,11 @@ class RequestControllerSpec {
   @Test
   public void canGetRequestWithItemTypeUppercase() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"FOOD"}));
-    queryParams.put(RequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
+    queryParams.put(ClientRequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"FOOD"}));
+    queryParams.put(ClientRequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass(RequestController.ITEM_TYPE_KEY, String.class))
-      .thenReturn(Validator.create(String.class, "FOOD", RequestController.ITEM_TYPE_KEY));
+    when(ctx.queryParamAsClass(ClientRequestController.ITEM_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "FOOD", ClientRequestController.ITEM_TYPE_KEY));
 
     requestController.getRequests(ctx);
 
@@ -250,13 +252,13 @@ class RequestControllerSpec {
   @Test
   void getRequestsByItemTypeAndFoodType() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));
-    queryParams.put(RequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"fruit"}));
+    queryParams.put(ClientRequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));
+    queryParams.put(ClientRequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"fruit"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass(RequestController.ITEM_TYPE_KEY, String.class))
-      .thenReturn(Validator.create(String.class, "food", RequestController.ITEM_TYPE_KEY));
-    when(ctx.queryParamAsClass(RequestController.FOOD_TYPE_KEY, String.class))
-      .thenReturn(Validator.create(String.class, "fruit", RequestController.FOOD_TYPE_KEY));
+    when(ctx.queryParamAsClass(ClientRequestController.ITEM_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "food", ClientRequestController.ITEM_TYPE_KEY));
+    when(ctx.queryParamAsClass(ClientRequestController.FOOD_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "fruit", ClientRequestController.FOOD_TYPE_KEY));
 
     requestController.getRequests(ctx);
 
@@ -266,6 +268,46 @@ class RequestControllerSpec {
     for (Request request : requestArrayListCaptor.getValue()) {
       assertEquals("food", request.itemType);
       assertEquals("fruit", request.foodType);
+    }
+  }
+
+  @Test
+  void canSortAscending() throws IOException {
+    Map<String, List<String>> queryParams = new HashMap<>();
+    queryParams.put(ClientRequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"meat"}));
+    queryParams.put(ClientRequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"asc"}));
+    when(ctx.queryParamMap()).thenReturn(queryParams);
+    when(ctx.queryParamAsClass(ClientRequestController.FOOD_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "meat", ClientRequestController.FOOD_TYPE_KEY));
+
+    requestController.getRequests(ctx);
+
+    verify(ctx).json(requestArrayListCaptor.capture());
+    verify(ctx).status(HttpStatus.OK);
+
+    // Confirm that all the requests passed to `json` work for food.
+    for (Request request : requestArrayListCaptor.getValue()) {
+      assertEquals("meat", request.foodType);
+    }
+  }
+
+  @Test
+  void canSortDescending() throws IOException {
+    Map<String, List<String>> queryParams = new HashMap<>();
+    queryParams.put(ClientRequestController.FOOD_TYPE_KEY, Arrays.asList(new String[] {"meat"}));
+    queryParams.put(ClientRequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
+    when(ctx.queryParamMap()).thenReturn(queryParams);
+    when(ctx.queryParamAsClass(ClientRequestController.FOOD_TYPE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "meat", ClientRequestController.FOOD_TYPE_KEY));
+
+    requestController.getRequests(ctx);
+
+    verify(ctx).json(requestArrayListCaptor.capture());
+    verify(ctx).status(HttpStatus.OK);
+
+    // Confirm that all the requests passed to `json` work for food.
+    for (Request request : requestArrayListCaptor.getValue()) {
+      assertEquals("meat", request.foodType);
     }
   }
 
@@ -336,7 +378,7 @@ class RequestControllerSpec {
     verify(ctx).status(HttpStatus.CREATED);
 
     //Verify that the request was added to the database with the correct ID
-    Document addedRequest = db.getCollection("requests")
+    Document addedRequest = db.getCollection("clientRequests")
       .find(eq("_id", new ObjectId(mapCaptor.getValue().get("id")))).first();
 
     // Successfully adding the request should return the newly generated, non-empty MongoDB ID for that request.
@@ -399,6 +441,31 @@ class RequestControllerSpec {
     });
   }
 
+  @Test
+  void addRequestInsertsDateTime() throws IOException {
+    String testNewRequest = "{"
+        + "\"itemType\": \"food\","
+        + "\"foodType\": \"meat\""
+        + "}";
+    when(ctx.bodyValidator(Request.class))
+      .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+
+    requestController.addNewRequest(ctx);
+    verify(ctx).json(mapCaptor.capture());
+
+    // Our status should be 201, i.e., our new user was successfully created.
+    verify(ctx).status(HttpStatus.CREATED);
+
+    //Verify that the request was added to the database with the correct ID
+    Document addedRequest = db.getCollection("clientRequests")
+      .find(eq("_id", new ObjectId(mapCaptor.getValue().get("id")))).first();
+
+    // Successfully adding the request should return the newly generated, non-empty MongoDB ID for that request.
+    assertNotEquals("", addedRequest.get("_id"));
+    assertNotNull(addedRequest.get("dateAdded"));
+
+    ZonedDateTime.parse(addedRequest.get("dateAdded").toString());
+  }
 
   @Test
   void deleteFoundRequest() throws IOException {
@@ -406,14 +473,14 @@ class RequestControllerSpec {
     when(ctx.pathParam("id")).thenReturn(testID);
 
     // Request exists before deletion
-    assertEquals(1, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
+    assertEquals(1, db.getCollection("clientRequests").countDocuments(eq("_id", new ObjectId(testID))));
 
     requestController.deleteRequest(ctx);
 
     verify(ctx).status(HttpStatus.OK);
 
     // request is no longer in the database
-    assertEquals(0, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
+    assertEquals(0, db.getCollection("clientRequests").countDocuments(eq("_id", new ObjectId(testID))));
   }
 
   @Test
@@ -423,7 +490,7 @@ class RequestControllerSpec {
 
     requestController.deleteRequest(ctx);
     // Request is no longer in the database
-    assertEquals(0, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
+    assertEquals(0, db.getCollection("clientRequests").countDocuments(eq("_id", new ObjectId(testID))));
 
     assertThrows(NotFoundResponse.class, () -> {
       requestController.deleteRequest(ctx);
@@ -432,7 +499,11 @@ class RequestControllerSpec {
     verify(ctx).status(HttpStatus.NOT_FOUND);
 
     // Request is still not in the database
-    assertEquals(0, db.getCollection("requests").countDocuments(eq("_id", new ObjectId(testID))));
+    assertEquals(0, db.getCollection("clientRequests").countDocuments(eq("_id", new ObjectId(testID))));
   }
 
+  @Test
+  void tryMd5Hash() throws NoSuchAlgorithmException {
+    assertNotNull(requestController.md5("Hello World!"));
+  }
 }
