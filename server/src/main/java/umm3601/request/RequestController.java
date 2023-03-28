@@ -2,6 +2,7 @@ package umm3601.request;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.regex;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,11 +22,13 @@ import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Pattern;
 
 
 public class RequestController {
   static final String ITEM_TYPE_KEY = "itemType";
   static final String FOOD_TYPE_KEY = "foodType";
+  static final String DESCRIPTION_KEY = "description";
   static final String SORT_ORDER_KEY = "sortorder";
 
   private static final String ITEM_TYPE_REGEX = "^(food|toiletries|other|FOOD)$";
@@ -105,6 +108,10 @@ public class RequestController {
         .check(it -> it.matches(FOOD_TYPE_REGEX), "Request must contain valid food type")
         .get();
       filters.add(eq(FOOD_TYPE_KEY, foodType));
+    }
+    if (ctx.queryParamMap().containsKey(DESCRIPTION_KEY)) {
+      Pattern pattern = Pattern.compile(Pattern.quote(ctx.queryParam(DESCRIPTION_KEY)),Pattern.CASE_INSENSITIVE);
+      filters.add(regex(DESCRIPTION_KEY, pattern));
     }
 
 
