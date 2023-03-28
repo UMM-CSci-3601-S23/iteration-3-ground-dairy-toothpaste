@@ -28,7 +28,7 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   }
   //Gets the requests from the server with the correct filters
   getRequestsFromServer(): void {
-    this.requestService.getRequests({
+    this.requestService.getClientRequests({
       itemType: this.requestItemType,
       foodType: this.requestFoodType
     }).pipe(
