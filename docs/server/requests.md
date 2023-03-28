@@ -32,6 +32,7 @@ This endpoint accepts the following as query parameters (parameters passed in th
 
 - `itemType` which is used to filter by the item type, the endpoint then returns only requests with the exact `itemType` requested.
 - `foodType` which is used to filter by the item type, the endpoint then returns only requests with the exact `foodType` requested.
+- `description` which is used to filter by the item description, the endpoint then returns only requests which contain the value given by `description`.
 - `sortBy` which is used to sort the resulting list by a particular parameter, the value passed must be the name of one of the values in the `request` object.
 - `sortOrder` is used to set the order the result is sorted by. If it is set to `"asc"`, the sorting order will be in ascending order, if set to `"desc"`, the sorting order will be in descending order.
  
@@ -43,6 +44,7 @@ This endpoint accepts the following as query parameters (parameters passed in th
 
 - `itemType` which is used to filter by the item type, the endpoint then returns only requests with the exact `itemType` requested.
 - `foodType` which is used to filter by the item type, the endpoint then returns only requests with the exact `foodType` requested.
+- `description` which is used to filter by the item description, the endpoint then returns only requests which contain the value given by `description`.
 - `sortBy` which is used to sort the resulting list by a particular parameter, the value passed must be the name of one of the values in the `request` object.
 - `sortOrder` is used to set the order the result is sorted by. If it is set to `"asc"`, the sorting order will be in ascending order, if set to `"desc"`, the sorting order will be in descending order.
  
