@@ -10,8 +10,8 @@ import { map } from 'rxjs/operators';
 })
 export class RequestService {
   // The URL for the requests part of the server API
-  readonly requestUrl: string = `${environment.apiUrl}requests/donor`;
-  readonly newRequestUrl: string = `${environment.apiUrl}requests/new`;
+  readonly requestUrl: string = `${environment.apiUrl}clientRequests`;
+  readonly newRequestUrl: string = `${environment.apiUrl}clientRequests`;
 
   private readonly itemTypeKey = 'itemType';
   private readonly foodTypeKey = 'foodType';
