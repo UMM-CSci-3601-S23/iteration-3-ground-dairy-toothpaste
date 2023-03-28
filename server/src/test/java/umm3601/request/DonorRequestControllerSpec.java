@@ -44,6 +44,7 @@ import org.mockito.MockitoAnnotations;
 import io.javalin.validation.BodyValidator;
 import io.javalin.validation.ValidationException;
 import io.javalin.validation.Validator;
+import umm3601.Authentication;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
@@ -158,7 +159,7 @@ class DonorRequestControllerSpec {
     requestDocuments.insertMany(testRequests);
     requestDocuments.insertOne(sam);
 
-    requestController = new DonorRequestController(db);
+    requestController = new DonorRequestController(db, new Authentication(true));
   }
 
   @Test

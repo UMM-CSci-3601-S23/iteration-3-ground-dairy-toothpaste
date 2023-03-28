@@ -41,10 +41,13 @@ public class Server {
     // Get the database
     MongoDatabase database = mongoClient.getDatabase(databaseName);
 
+    // Construct the authentication checking object
+    Authentication auth = new Authentication();
+
     // Initialize dependencies
     UserController userController = new UserController(database);
-    ClientRequestController clientRequestController = new ClientRequestController(database);
-    DonorRequestController donorRequestController = new DonorRequestController(database);
+    ClientRequestController clientRequestController = new ClientRequestController(database, auth);
+    DonorRequestController donorRequestController = new DonorRequestController(database, auth);
 
     Javalin server = Javalin.create(config ->
       config.plugins.register(new RouteOverviewPlugin("/api"))
