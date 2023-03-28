@@ -93,6 +93,22 @@ describe('RequestService', () => {
           .toHaveBeenCalledWith(requestService.requestUrl, { params: new HttpParams().set('foodType', 'dairy')});
       });
     });
+
+    it('correctly calls api/requests with description \'Need Milk\'', () => {
+      const mockedMethod = spyOn(httpClient, 'get').and.returnValue(of(testRequests));
+
+      //get requests with foodType dairy
+      requestService.getRequests({description: 'Need Milk'}).subscribe(() => {
+        //check if called once
+        expect(mockedMethod)
+          .withContext('one call')
+          .toHaveBeenCalledTimes(1);
+        //check if it's at the correct endpoint
+        expect(mockedMethod)
+          .withContext('talks to the correct endpoint')
+          .toHaveBeenCalledWith(requestService.requestUrl, { params: new HttpParams().set('description', 'Need Milk')});
+      });
+    });
   });
 
   describe('When getRequests() is called with multiple parameters', () => {
