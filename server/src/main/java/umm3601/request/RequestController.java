@@ -110,7 +110,8 @@ public class RequestController {
       filters.add(eq(FOOD_TYPE_KEY, foodType));
     }
     if (ctx.queryParamMap().containsKey(DESCRIPTION_KEY)) {
-      Pattern pattern = Pattern.compile(Pattern.quote(ctx.queryParam(DESCRIPTION_KEY)),Pattern.CASE_INSENSITIVE);
+      Pattern pattern = Pattern.compile(Pattern.quote(ctx.queryParam(DESCRIPTION_KEY)),
+      Pattern.CASE_INSENSITIVE);
       filters.add(regex(DESCRIPTION_KEY, pattern));
     }
 
