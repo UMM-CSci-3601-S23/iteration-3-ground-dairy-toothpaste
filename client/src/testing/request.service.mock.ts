@@ -39,9 +39,12 @@ export class MockRequestService extends RequestService {
     super(null);
   }
 
-  getRequests(filters?: { itemType?: ItemType; foodType?: FoodType }): Observable<Request[]> {
+  getClientRequests(filters?: { itemType?: ItemType; foodType?: FoodType }): Observable<Request[]> {
       return of(MockRequestService.testRequests);
   }
 
+  getDonorRequests(filters?: { itemType?: ItemType; foodType?: FoodType }): Observable<Request[]> {
+    return of(MockRequestService.testRequests);
+  }
 
 }

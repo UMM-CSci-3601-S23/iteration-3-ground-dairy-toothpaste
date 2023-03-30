@@ -87,13 +87,17 @@ describe('Misbehaving Volunteer view', () => {
   let fixture: ComponentFixture<RequestVolunteerComponent>;
 
   let requestServiceStub: {
-    getRequests: () => Observable<Request[]>;
+    getClientRequests: () => Observable<Request[]>;
+    getDonorRequests: () => Observable<Request[]>;
   };
 
   beforeEach(() => {
     requestServiceStub = {
-      getRequests: () => new Observable(observer => {
-        observer.error('getRequests() Observer generates an error');
+      getClientRequests: () => new Observable(observer => {
+        observer.error('getClientRequests() Observer generates an error');
+      }),
+      getDonorRequests: () => new Observable(observer => {
+        observer.error('getDonorRequests() Observer generates an error');
       })
     };
 
