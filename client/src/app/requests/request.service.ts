@@ -15,11 +15,12 @@ export class RequestService {
 
   private readonly itemTypeKey = 'itemType';
   private readonly foodTypeKey = 'foodType';
+  private readonly descriptionKey = 'description';
 
   constructor(private httpClient: HttpClient) {
   }
 
-  getRequests(filters?: {itemType?: ItemType; foodType?: FoodType}): Observable<Request[]> {
+  getRequests(filters?: {itemType?: ItemType; foodType?: FoodType; description?: string}): Observable<Request[]> {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.itemType) {
@@ -27,6 +28,9 @@ export class RequestService {
       }
       if (filters.foodType) {
         httpParams = httpParams.set(this.foodTypeKey, filters.foodType);
+      }
+      if (filters.description) {
+        httpParams = httpParams.set(this.descriptionKey, filters.description);
       }
     }
     return this.httpClient.get<Request[]>(this.requestUrl, {

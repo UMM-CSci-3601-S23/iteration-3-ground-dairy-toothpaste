@@ -90,8 +90,8 @@ public class Server {
     server.post("/api/donorRequests", donorRequestController::addNewRequest);
 
     //Deleting requests
-    server.delete("/api/clientRequests/{id}]", clientRequestController::deleteRequest);
-    server.delete("/api/donorRequests/{id}]", donorRequestController::deleteRequest);
+    server.delete("/api/clientRequests/{id}", clientRequestController::deleteRequest);
+    server.delete("/api/donorRequests/{id}", donorRequestController::deleteRequest);
 
 
     // This catches any uncaught exceptions thrown in the server
