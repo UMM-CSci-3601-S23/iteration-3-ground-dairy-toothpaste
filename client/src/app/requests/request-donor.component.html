@@ -16,9 +16,17 @@
             <mat-option value="toiletries">Toiletries</mat-option>
             <mat-option value="other">Other</mat-option>
           </mat-select>
+          <mat-hint>Filtered on Server</mat-hint>
         </mat-form-field>
       </div>
-
+      <div class="flex-row gap-8 flex-wrap">
+      <mat-form-field class="input-field">
+        <mat-label>Description</mat-label>
+        <input matInput data-test="requestDescriptionInput" placeholder="Filter by description"
+        [(ngModel)]="requestDescription" (input)="getRequestsFromServer()">
+        <mat-hint> Filtered on Server </mat-hint>
+      </mat-form-field>
+    </div>
       <!--Food Type Filter-->
       <mat-form-field class="input-field">
         <mat-label>Food Type</mat-label>
@@ -30,12 +38,18 @@
           <mat-option value="fruit">Fruit</mat-option>
           <mat-option value="vegetable">Vegetable</mat-option>
         </mat-select>
+        <mat-hint>Filtered on Server</mat-hint>
       </mat-form-field>
 
     </mat-card-content>
     </mat-card>
   </div>
 </div>
+
+<section>
+
+
+
 
 <!--List View-->
 <div class="flex-row">
@@ -47,6 +61,9 @@
           <span matListItemTitle class="donor-list-itemType">Item Type: {{request.itemType}}</span>
           <span matListItemLine class="donor-list-foodType">Food Type: {{request.foodType}}</span>
           <span matListItemBody class="donor-list-description">{{request.description}}</span>
+          <button mat-icon-button data-test="deleteRequestButton" (click)="deleteRequest(request)">
+            <mat-icon>delete</mat-icon>
+          </button>
         </a>
       </mat-nav-list>
     </mat-card-content>

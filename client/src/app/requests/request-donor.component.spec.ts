@@ -15,11 +15,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
 import { MockRequestService } from 'src/testing/request.service.mock';
-import { ItemType, Request } from './request';
+import { ItemType, FoodType, Request } from './request';
 import { RequestDonorComponent } from './request-donor.component';
 import { RequestService } from './request.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 const COMMON_IMPORTS: unknown[] = [
   FormsModule,
@@ -64,6 +65,10 @@ describe('Donor Request View', () => {
     expect(donorList.serverFilteredRequests.length).toBe(4);
   });
 
+  it('can call deleteRequest()', () => {
+    donorList.deleteRequest(donorList.serverFilteredRequests[0]);
+  });
+
   it('contains a request for food', () => {
     expect(donorList.serverFilteredRequests.some((request: Request) => request.itemType === 'food')).toBe(true);
   });
@@ -87,6 +92,7 @@ describe('Misbehaving Donor view', () => {
   let fixture: ComponentFixture<RequestDonorComponent>;
 
   let requestServiceStub: {
+    deleteRequest: () => Observable<object>;
     getClientRequests: () => Observable<Request[]>;
     getDonorRequests: () => Observable<Request[]>;
   };
@@ -98,6 +104,10 @@ describe('Misbehaving Donor view', () => {
       }),
       getDonorRequests: () => new Observable(observer => {
         observer.error('getDonorRequests() Observer generates an error');
+      }),
+
+      deleteRequest: () => new Observable(observer => {
+        observer.error('deleteRequest() Observer generates an error');
       })
     };
 
@@ -117,7 +127,9 @@ describe('Misbehaving Donor view', () => {
   }));
 
   it('generates an error if we don\'t set up a RequestDonorService', () => {
+    donorList.getRequestsFromServer();
     expect(donorList.serverFilteredRequests).toBeUndefined();
+    donorList.deleteRequest(null);
   });
 
   it('updateFilter properly reassigns our request list', ()=>{
@@ -125,3 +137,4 @@ describe('Misbehaving Donor view', () => {
     expect(donorList.filteredRequests === donorList.serverFilteredRequests).toBeTruthy();
   });
 });
+

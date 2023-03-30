@@ -93,6 +93,22 @@ describe('RequestService', () => {
           .toHaveBeenCalledWith(requestService.requestClientUrl, { params: new HttpParams().set('foodType', 'dairy')});
       });
     });
+
+    it('correctly calls api/requests with description \'Need Milk\'', () => {
+      const mockedMethod = spyOn(httpClient, 'get').and.returnValue(of(testRequests));
+
+      //get requests with foodType dairy
+      requestService.getRequests({description: 'Need Milk'}).subscribe(() => {
+        //check if called once
+        expect(mockedMethod)
+          .withContext('one call')
+          .toHaveBeenCalledTimes(1);
+        //check if it's at the correct endpoint
+        expect(mockedMethod)
+          .withContext('talks to the correct endpoint')
+          .toHaveBeenCalledWith(requestService.requestUrl, { params: new HttpParams().set('description', 'Need Milk')});
+      });
+    });
   });
 
   describe('When getRequests() is called with multiple parameters', () => {
@@ -120,6 +136,10 @@ describe('RequestService', () => {
         expect(calledHttpParams.get('foodType'))
           .withContext('type of food')
           .toEqual('meat');
+
+        expect(calledHttpParams.get('description'))
+          .toBeNull();
+
       });
     });
   });
@@ -149,5 +169,25 @@ describe('RequestService', () => {
           .toHaveBeenCalledWith(requestService.newRequestClientUrl, testRequests[1]);
       });
   }));
+});
+
+describe('deleteRequest', ()=> {
+  it('talks to the right endpoint and is called once', waitForAsync(() => {
+    // Mock the `httpClient.addUser()` method, so that instead of making an HTTP request,
+    // it just returns our test data.
+    const REQUEST_ID = '2';
+    const mockedMethod = spyOn(httpClient, 'delete').and.returnValue(of(REQUEST_ID));
+
+    // paying attention to what is returned (undefined) didn't work well here,
+    // but I'm putting something in here to remind us to look into that
+    requestService.deleteRequest(testRequests[1]).subscribe((returnedString) => {
+      console.log('The thing returned was:' + returnedString);
+      expect(mockedMethod)
+        .withContext('one call')
+        .toHaveBeenCalledTimes(1);
+      expect(mockedMethod)
+        .withContext('talks to the correct endpoint');
+    });
+}));
 });
 });

@@ -17,6 +17,7 @@ export class RequestService {
 
   private readonly itemTypeKey = 'itemType';
   private readonly foodTypeKey = 'foodType';
+  private readonly descriptionKey = 'description';
 
   constructor(private httpClient: HttpClient) {
   }
@@ -29,6 +30,9 @@ export class RequestService {
       }
       if (filters.foodType) {
         httpParams = httpParams.set(this.foodTypeKey, filters.foodType);
+      }
+      if (filters.description) {
+        httpParams = httpParams.set(this.descriptionKey, filters.description);
       }
     }
 // We'll need to add a conditional in here that handles a donor get request as well
@@ -72,4 +76,8 @@ export class RequestService {
     return this.httpClient.post<{id: string}>(this.newRequestDonorUrl, newRequest).pipe(map(res => res.id));
   }
 
+  deleteRequest(request: Partial<Request>): Observable<object> {
+    // Send delete request to delete a request
+    return this.httpClient.delete(this.requestDonorUrl + '/' + request._id).pipe(map(res => res));
+}
 }

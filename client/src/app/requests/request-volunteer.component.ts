@@ -39,14 +39,8 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
       },
 
       error: (err) => {
-        let message = '';
-        if (err.error instanceof ErrorEvent) {
-          message = `Problem in the client – Error: {err.error.message}`;
-        } else {
-          message = `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`;
-        }
         this.snackBar.open(
-          message,
+          `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`,
           'OK',
           {duration: 5000});
       },
