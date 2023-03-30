@@ -106,13 +106,19 @@ export class EditRequestComponent implements OnInit, OnDestroy{
       //It then destroys the pipeline
       takeUntil(this.ngUnsubscribe)
     ).subscribe({
-      next: request => this.request = request,
+      next: request => {
+        this.request = request;
+
+        this.newRequestForm.setValue({description: this.request.description,
+          foodType: this.request.foodType, itemType: this.request.itemType});
+      },
       error: _err => {
-        this.snackbar.open('Problem loading the Request – try again', 'OK', {
+        /*(this.snackbar.open('Problem loading the Request – try again', 'OK', {
           duration: 5000,
-        });
+        }); */
       }
     });
+
   }
 
   ngOnDestroy(): void {

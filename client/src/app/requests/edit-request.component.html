@@ -14,7 +14,8 @@
         required
         [(ngModel)]="itemType"
         formControlName="itemType"
-        data-test="itemTypeSelect">
+        data-test="itemTypeSelect"
+        >
           <mat-option value ="--">--</mat-option>
           <mat-option value="food">Food</mat-option>
           <mat-option value="toiletries">Toiletries</mat-option>
@@ -44,7 +45,8 @@
     <div>
       <mat-form-field class = "desc">
         <mat-label>Item description</mat-label>
-        <textarea matInput value={{this.request.description}}>
+        <textarea matInput formControlName="description"
+        required>
         </textarea>
         <mat-error *ngIf="formControlHasError('description')" data-test="descriptionError">
           {{getErrorMessage('description')}}
