@@ -48,4 +48,9 @@ export class RequestService {
     // Send post request to add a new Request with the Request data as the body.
     return this.httpClient.post<{id: string}>(this.newRequestUrl, newRequest).pipe(map(res => res.id));
   }
+
+  deleteRequest(request: Partial<Request>): Observable<object> {
+    // Send delete request to delete a request
+    return this.httpClient.delete(this.requestUrl + '/' + request._id).pipe(map(res => res));
+}
 }

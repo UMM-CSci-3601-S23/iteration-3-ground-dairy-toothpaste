@@ -46,6 +46,7 @@
   </div>
 </div>
 
+<section>
 
 
 
@@ -60,6 +61,9 @@
           <span matListItemTitle class="donor-list-itemType">Item Type: {{request.itemType}}</span>
           <span matListItemLine class="donor-list-foodType">Food Type: {{request.foodType}}</span>
           <span matListItemBody class="donor-list-description">{{request.description}}</span>
+          <button mat-icon-button data-test="deleteRequestButton" (click)="deleteRequest(request)">
+            <mat-icon>delete</mat-icon>
+          </button>
         </a>
       </mat-nav-list>
     </mat-card-content>

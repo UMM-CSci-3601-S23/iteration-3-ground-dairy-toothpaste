@@ -20,6 +20,7 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
   public requestDescription: string;
   public requestFoodType: FoodType;
 
+
   private ngUnsubscribe = new Subject<void>();
 
   constructor(private requestService: RequestService, private snackBar: MatSnackBar) {
@@ -63,4 +64,28 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
       this.ngUnsubscribe.next();
       this.ngUnsubscribe.complete();
   }
-}
+
+  public deleteRequest(request: Request): void {
+    this.requestService.deleteRequest(request).pipe(
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe({
+      next: (returnedRequests) => {
+        this.getRequestsFromServer();
+      },
+
+      error: (err) => {
+        let message = '';
+        if (err.error instanceof ErrorEvent) {
+          message = `Problem in the client – Error: {err.error.message}`;
+        } else {
+          message = `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`;
+        }
+        this.snackBar.open(
+          message,
+          'OK',
+          {duration: 5000});
+      },
+    });
+  }
+  }
+
