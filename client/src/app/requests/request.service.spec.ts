@@ -136,6 +136,10 @@ describe('RequestService', () => {
         expect(calledHttpParams.get('foodType'))
           .withContext('type of food')
           .toEqual('meat');
+
+        expect(calledHttpParams.get('description'))
+          .toBeNull();
+
       });
     });
   });
@@ -165,5 +169,25 @@ describe('RequestService', () => {
           .toHaveBeenCalledWith(requestService.newRequestUrl, testRequests[1]);
       });
   }));
+});
+
+describe('deleteRequest', ()=> {
+  it('talks to the right endpoint and is called once', waitForAsync(() => {
+    // Mock the `httpClient.addUser()` method, so that instead of making an HTTP request,
+    // it just returns our test data.
+    const REQUEST_ID = '2';
+    const mockedMethod = spyOn(httpClient, 'delete').and.returnValue(of(REQUEST_ID));
+
+    // paying attention to what is returned (undefined) didn't work well here,
+    // but I'm putting something in here to remind us to look into that
+    requestService.deleteRequest(testRequests[1]).subscribe((returnedString) => {
+      console.log('The thing returned was:' + returnedString);
+      expect(mockedMethod)
+        .withContext('one call')
+        .toHaveBeenCalledTimes(1);
+      expect(mockedMethod)
+        .withContext('talks to the correct endpoint');
+    });
+}));
 });
 });
