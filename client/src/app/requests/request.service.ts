@@ -38,6 +38,7 @@ export class RequestService {
   getRequestById(id: string): Observable<Request>{
     return this.httpClient.get<Request>(this.requestUrl + '/' + id);
   }
+
   filterRequests(requests: Request[]): Request[] {
     const filteredRequests = requests;
 

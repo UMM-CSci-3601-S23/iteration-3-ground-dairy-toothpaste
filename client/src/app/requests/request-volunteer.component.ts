@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
@@ -14,6 +14,7 @@ import { RequestService } from './request.service';
 })
 
 export class RequestVolunteerComponent implements OnInit, OnDestroy {
+  @Input() request: Request;
   public serverFilteredRequests: Request[];
   public filteredRequests: Request[];
 
