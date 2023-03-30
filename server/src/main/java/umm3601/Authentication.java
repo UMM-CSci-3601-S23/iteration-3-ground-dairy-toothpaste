@@ -4,13 +4,27 @@ import io.javalin.http.Context;
 import io.javalin.http.ForbiddenResponse;
 import io.javalin.http.HttpStatus;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Authentication {
   private boolean BYPASS_AUTH = false;
+  private Logger logger;
 
-  public Authentication() {}
+  public Authentication() {
+    logger = LoggerFactory.getLogger(Server.class);
+  }
 
   public Authentication(boolean bypass) {
     BYPASS_AUTH = bypass;
+    logger = LoggerFactory.getLogger(Server.class);
+
+    if (BYPASS_AUTH) {
+      logger.warn("Disabling Default Auth Using `--no-auth` flag");
+    }
+    else {
+      logger.info("Using Default Auth Scheme");
+    }
   }
 
   /**
@@ -18,7 +32,9 @@ public class Authentication {
    * @param ctx
    */
   public void authenticate(Context ctx) throws ForbiddenResponse {
-    if (BYPASS_AUTH || ctx.cookie("auth_token").equals("TOKEN")) {
+    String cookie = ctx.cookie("auth_token");
+
+    if (BYPASS_AUTH || (ctx.cookie("auth_token") != null && cookie.equals("TOKEN"))) {
 
     }
     else {
