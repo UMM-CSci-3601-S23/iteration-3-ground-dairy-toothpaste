@@ -58,7 +58,7 @@ export class NewRequestComponent {
       (this.newRequestForm.get(controlName).dirty || this.newRequestForm.get(controlName).touched);
   }
 
-  getErrorMessage(name: keyof typeof this.newRequestValidationMessages): string {
+  getErrorMessage(name: string): string {
     for (const { type, message } of this.newRequestValidationMessages[name]) {
       if (this.newRequestForm.get(name).hasError(type)) {
         return message;
@@ -76,7 +76,6 @@ export class NewRequestComponent {
             null,
             { duration: 2000 }
           );
-          this.router.navigate(['/requests', newId]);
         },
         error: err => {
           this.snackBar.open(
@@ -98,7 +97,6 @@ export class NewRequestComponent {
             null,
             { duration: 2000 }
           );
-          this.router.navigate(['/requests', newId]);
         },
         error: err => {
           this.snackBar.open(

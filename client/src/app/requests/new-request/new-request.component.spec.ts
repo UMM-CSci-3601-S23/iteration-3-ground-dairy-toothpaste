@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, FormGroup, AbstractControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -7,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Observable } from 'rxjs';
 import { MockRequestService } from 'src/testing/request.service.mock';;
 import { RequestService } from '../request.service';
 import { NewRequestComponent } from './new-request.component';
@@ -15,9 +17,10 @@ describe('NewRequestComponent', () => {
   let newRequestComponent: NewRequestComponent;
   let newRequestForm: FormGroup;
   let fixture: ComponentFixture<NewRequestComponent>;
+  const service: MockRequestService = new MockRequestService();
 
   beforeEach(waitForAsync(() => {
-    TestBed.overrideProvider(RequestService, { useValue: new MockRequestService() });
+    TestBed.overrideProvider(RequestService, { useValue: service });
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
@@ -192,5 +195,142 @@ describe('NewRequestComponent', () => {
       expect(newRequestComponent.getErrorMessage('itemType')).toBeTruthy();
     });
   });
+
+  describe('Can we submit stuff to the client database?', ()=>{
+    let itemTypeControl: AbstractControl;
+    let foodTypeControl: AbstractControl;
+    let descControl: AbstractControl;
+
+    beforeEach(() => {
+      itemTypeControl = newRequestForm.controls.itemType;
+      foodTypeControl = newRequestForm.controls.foodType;
+      descControl = newRequestComponent.newRequestForm.controls.description;
+    });
+
+    it('should not get angy', ()=> {
+      foodTypeControl.setValue('dairy');
+      itemTypeControl.setValue('food');
+      descControl.setValue('this is a description I guess');
+
+      newRequestComponent.submitForm();
+
+      expect(service.addedClientRequests[0].itemType).toEqual('food');
+      expect(service.addedClientRequests[0].foodType).toEqual('dairy');
+      expect(service.addedClientRequests[0].description).toEqual('this is a description I guess');
+    });
+  });
+
+  describe('Can we submit stuff to the donor database?', ()=>{
+    let itemTypeControl: AbstractControl;
+    let foodTypeControl: AbstractControl;
+    let descControl: AbstractControl;
+
+    beforeEach(() => {
+      itemTypeControl = newRequestForm.controls.itemType;
+      foodTypeControl = newRequestForm.controls.foodType;
+      descControl = newRequestComponent.newRequestForm.controls.description;
+    });
+
+    it('should not get angy', ()=> {
+      newRequestComponent.destination = 'donor';
+
+      foodTypeControl.setValue('dairy');
+      itemTypeControl.setValue('food');
+      descControl.setValue('this is a description I guess');
+
+      newRequestComponent.submitForm();
+
+      expect(service.addedDonorRequests[0].itemType).toEqual('food');
+      expect(service.addedDonorRequests[0].foodType).toEqual('dairy');
+      expect(service.addedDonorRequests[0].description).toEqual('this is a description I guess');
+    });
+  });
 });
+
+describe('Misbehaving request service', () => {
+  let itemTypeControl: AbstractControl;
+  let foodTypeControl: AbstractControl;
+  let descControl: AbstractControl;
+  let newRequestComponent: NewRequestComponent;
+  let newRequestForm: FormGroup;
+  let fixture: ComponentFixture<NewRequestComponent>;
+
+  let requestServiceStub: {
+    deleteRequest: () => Observable<object>;
+    getClientRequests: () => Observable<Request[]>;
+    getDonorRequests: () => Observable<Request[]>;
+  };
+
+  beforeEach(() => {
+
+    fixture = TestBed.createComponent(NewRequestComponent);
+    newRequestComponent = fixture.componentInstance;
+    fixture.detectChanges();
+    newRequestForm = newRequestComponent.newRequestForm;
+    expect(newRequestForm).toBeDefined();
+    expect(newRequestForm.controls).toBeDefined();
+
+    itemTypeControl = newRequestForm.controls.itemType;
+    foodTypeControl = newRequestForm.controls.foodType;
+    descControl = newRequestComponent.newRequestForm.controls.description;
+
+    requestServiceStub = {
+      getClientRequests: () => new Observable(observer => {
+        observer.error('getClientRequests() Observer generates an error');
+      }),
+      getDonorRequests: () => new Observable(observer => {
+        observer.error('getDonorRequests() Observer generates an error');
+      }),
+
+      deleteRequest: () => new Observable(observer => {
+        observer.error('deleteRequest() Observer generates an error');
+      })
+    };
+  });
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+        RouterTestingModule,
+        HttpClient
+      ],
+      providers: [{provide: RequestService, useValue: requestServiceStub}, {provide: HttpClient, useValue: null}],
+      declarations: [NewRequestComponent]
+    }).compileComponents().then(() => {
+      fixture = TestBed.createComponent(NewRequestComponent);
+      newRequestComponent = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+  }));
+
+  it('should get angy when talking with the donor database', ()=> {
+    newRequestComponent.destination = 'donor';
+
+    foodTypeControl.setValue('dairy');
+    itemTypeControl.setValue('food');
+    descControl.setValue('this is a description I guess');
+
+    newRequestComponent.submitForm();
+  });
+
+  it('should get angy when talking with the client database', ()=> {
+    newRequestComponent.destination = 'client';
+
+    foodTypeControl.setValue('dairy');
+    itemTypeControl.setValue('food');
+    descControl.setValue('this is a description I guess');
+
+    newRequestComponent.submitForm();
+  });
+
+});
+
 

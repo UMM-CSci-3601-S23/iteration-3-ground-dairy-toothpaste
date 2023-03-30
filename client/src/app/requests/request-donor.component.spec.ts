@@ -62,6 +62,7 @@ describe('Donor Request View', () => {
   }));
 
   it('contains all requests', () => {
+    donorList.updateFilter();
     expect(donorList.serverFilteredRequests.length).toBe(4);
   });
 
@@ -126,10 +127,12 @@ describe('Misbehaving Donor view', () => {
     });
   }));
 
-  it('generates an error if we don\'t set up a RequestDonorService', () => {
-    donorList.getRequestsFromServer();
-    expect(donorList.serverFilteredRequests).toBeUndefined();
+  it('generates an error if we don\'t set up a RequestDonorService, but delete', () => {
     donorList.deleteRequest(null);
+  });
+
+  it('generates an error if we don\'t set up a RequestDonorService', () => {
+    expect(donorList.serverFilteredRequests).toBeUndefined();
   });
 
   it('updateFilter properly reassigns our request list', ()=>{

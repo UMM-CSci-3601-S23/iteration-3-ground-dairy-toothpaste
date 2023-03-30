@@ -61,6 +61,7 @@ describe('Volunteer Request View', () => {
   }));
 
   it('contains all requests', () => {
+    volunteerList.updateFilter();
     expect(volunteerList.serverFilteredRequests.length).toBe(4);
   });
 

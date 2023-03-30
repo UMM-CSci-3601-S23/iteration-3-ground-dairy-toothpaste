@@ -22,7 +22,7 @@ export class RequestService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getClientRequests(filters?: {itemType?: ItemType; foodType?: FoodType}): Observable<Request[]> {
+  getClientRequests(filters?: {itemType?: ItemType; foodType?: FoodType; description?: string}): Observable<Request[]> {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.itemType) {
@@ -42,7 +42,7 @@ export class RequestService {
 
   }
 
-  getDonorRequests(filters?: {itemType?: ItemType; foodType?: FoodType}): Observable<Request[]> {
+  getDonorRequests(filters?: {itemType?: ItemType; foodType?: FoodType; description?: string}): Observable<Request[]> {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.itemType) {
