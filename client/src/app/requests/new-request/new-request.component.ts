@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { RequestService } from '../request.service';
   templateUrl: './new-request.component.html',
   styleUrls: ['./new-request.component.scss']
 })
-export class NewRequestComponent {
+export class NewRequestComponent implements OnInit{
 
   public type: ItemType = 'food';
 
@@ -50,6 +50,9 @@ export class NewRequestComponent {
   };
 
   constructor(private requestService: RequestService, private snackBar: MatSnackBar, private router: Router) {
+  }
+  ngOnInit(): void {
+
   }
 
   formControlHasError(controlName: string): boolean {
