@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Authentication {
-  private boolean BYPASS_AUTH = false;
+  private boolean bypass_auth = false;
   private Logger logger;
 
   public Authentication() {
@@ -16,10 +16,10 @@ public class Authentication {
   }
 
   public Authentication(boolean bypass) {
-    BYPASS_AUTH = bypass;
+    bypass_auth = bypass;
     logger = LoggerFactory.getLogger(Server.class);
 
-    if (BYPASS_AUTH) {
+    if (bypass_auth) {
       logger.warn("Disabling Default Auth Using `--no-auth` flag");
     }
     else {
@@ -34,7 +34,7 @@ public class Authentication {
   public void authenticate(Context ctx) throws ForbiddenResponse {
     String cookie = ctx.cookie("auth_token");
 
-    if (BYPASS_AUTH || (ctx.cookie("auth_token") != null && cookie.equals("TOKEN"))) {
+    if (bypass_auth || (ctx.cookie("auth_token") != null && cookie.equals("TOKEN"))) {
 
     }
     else {
