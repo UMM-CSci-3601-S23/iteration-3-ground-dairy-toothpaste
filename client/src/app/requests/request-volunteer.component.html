@@ -43,10 +43,13 @@
     <mat-card-content>
       <mat-nav-list class="volunteer-nav-list">
         <h3 mat-subheader>Requests</h3>
-        <a mat-list-item *ngFor="let request of this.serverFilteredRequests" [routerLink]="['/requests/volunteer', request._id]" class="volunteer-list-item">
+        <a mat-list-item *ngFor="let request of this.serverFilteredRequests" [routerLink]="['/requests/volunteer', request._id]" class="volunteer-list-item" class="edit-request">
           <span matListItemTitle class="volunteer-list-itemType">Item Type: {{request.itemType}}</span>
           <span matListItemLine class="volunteer-list-foodType">Food Type: {{request.foodType}}</span>
-          <span matListItemBody class="volunteer-list-description">{{request.description}}</span>
+          <span matListItemBody class="volunteer-list-description"> {{request.description}} </span>
+          <button matToolTip="Edit Request" routerLink="/requests/volunteer" data-test="editRequestButton">
+          Edit Request
+          </button>
         </a>
       </mat-nav-list>
     </mat-card-content>

@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
 import { Request, ItemType, FoodType } from './request';
@@ -17,10 +18,12 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   public filteredRequests: Request[];
 
   public requestItemType: ItemType;
+
   public requestDescription: string;
   public requestFoodType: FoodType;
 
   private ngUnsubscribe = new Subject<void>();
+
 
   constructor(private requestService: RequestService, private snackBar: MatSnackBar) {
   }
@@ -54,12 +57,14 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   public updateFilter(): void {
     this.filteredRequests = this.serverFilteredRequests;
   }
+
   ngOnInit(): void {
-      this.getRequestsFromServer();
-  }
+    this.getRequestsFromServer();
+}
 
   ngOnDestroy(): void {
-      this.ngUnsubscribe.next();
-      this.ngUnsubscribe.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
+
 }
