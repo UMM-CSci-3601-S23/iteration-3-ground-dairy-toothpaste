@@ -47,6 +47,7 @@ import io.javalin.validation.Validator;
 import umm3601.Authentication;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
+import io.javalin.http.ForbiddenResponse;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.json.JavalinJackson;
@@ -167,6 +168,7 @@ class ClientRequestControllerSpec {
     // When something asks the (mocked) context for the queryParamMap,
     // it will return an empty map (since there are no query params in this case where we want all users)
     when(ctx.queryParamMap()).thenReturn(Collections.emptyMap());
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     // Now, go ahead and ask the userController to getUsers
     // (which will, indeed, ask the context for its queryParamMap)
@@ -190,6 +192,33 @@ class ClientRequestControllerSpec {
     assertEquals(db.getCollection("clientRequests").countDocuments(), requestArrayListCaptor.getValue().size());
   }
 
+  @Test
+  void throwsForbiddenForGetBadToken() throws IOException {
+    // When something asks the (mocked) context for the queryParamMap,
+    // it will return an empty map (since there are no query params in this case where we want all users)
+    when(ctx.queryParamMap()).thenReturn(Collections.emptyMap());
+    when(ctx.cookie("auth_token")).thenReturn("BAD_TOKEN");
+
+    assertThrows(ForbiddenResponse.class, () -> {
+      requestController.getRequests(ctx);
+    });
+
+    verify(ctx).status(HttpStatus.FORBIDDEN);
+  }
+
+  @Test
+  void throwsForbiddenForGetNoToken() throws IOException {
+    // When something asks the (mocked) context for the queryParamMap,
+    // it will return an empty map (since there are no query params in this case where we want all users)
+    when(ctx.queryParamMap()).thenReturn(Collections.emptyMap());
+
+    assertThrows(ForbiddenResponse.class, () -> {
+      requestController.getRequests(ctx);
+    });
+
+    verify(ctx).status(HttpStatus.FORBIDDEN);
+  }
+
   /* */
   @Test
   void canGetRequestsWithItemType() throws IOException {
@@ -199,6 +228,7 @@ class ClientRequestControllerSpec {
     when(ctx.queryParamMap()).thenReturn(queryParams);
     when(ctx.queryParamAsClass(ClientRequestController.ITEM_TYPE_KEY, String.class))
       .thenReturn(Validator.create(String.class, "food", ClientRequestController.ITEM_TYPE_KEY));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     requestController.getRequests(ctx);
 
@@ -218,6 +248,7 @@ class ClientRequestControllerSpec {
     when(ctx.queryParamMap()).thenReturn(queryParams);
     when(ctx.queryParamAsClass(ClientRequestController.FOOD_TYPE_KEY, String.class))
       .thenReturn(Validator.create(String.class, "meat", ClientRequestController.FOOD_TYPE_KEY));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     requestController.getRequests(ctx);
 
@@ -238,6 +269,7 @@ class ClientRequestControllerSpec {
     when(ctx.queryParamMap()).thenReturn(queryParams);
     when(ctx.queryParamAsClass(ClientRequestController.ITEM_TYPE_KEY, String.class))
       .thenReturn(Validator.create(String.class, "FOOD", ClientRequestController.ITEM_TYPE_KEY));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     requestController.getRequests(ctx);
 
@@ -260,6 +292,7 @@ class ClientRequestControllerSpec {
       .thenReturn(Validator.create(String.class, "food", ClientRequestController.ITEM_TYPE_KEY));
     when(ctx.queryParamAsClass(ClientRequestController.FOOD_TYPE_KEY, String.class))
       .thenReturn(Validator.create(String.class, "fruit", ClientRequestController.FOOD_TYPE_KEY));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     requestController.getRequests(ctx);
 
@@ -280,6 +313,7 @@ class ClientRequestControllerSpec {
     when(ctx.queryParamMap()).thenReturn(queryParams);
     when(ctx.queryParamAsClass(ClientRequestController.FOOD_TYPE_KEY, String.class))
       .thenReturn(Validator.create(String.class, "meat", ClientRequestController.FOOD_TYPE_KEY));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     requestController.getRequests(ctx);
 
@@ -300,6 +334,7 @@ class ClientRequestControllerSpec {
     when(ctx.queryParamMap()).thenReturn(queryParams);
     when(ctx.queryParamAsClass(ClientRequestController.FOOD_TYPE_KEY, String.class))
       .thenReturn(Validator.create(String.class, "meat", ClientRequestController.FOOD_TYPE_KEY));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     requestController.getRequests(ctx);
 
@@ -316,6 +351,7 @@ class ClientRequestControllerSpec {
   void getRequestByID() throws IOException {
     String id = samsId.toHexString();
     when(ctx.pathParam("id")).thenReturn(id);
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     requestController.getRequest(ctx);
 
@@ -324,13 +360,38 @@ class ClientRequestControllerSpec {
     assertEquals("food", requestCaptor.getValue().itemType);
     assertEquals("steak", requestCaptor.getValue().description);
     assertEquals("meat", requestCaptor.getValue().foodType);
+  }
 
+  @Test
+  void throwsForbiddenForGetByIDBadToken() throws IOException {
+    String id = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(id);
+    when(ctx.cookie("auth_token")).thenReturn("BAD_TOKEN");
+
+    assertThrows(ForbiddenResponse.class, () -> {
+      requestController.getRequests(ctx);
+    });
+
+    verify(ctx).status(HttpStatus.FORBIDDEN);
+  }
+
+  @Test
+  void throwsForbiddenForGetByIDNoToken() throws IOException {
+    String id = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(id);
+
+    assertThrows(ForbiddenResponse.class, () -> {
+      requestController.getRequests(ctx);
+    });
+
+    verify(ctx).status(HttpStatus.FORBIDDEN);
   }
 
   @Test
   void getRequestsWithExistentId() throws IOException {
     String id = samsId.toHexString();
     when(ctx.pathParam("id")).thenReturn(id);
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     requestController.getRequest(ctx);
 
@@ -343,6 +404,7 @@ class ClientRequestControllerSpec {
   @Test
   void getRequestsWithBadId() throws IOException {
     when(ctx.pathParam("id")).thenReturn("bad");
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     Throwable exception = assertThrows(BadRequestResponse.class, () -> {
       requestController.getRequest(ctx);
@@ -355,6 +417,7 @@ class ClientRequestControllerSpec {
   void getRequestsWithNonexistentId() throws IOException {
     String id = "588935f5c668650dc77df581";
     when(ctx.pathParam("id")).thenReturn(id);
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     Throwable exception = assertThrows(NotFoundResponse.class, () -> {
       requestController.getRequest(ctx);
@@ -371,6 +434,7 @@ class ClientRequestControllerSpec {
         + "}";
     when(ctx.bodyValidator(Request.class))
       .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     requestController.addNewRequest(ctx);
     verify(ctx).json(mapCaptor.capture());
@@ -395,6 +459,7 @@ class ClientRequestControllerSpec {
     + "}";
     when(ctx.bodyValidator(Request.class))
       .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     assertThrows(NullPointerException.class, () -> {
       requestController.addNewRequest(ctx);
@@ -408,6 +473,7 @@ class ClientRequestControllerSpec {
     + "}";
     when(ctx.bodyValidator(Request.class))
       .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     assertThrows(NullPointerException.class, () -> {
       requestController.addNewRequest(ctx);
@@ -422,6 +488,7 @@ class ClientRequestControllerSpec {
     + "}";
     when(ctx.bodyValidator(Request.class))
       .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     assertThrows(ValidationException.class, () -> {
       requestController.addNewRequest(ctx);
@@ -436,6 +503,7 @@ class ClientRequestControllerSpec {
     + "}";
     when(ctx.bodyValidator(Request.class))
       .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     assertThrows(ValidationException.class, () -> {
       requestController.addNewRequest(ctx);
@@ -450,6 +518,7 @@ class ClientRequestControllerSpec {
         + "}";
     when(ctx.bodyValidator(Request.class))
       .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     requestController.addNewRequest(ctx);
     verify(ctx).json(mapCaptor.capture());
@@ -469,9 +538,45 @@ class ClientRequestControllerSpec {
   }
 
   @Test
+  void throwsForbiddenForAddBadToken() throws IOException {
+    String testNewRequest = "{"
+        + "\"itemType\": \"food\","
+        + "\"foodType\": \"meat\""
+        + "}";
+    when(ctx.bodyValidator(Request.class))
+      .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+    when(ctx.cookie("auth_token")).thenReturn("BAD_TOKEN");
+
+    assertThrows(ForbiddenResponse.class, () -> {
+      requestController.addNewRequest(ctx);
+    });
+
+    // Our status should be 403, i.e., forbidden
+    verify(ctx).status(HttpStatus.FORBIDDEN);
+  }
+
+  @Test
+  void throwsForbiddenForAddNoToken() throws IOException {
+    String testNewRequest = "{"
+        + "\"itemType\": \"food\","
+        + "\"foodType\": \"meat\""
+        + "}";
+    when(ctx.bodyValidator(Request.class))
+      .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+
+    assertThrows(ForbiddenResponse.class, () -> {
+      requestController.addNewRequest(ctx);
+    });
+
+    // Our status should be 403, i.e., forbidden
+    verify(ctx).status(HttpStatus.FORBIDDEN);
+  }
+
+  @Test
   void deleteFoundRequest() throws IOException {
     String testID = samsId.toHexString();
     when(ctx.pathParam("id")).thenReturn(testID);
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     // Request exists before deletion
     assertEquals(1, db.getCollection("clientRequests").countDocuments(eq("_id", new ObjectId(testID))));
@@ -488,6 +593,7 @@ class ClientRequestControllerSpec {
   void tryToDeleteNotFoundRequest() throws IOException {
     String testID = samsId.toHexString();
     when(ctx.pathParam("id")).thenReturn(testID);
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     requestController.deleteRequest(ctx);
     // Request is no longer in the database
@@ -501,6 +607,43 @@ class ClientRequestControllerSpec {
 
     // Request is still not in the database
     assertEquals(0, db.getCollection("clientRequests").countDocuments(eq("_id", new ObjectId(testID))));
+  }
+
+  @Test
+  void throwsForbiddenForDeleteNoToken() throws IOException {
+    String testID = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(testID);
+
+    // Request exists before deletion
+    assertEquals(1, db.getCollection("clientRequests").countDocuments(eq("_id", new ObjectId(testID))));
+
+    assertThrows(ForbiddenResponse.class, () -> {
+      requestController.deleteRequest(ctx);
+    });
+
+    verify(ctx).status(HttpStatus.FORBIDDEN);
+
+    // Request exists after failed deletion
+    assertEquals(1, db.getCollection("clientRequests").countDocuments(eq("_id", new ObjectId(testID))));
+  }
+
+  @Test
+  void throwsForbiddenForDeleteBadToken() throws IOException {
+    String testID = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(testID);
+    when(ctx.cookie("auth_token")).thenReturn("BAD_TOKEN");
+
+    // Request exists before deletion
+    assertEquals(1, db.getCollection("clientRequests").countDocuments(eq("_id", new ObjectId(testID))));
+
+    assertThrows(ForbiddenResponse.class, () -> {
+      requestController.deleteRequest(ctx);
+    });
+
+    verify(ctx).status(HttpStatus.FORBIDDEN);
+
+    // Request exists after failed deletion
+    assertEquals(1, db.getCollection("clientRequests").countDocuments(eq("_id", new ObjectId(testID))));
   }
 
   @Test

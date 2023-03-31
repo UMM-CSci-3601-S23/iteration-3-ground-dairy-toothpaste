@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Authentication {
-  private boolean bypass_auth = false;
+  private boolean bypassAuth = false;
   private Logger logger;
 
   public Authentication() {
@@ -16,13 +16,12 @@ public class Authentication {
   }
 
   public Authentication(boolean bypass) {
-    bypass_auth = bypass;
+    bypassAuth = bypass;
     logger = LoggerFactory.getLogger(Server.class);
 
-    if (bypass_auth) {
-      logger.warn("Disabling Default Auth Using `--no-auth` flag");
-    }
-    else {
+    if (bypassAuth) {
+      logger.warn("Disabling Default Auth Using `--no-auth` flag, accepting dummy token only");
+    } else {
       logger.info("Using Default Auth Scheme");
     }
   }
@@ -34,10 +33,13 @@ public class Authentication {
   public void authenticate(Context ctx) throws ForbiddenResponse {
     String cookie = ctx.cookie("auth_token");
 
-    if (bypass_auth || (ctx.cookie("auth_token") != null && cookie.equals("TOKEN"))) {
-
+    if (cookie != null) {
+      System.out.println(cookie);
+    } else {
+      System.out.println("COOKIE MISSING");
     }
-    else {
+
+    if (!(bypassAuth && (ctx.cookie("auth_token") != null && cookie.equals("TOKEN")))) {
       ctx.status(HttpStatus.FORBIDDEN);
         throw new ForbiddenResponse("Client not authenticated");
     }

@@ -47,6 +47,7 @@ import io.javalin.validation.Validator;
 import umm3601.Authentication;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
+import io.javalin.http.ForbiddenResponse;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.json.JavalinJackson;
@@ -167,6 +168,7 @@ class DonorRequestControllerSpec {
     // When something asks the (mocked) context for the queryParamMap,
     // it will return an empty map (since there are no query params in this case where we want all users)
     when(ctx.queryParamMap()).thenReturn(Collections.emptyMap());
+
 
     // Now, go ahead and ask the userController to getUsers
     // (which will, indeed, ask the context for its queryParamMap)
@@ -371,6 +373,7 @@ class DonorRequestControllerSpec {
         + "}";
     when(ctx.bodyValidator(Request.class))
       .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     requestController.addNewRequest(ctx);
     verify(ctx).json(mapCaptor.capture());
@@ -395,6 +398,7 @@ class DonorRequestControllerSpec {
     + "}";
     when(ctx.bodyValidator(Request.class))
       .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     assertThrows(NullPointerException.class, () -> {
       requestController.addNewRequest(ctx);
@@ -408,6 +412,7 @@ class DonorRequestControllerSpec {
     + "}";
     when(ctx.bodyValidator(Request.class))
       .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     assertThrows(NullPointerException.class, () -> {
       requestController.addNewRequest(ctx);
@@ -422,6 +427,7 @@ class DonorRequestControllerSpec {
     + "}";
     when(ctx.bodyValidator(Request.class))
       .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     assertThrows(ValidationException.class, () -> {
       requestController.addNewRequest(ctx);
@@ -436,6 +442,7 @@ class DonorRequestControllerSpec {
     + "}";
     when(ctx.bodyValidator(Request.class))
       .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     assertThrows(ValidationException.class, () -> {
       requestController.addNewRequest(ctx);
@@ -450,6 +457,7 @@ class DonorRequestControllerSpec {
         + "}";
     when(ctx.bodyValidator(Request.class))
       .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     requestController.addNewRequest(ctx);
     verify(ctx).json(mapCaptor.capture());
@@ -469,9 +477,45 @@ class DonorRequestControllerSpec {
   }
 
   @Test
+  void throwsForbiddenForAddBadToken() throws IOException {
+    String testNewRequest = "{"
+        + "\"itemType\": \"food\","
+        + "\"foodType\": \"meat\""
+        + "}";
+    when(ctx.bodyValidator(Request.class))
+      .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+    when(ctx.cookie("auth_token")).thenReturn("BAD_TOKEN");
+
+    assertThrows(ForbiddenResponse.class, () -> {
+      requestController.addNewRequest(ctx);
+    });
+
+    // Our status should be 403, i.e., forbidden
+    verify(ctx).status(HttpStatus.FORBIDDEN);
+  }
+
+  @Test
+  void throwsForbiddenForAddNoToken() throws IOException {
+    String testNewRequest = "{"
+        + "\"itemType\": \"food\","
+        + "\"foodType\": \"meat\""
+        + "}";
+    when(ctx.bodyValidator(Request.class))
+      .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
+
+    assertThrows(ForbiddenResponse.class, () -> {
+      requestController.addNewRequest(ctx);
+    });
+
+    // Our status should be 403, i.e., forbidden
+    verify(ctx).status(HttpStatus.FORBIDDEN);
+  }
+
+  @Test
   void deleteFoundRequest() throws IOException {
     String testID = samsId.toHexString();
     when(ctx.pathParam("id")).thenReturn(testID);
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     // Request exists before deletion
     assertEquals(1, db.getCollection("donorRequests").countDocuments(eq("_id", new ObjectId(testID))));
@@ -488,6 +532,7 @@ class DonorRequestControllerSpec {
   void tryToDeleteNotFoundRequest() throws IOException {
     String testID = samsId.toHexString();
     when(ctx.pathParam("id")).thenReturn(testID);
+    when(ctx.cookie("auth_token")).thenReturn("TOKEN");
 
     requestController.deleteRequest(ctx);
     // Request is no longer in the database
@@ -501,6 +546,43 @@ class DonorRequestControllerSpec {
 
     // Request is still not in the database
     assertEquals(0, db.getCollection("donorRequests").countDocuments(eq("_id", new ObjectId(testID))));
+  }
+
+  @Test
+  void throwsForbiddenForDeleteNoToken() throws IOException {
+    String testID = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(testID);
+
+    // Request exists before deletion
+    assertEquals(1, db.getCollection("donorRequests").countDocuments(eq("_id", new ObjectId(testID))));
+
+    assertThrows(ForbiddenResponse.class, () -> {
+      requestController.deleteRequest(ctx);
+    });
+
+    verify(ctx).status(HttpStatus.FORBIDDEN);
+
+    // Request exists after failed deletion
+    assertEquals(1, db.getCollection("donorRequests").countDocuments(eq("_id", new ObjectId(testID))));
+  }
+
+  @Test
+  void throwsForbiddenForDeleteBadToken() throws IOException {
+    String testID = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(testID);
+    when(ctx.cookie("auth_token")).thenReturn("BAD_TOKEN");
+
+    // Request exists before deletion
+    assertEquals(1, db.getCollection("donorRequests").countDocuments(eq("_id", new ObjectId(testID))));
+
+    assertThrows(ForbiddenResponse.class, () -> {
+      requestController.deleteRequest(ctx);
+    });
+
+    verify(ctx).status(HttpStatus.FORBIDDEN);
+
+    // Request exists after failed deletion
+    assertEquals(1, db.getCollection("donorRequests").countDocuments(eq("_id", new ObjectId(testID))));
   }
 
   @Test

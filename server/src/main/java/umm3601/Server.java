@@ -24,7 +24,7 @@ public class Server {
     // Check for the presence of the `--no-auth` command line flag if this flag
     // is present, authorization will require the dummy `TOKEN` token instead
     // of the proper auth tokens.
-    boolean do_dummy_auth = Arrays.asList(args).contains("--no-auth");
+    boolean doDummyAuth = Arrays.asList(args).contains("--no-auth");
 
     // Get the MongoDB address and database name from environment variables and
     // if they aren't set, use the defaults of "localhost" and "dev".
@@ -46,7 +46,7 @@ public class Server {
     MongoDatabase database = mongoClient.getDatabase(databaseName);
 
     // Construct the authentication checking object
-    Authentication auth = new Authentication(do_dummy_auth);
+    Authentication auth = new Authentication(doDummyAuth);
 
     // Initialize dependencies
     UserController userController = new UserController(database);
