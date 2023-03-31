@@ -10,16 +10,39 @@ import { map } from 'rxjs/operators';
 })
 export class RequestService {
   // The URL for the requests part of the server API
-  readonly requestUrl: string = `${environment.apiUrl}clientRequests`;
-  readonly newRequestUrl: string = `${environment.apiUrl}clientRequests`;
+  readonly requestClientUrl: string = `${environment.apiUrl}clientRequests`;
+  readonly newRequestClientUrl: string = `${environment.apiUrl}clientRequests`;
+  readonly requestDonorUrl: string = `${environment.apiUrl}donorRequests`;
+  readonly newRequestDonorUrl: string = `${environment.apiUrl}donorRequests`;
 
   private readonly itemTypeKey = 'itemType';
   private readonly foodTypeKey = 'foodType';
+  private readonly descriptionKey = 'description';
 
   constructor(private httpClient: HttpClient) {
   }
 
-  getRequests(filters?: {itemType?: ItemType; foodType?: FoodType}): Observable<Request[]> {
+  getClientRequests(filters?: {itemType?: ItemType; foodType?: FoodType; description?: string}): Observable<Request[]> {
+    let httpParams: HttpParams = new HttpParams();
+    if (filters) {
+      if (filters.itemType) {
+        httpParams = httpParams.set(this.itemTypeKey, filters.itemType);
+      }
+      if (filters.foodType) {
+        httpParams = httpParams.set(this.foodTypeKey, filters.foodType);
+      }
+      if (filters.description) {
+        httpParams = httpParams.set(this.descriptionKey, filters.description);
+      }
+    }
+// We'll need to add a conditional in here that handles a donor get request as well
+    return this.httpClient.get<Request[]>(this.requestClientUrl, {
+      params: httpParams,
+    });
+
+  }
+
+  getDonorRequests(filters?: {itemType?: ItemType; foodType?: FoodType; description?: string}): Observable<Request[]> {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.itemType) {
@@ -29,7 +52,8 @@ export class RequestService {
         httpParams = httpParams.set(this.foodTypeKey, filters.foodType);
       }
     }
-    return this.httpClient.get<Request[]>(this.requestUrl, {
+// We'll need to add a conditional in here that handles a donor get request as well
+    return this.httpClient.get<Request[]>(this.requestDonorUrl, {
       params: httpParams,
     });
 
@@ -40,9 +64,20 @@ export class RequestService {
 
     return filteredRequests;
   }
-
-  addRequest(newRequest: Partial<Request>): Observable<string> {
+// This is the method that submit form calls on the new request component.
+// My idea is to add another function that handles newRequestDonor stuff
+  addClientRequest(newRequest: Partial<Request>): Observable<string> {
     // Send post request to add a new Request with the Request data as the body.
-    return this.httpClient.post<{id: string}>(this.newRequestUrl, newRequest).pipe(map(res => res.id));
+    return this.httpClient.post<{id: string}>(this.newRequestClientUrl, newRequest).pipe(map(res => res.id));
   }
+
+  addDonorRequest(newRequest: Partial<Request>): Observable<string> {
+    // Send post request to add a new Request with the Request data as the body.
+    return this.httpClient.post<{id: string}>(this.newRequestDonorUrl, newRequest).pipe(map(res => res.id));
+  }
+
+  deleteRequest(request: Partial<Request>): Observable<object> {
+    // Send delete request to delete a request
+    return this.httpClient.delete(this.requestDonorUrl + '/' + request._id).pipe(map(res => res));
+}
 }
