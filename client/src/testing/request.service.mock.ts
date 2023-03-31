@@ -35,18 +35,34 @@ export class MockRequestService extends RequestService {
     }
   ];
 
+  public addedDonorRequests: Partial<Request>[] = [];
+  public addedClientRequests: Partial<Request>[] = [];
+
   constructor() {
     super(null);
   }
 
-  getRequests(filters?: { itemType?: ItemType; foodType?: FoodType; description?: string }): Observable<Request[]> {
+  getClientRequests(filters?: { itemType?: ItemType; foodType?: FoodType }): Observable<Request[]> {
       return of(MockRequestService.testRequests);
   }
 
+  getDonorRequests(filters?: { itemType?: ItemType; foodType?: FoodType }): Observable<Request[]> {
+    return of(MockRequestService.testRequests);
+  }
   deleteRequest(request: Partial<Request>): Observable<object> {
     // Send delete request to delete a request
     return of (Object);
-}
+  }
 
+
+  addClientRequest(newRequest: Partial<Request>): Observable<string> {
+    this.addedClientRequests.push(newRequest);
+    return of('added! :)');
+  }
+
+  addDonorRequest(newRequest: Partial<Request>): Observable<string> {
+    this.addedDonorRequests.push(newRequest);
+    return of('added! <3');
+  }
 
 }
