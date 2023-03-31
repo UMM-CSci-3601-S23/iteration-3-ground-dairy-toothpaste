@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { Request, ItemType, FoodType } from './request';
 import { RequestService } from './request.service';
@@ -30,7 +31,7 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   }
   //Gets the requests from the server with the correct filters
   getRequestsFromServer(): void {
-    this.requestService.getRequests({
+    this.requestService.getClientRequests({
       itemType: this.requestItemType,
       foodType: this.requestFoodType
     }).pipe(
@@ -41,14 +42,8 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
       },
 
       error: (err) => {
-        let message = '';
-        if (err.error instanceof ErrorEvent) {
-          message = `Problem in the client – Error: {err.error.message}`;
-        } else {
-          message = `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`;
-        }
         this.snackBar.open(
-          message,
+          `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`,
           'OK',
           {duration: 5000});
       },
@@ -69,3 +64,4 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   }
 
 }
+

@@ -15,11 +15,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
 import { MockRequestService } from 'src/testing/request.service.mock';
-import { ItemType, Request } from './request';
+import { ItemType, FoodType, Request } from './request';
 import { RequestDonorComponent } from './request-donor.component';
 import { RequestService } from './request.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 const COMMON_IMPORTS: unknown[] = [
   FormsModule,
@@ -61,7 +62,12 @@ describe('Donor Request View', () => {
   }));
 
   it('contains all requests', () => {
+    donorList.updateFilter();
     expect(donorList.serverFilteredRequests.length).toBe(4);
+  });
+
+  it('can call deleteRequest()', () => {
+    donorList.deleteRequest(donorList.serverFilteredRequests[0]);
   });
 
   it('contains a request for food', () => {
@@ -87,13 +93,22 @@ describe('Misbehaving Donor view', () => {
   let fixture: ComponentFixture<RequestDonorComponent>;
 
   let requestServiceStub: {
-    getRequests: () => Observable<Request[]>;
+    deleteRequest: () => Observable<object>;
+    getClientRequests: () => Observable<Request[]>;
+    getDonorRequests: () => Observable<Request[]>;
   };
 
   beforeEach(() => {
     requestServiceStub = {
-      getRequests: () => new Observable(observer => {
-        observer.error('getRequests() Observer generates an error');
+      getClientRequests: () => new Observable(observer => {
+        observer.error('getClientRequests() Observer generates an error');
+      }),
+      getDonorRequests: () => new Observable(observer => {
+        observer.error('getDonorRequests() Observer generates an error');
+      }),
+
+      deleteRequest: () => new Observable(observer => {
+        observer.error('deleteRequest() Observer generates an error');
       })
     };
 
@@ -112,6 +127,10 @@ describe('Misbehaving Donor view', () => {
     });
   }));
 
+  it('generates an error if we don\'t set up a RequestDonorService, but delete', () => {
+    donorList.deleteRequest(null);
+  });
+
   it('generates an error if we don\'t set up a RequestDonorService', () => {
     expect(donorList.serverFilteredRequests).toBeUndefined();
   });
@@ -121,3 +140,4 @@ describe('Misbehaving Donor view', () => {
     expect(donorList.filteredRequests === donorList.serverFilteredRequests).toBeTruthy();
   });
 });
+
