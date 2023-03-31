@@ -49,7 +49,17 @@ export class MockRequestService extends RequestService {
   getDonorRequests(filters?: { itemType?: ItemType; foodType?: FoodType }): Observable<Request[]> {
     return of(MockRequestService.testRequests);
   }
-  deleteRequest(request: Partial<Request>): Observable<object> {
+  deleteClientRequest(request: Partial<Request>): Observable<object> {
+    // Send delete request to delete a request
+    return of (Object);
+  }
+
+  // deleteRequest(request: Partial<Request>): Observable<object> {
+  //   // Send delete request to delete a request
+  //   return of (Object);
+  // }
+
+  deleteDonorRequest(request: Partial<Request>): Observable<object> {
     // Send delete request to delete a request
     return of (Object);
   }
