@@ -76,7 +76,7 @@ export class EditRequestComponent implements OnInit, OnDestroy{
   }
 
   submitForm() {
-    this.requestService.addRequest(this.newRequestForm.value).subscribe({
+    this.requestService.addDonorRequest(this.newRequestForm.value).subscribe({
       next: (newId) => {
         this.snackBar.open(
           `Request successfully submitted`,
