@@ -74,5 +74,21 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
       },
     });
   }
+  public postRequest(request: Request): void {
+    this.requestService.addClientRequest(request).pipe(
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe({
+      next: (returnedRequests) => {
+        this.getRequestsFromServer();
+      },
+
+      error: (err) => {
+        this.snackBar.open(
+          `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`,
+          'OK',
+          {duration: 5000});
+      },
+    });
+  }
 }
 
