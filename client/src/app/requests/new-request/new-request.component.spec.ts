@@ -257,29 +257,25 @@ describe('Misbehaving request service', () => {
 
   let requestServiceStub: {
     deleteRequest: () => Observable<object>;
+    addDonorRequest: () => Observable<string>;
+    addClientRequest: () => Observable<string>;
     getClientRequests: () => Observable<Request[]>;
     getDonorRequests: () => Observable<Request[]>;
   };
 
   beforeEach(() => {
-
-    fixture = TestBed.createComponent(NewRequestComponent);
-    newRequestComponent = fixture.componentInstance;
-    fixture.detectChanges();
-    newRequestForm = newRequestComponent.newRequestForm;
-    expect(newRequestForm).toBeDefined();
-    expect(newRequestForm.controls).toBeDefined();
-
-    itemTypeControl = newRequestForm.controls.itemType;
-    foodTypeControl = newRequestForm.controls.foodType;
-    descControl = newRequestComponent.newRequestForm.controls.description;
-
     requestServiceStub = {
       getClientRequests: () => new Observable(observer => {
         observer.error('getClientRequests() Observer generates an error');
       }),
       getDonorRequests: () => new Observable(observer => {
         observer.error('getDonorRequests() Observer generates an error');
+      }),
+      addDonorRequest: () => new Observable(observer => {
+        observer.error('addDonorRequest() Observer generates an error');
+      }),
+      addClientRequest: () => new Observable(observer => {
+        observer.error('addClientRequest() Observer generates an error');
       }),
 
       deleteRequest: () => new Observable(observer => {
@@ -300,16 +296,31 @@ describe('Misbehaving request service', () => {
         MatInputModule,
         BrowserAnimationsModule,
         RouterTestingModule,
-        HttpClient
       ],
-      providers: [{provide: RequestService, useValue: requestServiceStub}, {provide: HttpClient, useValue: null}],
+      providers: [{provide: RequestService, useValue: requestServiceStub}],
       declarations: [NewRequestComponent]
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(NewRequestComponent);
       newRequestComponent = fixture.componentInstance;
       fixture.detectChanges();
+      newRequestForm = newRequestComponent.newRequestForm;
+      expect(newRequestForm).toBeDefined();
+      expect(newRequestForm.controls).toBeDefined();
+
+      itemTypeControl = newRequestForm.controls.itemType;
+      foodTypeControl = newRequestForm.controls.foodType;
+      descControl = newRequestComponent.newRequestForm.controls.description;
     });
   }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(NewRequestComponent);
+    newRequestComponent = fixture.componentInstance;
+    fixture.detectChanges();
+    newRequestForm = newRequestComponent.newRequestForm;
+    expect(newRequestForm).toBeDefined();
+    expect(newRequestForm.controls).toBeDefined();
+  });
 
   it('should get angy when talking with the donor database', ()=> {
     newRequestComponent.destination = 'donor';
