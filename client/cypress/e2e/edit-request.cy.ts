@@ -21,6 +21,11 @@ describe('Edit a request', ()=> {
     page.getSnackBar().should('contain', `Request successfully submitted`);
 
     page.navigateToDonor();
+
+    page.selectItemType('food');
+    page.selectFoodType('meat');
+    page.filterDescription('This is a test edit');
+
     cy.get('.donor-list-description').should('contain.text', request.description);
     cy.get('.donor-list-itemType').should('contain.text', request.itemType);
     cy.get('.donor-list-foodType').should('contain.text', request.foodType);
