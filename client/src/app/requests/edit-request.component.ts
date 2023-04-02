@@ -3,7 +3,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { map, Subject, switchMap, takeUntil } from 'rxjs';
-import { NewRequestComponent } from './new-request/new-request.component';
 import { FoodType, ItemType, Request } from './request';
 import { RequestVolunteerComponent } from './request-volunteer.component';
 import { RequestService } from './request.service';
@@ -17,7 +16,6 @@ import { RequestService } from './request.service';
 
 export class EditRequestComponent implements OnInit, OnDestroy{
   request: Request;
-  snackBar: any;
   router: any;
   itemType: any;
 
@@ -58,7 +56,7 @@ export class EditRequestComponent implements OnInit, OnDestroy{
 
 
 
-  constructor(private snackbar: MatSnackBar, private route: ActivatedRoute, private requestService: RequestService ) {
+  constructor(private snackBar: MatSnackBar, private route: ActivatedRoute, private requestService: RequestService ) {
   }
 
   formControlHasError(controlName: string): boolean {
@@ -66,8 +64,8 @@ export class EditRequestComponent implements OnInit, OnDestroy{
       (this.newRequestForm.get(controlName).dirty || this.newRequestForm.get(controlName).touched);
   }
 
-  getErrorMessage(name: keyof typeof this.newRequestValidationMessages): string {
-    for(const {type, message} of this.newRequestValidationMessages[name]) {
+  getErrorMessage(name: string): string {
+    for (const { type, message } of this.newRequestValidationMessages[name]) {
       if (this.newRequestForm.get(name).hasError(type)) {
         return message;
       }
@@ -83,7 +81,6 @@ export class EditRequestComponent implements OnInit, OnDestroy{
           null,
           { duration: 2000 }
         );
-        this.router.navigate(['/requests/donor', newId]);
       },
       error: err => {
         this.snackBar.open(

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EditRequestComponent } from './edit-request.component';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MockRequestService } from 'src/testing/request.service.mock';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,12 +12,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NewRequestComponent } from './new-request/new-request.component';
 import { RequestService } from './request.service';
+import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { ActivatedRouteStub } from 'src/testing/activated-route-stub';
+import { Request } from './request';
 
 describe('EditRequestComponent', () => {
   let editRequestComponent: EditRequestComponent;
-  let editRequestForm: FormGroup;
+  let newRequestForm: FormGroup;
   let fixture: ComponentFixture<EditRequestComponent>;
   const service: MockRequestService = new MockRequestService();
+  let component: EditRequestComponent;
+  const activatedRoute: ActivatedRouteStub = new ActivatedRouteStub({
+    id : '1_id'
+  });
 
   beforeEach(waitForAsync(() => {
     TestBed.overrideProvider(RequestService, { useValue: service });
@@ -43,14 +51,168 @@ describe('EditRequestComponent', () => {
     fixture = TestBed.createComponent(EditRequestComponent);
     editRequestComponent = fixture.componentInstance;
     fixture.detectChanges();
-    editRequestForm = editRequestComponent.newRequestForm;
-    expect(editRequestForm).toBeDefined();
-    expect(editRequestForm.controls).toBeDefined();
+    newRequestForm = editRequestComponent.newRequestForm;
+    expect(newRequestForm).toBeDefined();
+    expect(newRequestForm.controls).toBeDefined();
   });
 
   it('should create the component and form', () => {
     expect(editRequestComponent).toBeTruthy();
-    expect(editRequestForm).toBeTruthy();
+    expect(newRequestForm).toBeTruthy();
+  });
+
+  it('form should be invalid when empty', () => {
+    expect(newRequestForm.valid).toBeFalsy();
+  });
+
+  describe('The getErrorMessage method', ()=>{
+    let itemTypeControl: AbstractControl;
+
+    beforeEach(() => {
+      itemTypeControl = newRequestForm.controls.itemType;
+    });
+
+    it('should return "unknown error" when passed an invalid error code', ()=> {
+      expect(editRequestComponent.getErrorMessage('foodType') === 'Unknown error');
+    });
+
+    it('should return "required" error when itemType is empty', ()=> {
+      itemTypeControl.setValue('--');
+      expect(editRequestComponent.getErrorMessage('itemType')).toBeTruthy();
+    });
+  });
+
+  describe('Can we submit stuff to the donor database?', ()=>{
+    let itemTypeControl: AbstractControl;
+    let foodTypeControl: AbstractControl;
+    let descControl: AbstractControl;
+
+    beforeEach(() => {
+      itemTypeControl = newRequestForm.controls.itemType;
+      foodTypeControl = newRequestForm.controls.foodType;
+      descControl = editRequestComponent.newRequestForm.controls.description;
+    });
+
+    it('should not get angy', ()=> {
+
+      foodTypeControl.setValue('dairy');
+      itemTypeControl.setValue('food');
+      descControl.setValue('this is a description I guess');
+
+      editRequestComponent.submitForm();
+
+      expect(service.addedDonorRequests[0].itemType).toEqual('food');
+      expect(service.addedDonorRequests[0].foodType).toEqual('dairy');
+      expect(service.addedDonorRequests[0].description).toEqual('this is a description I guess');
+    });
+  });
+/*
+  describe('It should navigate to the correct Auto filled form', ()=> {
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(EditRequestComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should create the component', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should show the correct request', ()=> {
+      const expectedRequest: Request = MockRequestService.testRequests[0];
+
+      activatedRoute.setParamMap({ id: expectedRequest._id});
+      expect(component.request).toEqual(expectedRequest);
+    });
+  }); */
+});
+
+describe('Misbehaving request service', () => {
+  let itemTypeControl: AbstractControl;
+  let foodTypeControl: AbstractControl;
+  let descControl: AbstractControl;
+  let editRequestComponent: EditRequestComponent;
+  let newRequestForm: FormGroup;
+  let fixture: ComponentFixture<EditRequestComponent>;
+
+  let requestServiceStub: {
+    deleteRequest: () => Observable<object>;
+    addDonorRequest: () => Observable<string>;
+    addClientRequest: () => Observable<string>;
+    getClientRequests: () => Observable<Request[]>;
+    getDonorRequests: () => Observable<Request[]>;
+  };
+
+  beforeEach(() => {
+    requestServiceStub = {
+      getClientRequests: () => new Observable(observer => {
+        observer.error('getClientRequests() Observer generates an error');
+      }),
+      getDonorRequests: () => new Observable(observer => {
+        observer.error('getDonorRequests() Observer generates an error');
+      }),
+      addDonorRequest: () => new Observable(observer => {
+        observer.error('addDonorRequest() Observer generates an error');
+      }),
+      addClientRequest: () => new Observable(observer => {
+        observer.error('addClientRequest() Observer generates an error');
+      }),
+
+      deleteRequest: () => new Observable(observer => {
+        observer.error('deleteRequest() Observer generates an error');
+      })
+    };
+  });
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+        RouterTestingModule,
+      ],
+      providers: [{provide: RequestService, useValue: requestServiceStub}],
+      declarations: [EditRequestComponent]
+    }).compileComponents().then(() => {
+      fixture = TestBed.createComponent(EditRequestComponent);
+      editRequestComponent = fixture.componentInstance;
+      fixture.detectChanges();
+      newRequestForm = editRequestComponent.newRequestForm;
+      expect(newRequestForm).toBeDefined();
+      expect(newRequestForm.controls).toBeDefined();
+
+      itemTypeControl = newRequestForm.controls.itemType;
+      foodTypeControl = newRequestForm.controls.foodType;
+      descControl = editRequestComponent.newRequestForm.controls.description;
+    });
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(EditRequestComponent);
+    editRequestComponent = fixture.componentInstance;
+    fixture.detectChanges();
+    newRequestForm = editRequestComponent.newRequestForm;
+    expect(newRequestForm).toBeDefined();
+    expect(newRequestForm.controls).toBeDefined();
+  });
+
+  it('should get angy when talking with the donor database', ()=> {
+    foodTypeControl.setValue('dairy');
+    itemTypeControl.setValue('food');
+    descControl.setValue('this is a description I guess');
+
+    editRequestComponent.submitForm();
   });
 
 });
+
+
+
+
