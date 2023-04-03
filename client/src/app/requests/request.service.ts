@@ -51,6 +51,9 @@ export class RequestService {
       if (filters.foodType) {
         httpParams = httpParams.set(this.foodTypeKey, filters.foodType);
       }
+      if (filters.description) {
+        httpParams = httpParams.set(this.descriptionKey, filters.description);
+      }
     }
 // We'll need to add a conditional in here that handles a donor get request as well
     return this.httpClient.get<Request[]>(this.requestDonorUrl, {
