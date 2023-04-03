@@ -75,10 +75,11 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
     });
   }
   public postRequest(request: Request): void {
-    this.requestService.addClientRequest(request).pipe(
+    this.requestService.addDonorRequest(request).pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe({
       next: (returnedRequests) => {
+        this.requestService.deleteClientRequest(request);
         this.getRequestsFromServer();
       },
 
