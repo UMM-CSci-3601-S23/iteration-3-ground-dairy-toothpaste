@@ -33,15 +33,19 @@ public class Authentication {
   public void authenticate(Context ctx) throws ForbiddenResponse {
     String cookie = ctx.cookie("auth_token");
 
-    if (cookie != null) {
-      System.out.println(cookie);
-    } else {
-      System.out.println("COOKIE MISSING");
-    }
+    if (bypassAuth) {
+      if (ctx.cookie("auth_token") != null && cookie.equals("TOKEN")) {
 
-    if (!(bypassAuth && (ctx.cookie("auth_token") != null && cookie.equals("TOKEN")))) {
-      ctx.status(HttpStatus.FORBIDDEN);
-        throw new ForbiddenResponse("Client not authenticated");
+        ctx.status(HttpStatus.FORBIDDEN);
+          throw new ForbiddenResponse("Client not authenticated");
+      }
+    } else {
+      // Todo: This is where the actual authentication should go
+      if (ctx.cookie("auth_token") != null && cookie.equals("TOKEN")) {
+
+        ctx.status(HttpStatus.FORBIDDEN);
+          throw new ForbiddenResponse("Client not authenticated");
+      }
     }
   }
 }
