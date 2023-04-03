@@ -43,12 +43,13 @@ const COMMON_IMPORTS: unknown[] = [
 describe('Volunteer Request View', () => {
   let volunteerList: RequestVolunteerComponent;
   let fixture: ComponentFixture<RequestVolunteerComponent>;
+  const service = new MockRequestService();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
       declarations: [RequestVolunteerComponent],
-      providers: [{ provide: RequestService, useValue: new MockRequestService() }]
+      providers: [{ provide: RequestService, useValue: service }]
     });
   });
 
@@ -80,6 +81,25 @@ describe('Volunteer Request View', () => {
   it('contains a request for itemType food and foodType meat', () => {
     expect(volunteerList.serverFilteredRequests.some((request: Request) => request.itemType === 'food'
      && request.foodType === 'meat')).toBe(true);
+  });
+
+  describe('Can we delete requests', ()=>{
+    it('should not get angy', ()=> {
+      volunteerList.deleteRequest(MockRequestService.testRequests[0]);
+
+      expect(service.deletedClientRequests[0]).toEqual(MockRequestService.testRequests[0]);
+    });
+  });
+
+  describe('Can we post requests', ()=>{
+    it('should not get angy', ()=> {
+      volunteerList.postRequest(MockRequestService.testRequests[0]);
+
+      expect(service.deletedClientRequests[0]).toEqual(MockRequestService.testRequests[0]);
+      expect(service.addedDonorRequests[0].description).toEqual(MockRequestService.testRequests[0].description);
+      expect(service.addedDonorRequests[0].foodType).toEqual(MockRequestService.testRequests[0].foodType);
+      expect(service.addedDonorRequests[0].itemType).toEqual(MockRequestService.testRequests[0].itemType);
+    });
   });
 });
 
