@@ -75,4 +75,9 @@ describe('Donor View', () => {
       cy.wrap(el).find('.donor-list-foodType').should('contain.text', 'Food Type: meat');
     });
   });
+
+  it('Should return the correct elements with description filter', () => {
+    page.getFormField('description').clear().type('I want eggs please').focus().blur();
+    cy.get('[data-test=descriptionError]').should('exist').and('be.visible');
+  });
 });

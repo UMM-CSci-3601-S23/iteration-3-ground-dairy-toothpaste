@@ -7,6 +7,7 @@ export class RequestDonorPage {
   private readonly requestFoodTypeDropDown = '[data-test=requestFoodTypeSelect]';
   private readonly dropdownOptionSelector = `mat-option`;
   private readonly requestListItemSelector = '.donor-nav-list .donor-list-item';
+  private readonly formFieldSelector = `mat-form-field`;
 
   navigateTo() {
     return cy.visit(this.baseUrl);
@@ -28,5 +29,9 @@ export class RequestDonorPage {
   selectFoodType(value: FoodType) {
     cy.get(this.requestFoodTypeDropDown).click();
     return cy.get(`${this.dropdownOptionSelector}[value="${value}"]`).click();
+  }
+
+  getFormField(fieldName: string) {
+    return cy.get(`${this.formFieldSelector} [formcontrolname=${fieldName}]`);
   }
 }
