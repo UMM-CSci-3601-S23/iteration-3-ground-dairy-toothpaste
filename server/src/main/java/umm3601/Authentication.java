@@ -48,4 +48,9 @@ public class Authentication {
       }
     }
   }
+
+  public void grant(Context ctx) {
+    ctx.cookie("auth_token", "TOKEN");
+    ctx.status(HttpStatus.OK);
+  }
 }

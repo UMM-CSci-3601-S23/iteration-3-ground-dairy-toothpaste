@@ -98,6 +98,8 @@ public class Server {
     server.delete("/api/clientRequests/{id}", clientRequestController::deleteRequest);
     server.delete("/api/donorRequests/{id}", donorRequestController::deleteRequest);
 
+    server.get("/api/auth", auth::grant);
+
 
     // This catches any uncaught exceptions thrown in the server
     // code and turns them into a 500 response ("Internal Server
