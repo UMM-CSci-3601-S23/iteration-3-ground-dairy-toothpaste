@@ -6,6 +6,7 @@ describe('Edit a request', ()=> {
 
   beforeEach(()=> {
     cy.task('seed:database');
+    cy.setCookie('auth_token', 'TOKEN');
     page.navigateToRequest();
   });
 
