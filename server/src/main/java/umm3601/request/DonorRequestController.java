@@ -21,6 +21,8 @@ import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
+import umm3601.Authentication;
+
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
 import java.time.ZoneOffset;
@@ -38,8 +40,10 @@ public class DonorRequestController {
   private static final String FOOD_TYPE_REGEX = "^(|dairy|grain|meat|fruit|vegetable)$";
 
   private final JacksonMongoCollection<Request> requestCollection;
+  private Authentication auth;
 
-  public DonorRequestController(MongoDatabase database) {
+  public DonorRequestController(MongoDatabase database, Authentication auth) {
+    this.auth = auth;
     requestCollection = JacksonMongoCollection.builder().build(
       database,
       "donorRequests",
@@ -136,6 +140,7 @@ public class DonorRequestController {
   }
 
   public void addNewRequest(Context ctx) {
+    auth.authenticate(ctx);
     /*
      * The follow chain of statements uses the Javalin validator system
      * to verify that instance of `User` provided in this context is
@@ -167,6 +172,7 @@ public class DonorRequestController {
    * @param ctx a Javalin HTTP context
    */
   public void deleteRequest(Context ctx) {
+    auth.authenticate(ctx);
     String id = ctx.pathParam("id");
     DeleteResult deleteResult = requestCollection.deleteOne(eq("_id", new ObjectId(id)));
     if (deleteResult.getDeletedCount() != 1) {

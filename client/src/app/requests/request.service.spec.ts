@@ -262,7 +262,7 @@ describe('RequestService', () => {
   }));
 });
 
-describe('deleteRequest', ()=> {
+describe('deleteClientRequest', ()=> {
   it('talks to the right endpoint and is called once', waitForAsync(() => {
     // Mock the `httpClient.addUser()` method, so that instead of making an HTTP request,
     // it just returns our test data.
@@ -271,7 +271,7 @@ describe('deleteRequest', ()=> {
 
     // paying attention to what is returned (undefined) didn't work well here,
     // but I'm putting something in here to remind us to look into that
-    requestService.deleteRequest(testRequests[1]).subscribe((returnedString) => {
+    requestService.deleteClientRequest(testRequests[1]).subscribe((returnedString) => {
       console.log('The thing returned was:' + returnedString);
       expect(mockedMethod)
         .withContext('one call')

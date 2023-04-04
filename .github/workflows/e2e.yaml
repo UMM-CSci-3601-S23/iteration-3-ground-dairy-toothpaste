@@ -37,6 +37,6 @@ jobs:
     - name: Run e2e tests
       uses: cypress-io/github-action@v5
       with:
-        start: ${{ github.workspace }}/server/gradlew run -p ${{ github.workspace }}/server/
+        start: ${{ github.workspace }}/server/gradlew run -p ${{ github.workspace }}/server/ --args="--no-auth"
         command: npm run e2e
         working-directory: ./client
