@@ -22,6 +22,7 @@ describe('EditRequestComponent', () => {
   let newRequestForm: FormGroup;
   let fixture: ComponentFixture<EditRequestComponent>;
   const service: MockRequestService = new MockRequestService();
+  let requestService: RequestService;
   let component: EditRequestComponent;
   const activatedRoute: ActivatedRouteStub = new ActivatedRouteStub({
     id : '1_id'
@@ -42,6 +43,10 @@ describe('EditRequestComponent', () => {
         RouterTestingModule
       ],
       declarations: [NewRequestComponent],
+      providers: [
+        { provide: RequestService, useValue: new MockRequestService() },
+        { provide: ActivatedRoute, useValue: activatedRoute }
+      ]
     }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
@@ -108,22 +113,20 @@ describe('EditRequestComponent', () => {
   });
 /*
   describe('It should navigate to the correct Auto filled form', ()=> {
+    //requestService = TestBed.inject(RequestService)
+    let expectedRequest: Request;
 
-    beforeEach(() => {
-      fixture = TestBed.createComponent(EditRequestComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    });
 
     it('should create the component', () => {
-      expect(component).toBeTruthy();
+      expect(editRequestComponent).toBeTruthy();
     });
 
     it('should show the correct request', ()=> {
-      const expectedRequest: Request = MockRequestService.testRequests[0];
 
-      activatedRoute.setParamMap({ id: expectedRequest._id});
-      expect(component.request).toEqual(expectedRequest);
+
+      activatedRoute.setParamMap({id: expectedRequest._id});
+      fixture.detectChanges();
+      expect(editRequestComponent.request._id).toEqual(expectedRequest._id);
     });
   }); */
 });
