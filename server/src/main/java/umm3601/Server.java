@@ -98,6 +98,8 @@ public class Server {
     server.delete("/api/clientRequests/{id}", clientRequestController::deleteRequest);
     server.delete("/api/donorRequests/{id}", donorRequestController::deleteRequest);
 
+    // Magically grant authorization for the demo
+    // DO NOT USE THIS! THIS IS A TERRIBLE IDEA AND NOT THE WAY SECURITY SHOULD EVER WORK, THIS IS FOR THE DEMO ONLY
     server.get("/api/auth", auth::grant);
 
 

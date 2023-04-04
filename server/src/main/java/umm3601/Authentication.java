@@ -49,6 +49,8 @@ public class Authentication {
     }
   }
 
+  // Magically grant authorization for the demo
+  // DO NOT USE THIS! THIS IS A TERRIBLE IDEA AND NOT THE WAY SECURITY SHOULD EVER WORK, THIS IS FOR THE DEMO ONLY
   public void grant(Context ctx) {
     ctx.cookie("auth_token", "TOKEN");
     ctx.status(HttpStatus.OK);
