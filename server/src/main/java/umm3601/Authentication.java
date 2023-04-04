@@ -34,14 +34,14 @@ public class Authentication {
     String cookie = ctx.cookie("auth_token");
 
     if (bypassAuth) {
-      if (ctx.cookie("auth_token") != null && cookie.equals("TOKEN")) {
+      if (!(ctx.cookie("auth_token") != null && cookie.equals("TOKEN"))) {
 
         ctx.status(HttpStatus.FORBIDDEN);
           throw new ForbiddenResponse("Client not authenticated");
       }
     } else {
       // Todo: This is where the actual authentication should go
-      if (ctx.cookie("auth_token") != null && cookie.equals("TOKEN")) {
+      if (!(ctx.cookie("auth_token") != null && cookie.equals("TOKEN"))) {
 
         ctx.status(HttpStatus.FORBIDDEN);
           throw new ForbiddenResponse("Client not authenticated");

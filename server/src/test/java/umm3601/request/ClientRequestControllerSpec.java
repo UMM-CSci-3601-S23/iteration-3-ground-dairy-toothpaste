@@ -538,41 +538,6 @@ class ClientRequestControllerSpec {
   }
 
   @Test
-  void throwsForbiddenForAddBadToken() throws IOException {
-    String testNewRequest = "{"
-        + "\"itemType\": \"food\","
-        + "\"foodType\": \"meat\""
-        + "}";
-    when(ctx.bodyValidator(Request.class))
-      .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
-    when(ctx.cookie("auth_token")).thenReturn("BAD_TOKEN");
-
-    assertThrows(ForbiddenResponse.class, () -> {
-      requestController.addNewRequest(ctx);
-    });
-
-    // Our status should be 403, i.e., forbidden
-    verify(ctx).status(HttpStatus.FORBIDDEN);
-  }
-
-  @Test
-  void throwsForbiddenForAddNoToken() throws IOException {
-    String testNewRequest = "{"
-        + "\"itemType\": \"food\","
-        + "\"foodType\": \"meat\""
-        + "}";
-    when(ctx.bodyValidator(Request.class))
-      .then(value -> new BodyValidator<Request>(testNewRequest, Request.class, javalinJackson));
-
-    assertThrows(ForbiddenResponse.class, () -> {
-      requestController.addNewRequest(ctx);
-    });
-
-    // Our status should be 403, i.e., forbidden
-    verify(ctx).status(HttpStatus.FORBIDDEN);
-  }
-
-  @Test
   void deleteFoundRequest() throws IOException {
     String testID = samsId.toHexString();
     when(ctx.pathParam("id")).thenReturn(testID);

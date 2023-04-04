@@ -143,7 +143,6 @@ public class ClientRequestController {
   }
 
   public void addNewRequest(Context ctx) {
-    auth.authenticate(ctx);
     /*
      * The follow chain of statements uses the Javalin validator system
      * to verify that instance of `User` provided in this context is
