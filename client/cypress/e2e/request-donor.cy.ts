@@ -9,6 +9,7 @@ describe('Donor View', () => {
 
   beforeEach(() => {
     page.navigateTo();
+    cy.setCookie('auth_token', 'TOKEN');
   });
   //Tests for the page with no filters
   it('Should have the correct title', () => {
@@ -74,5 +75,26 @@ describe('Donor View', () => {
     page.getRequestListItems().each(el => {
       cy.wrap(el).find('.donor-list-foodType').should('contain.text', 'Food Type: meat');
     });
+  });
+
+  it('Should delete one requests', () => {
+
+    page.deleteRequest();
+
+    page.getRequestListItems().should('have.length', 6);
+
+  });
+
+  it('Should delete all requests', () => {
+
+    page.deleteRequest();
+    page.deleteRequest();
+    page.deleteRequest();
+    page.deleteRequest();
+    page.deleteRequest();
+    page.deleteRequest();
+
+    page.getRequestListItems().should('have.length', 0);
+
   });
 });
