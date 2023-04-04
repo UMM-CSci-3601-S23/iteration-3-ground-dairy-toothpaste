@@ -21,6 +21,10 @@ public class Server {
   private static final int SERVER_PORT = 4568;
 
   public static void main(String[] args) {
+    // Check for the presence of the `--no-auth` command line flag if this flag
+    // is present, authorization will require the dummy `TOKEN` token instead
+    // of the proper auth tokens.
+    boolean doDummyAuth = Arrays.asList(args).contains("--no-auth");
 
     // Get the MongoDB address and database name from environment variables and
     // if they aren't set, use the defaults of "localhost" and "dev".
@@ -41,10 +45,13 @@ public class Server {
     // Get the database
     MongoDatabase database = mongoClient.getDatabase(databaseName);
 
+    // Construct the authentication checking object
+    Authentication auth = new Authentication(doDummyAuth);
+
     // Initialize dependencies
     UserController userController = new UserController(database);
-    ClientRequestController clientRequestController = new ClientRequestController(database);
-    DonorRequestController donorRequestController = new DonorRequestController(database);
+    ClientRequestController clientRequestController = new ClientRequestController(database, auth);
+    DonorRequestController donorRequestController = new DonorRequestController(database, auth);
 
     Javalin server = Javalin.create(config ->
       config.plugins.register(new RouteOverviewPlugin("/api"))

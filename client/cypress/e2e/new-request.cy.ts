@@ -7,6 +7,7 @@ describe('Add donor request', () => {
 
   beforeEach(() => {
     page.navigateTo();
+    cy.setCookie('auth_token', 'TOKEN');
   });
 
   it('Should have the correct title', () => {
@@ -63,6 +64,7 @@ describe('Add donor request', () => {
 
     beforeEach(() => {
       cy.task('seed:database');
+      cy.setCookie('auth_token', 'TOKEN');
     });
 
     it('Should go to the right page, and have the right info', () => {
@@ -95,6 +97,7 @@ describe('Add volunteer request', () => {
 
   beforeEach(() => {
     page.navigateTo();
+    cy.setCookie('auth_token', 'TOKEN');
   });
 
   it('Should have the correct title', () => {
