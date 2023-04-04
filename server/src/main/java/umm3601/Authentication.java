@@ -56,6 +56,8 @@ public class Authentication {
     ctx.cookie("auth_token", "TOKEN");
     ctx.status(HttpStatus.OK);
     ctx.contentType(ContentType.HTML);
-    ctx.result("<h1></b>DO NOT USE THIS! THIS IS A TERRIBLE IDEA AND NOT THE WAY SECURITY SHOULD EVER WORK, THIS IS FOR THE DEMO ONLY!<b></h1>");
+    ctx.result("<h1></b>"
+      + "DO NOT USE THIS! THIS IS A TERRIBLE IDEA AND NOT THE WAY SECURITY SHOULD EVER WORK, THIS IS FOR THE DEMO ONLY!"
+      + "<b></h1>");
   }
 }
