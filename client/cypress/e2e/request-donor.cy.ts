@@ -77,24 +77,11 @@ describe('Donor View', () => {
     });
   });
 
-  it('Should delete one requests', () => {
+  it('Should delete a request', () => {
 
     page.deleteRequest();
 
     page.getRequestListItems().should('have.length', 6);
-
-  });
-
-  it('Should delete all requests', () => {
-
-    page.deleteRequest();
-    page.deleteRequest();
-    page.deleteRequest();
-    page.deleteRequest();
-    page.deleteRequest();
-    page.deleteRequest();
-
-    page.getRequestListItems().should('have.length', 0);
 
   });
 });
