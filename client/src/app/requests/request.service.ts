@@ -79,8 +79,13 @@ export class RequestService {
     return this.httpClient.post<{id: string}>(this.newRequestDonorUrl, newRequest).pipe(map(res => res.id));
   }
 
-  deleteRequest(request: Partial<Request>): Observable<object> {
+  deleteClientRequest(request: Partial<Request>): Observable<object> {
     // Send delete request to delete a request
-    return this.httpClient.delete(this.requestDonorUrl + '/' + request._id).pipe(map(res => res));
+    return this.httpClient.delete(this.requestClientUrl + '/' + request._id).pipe(map(res => res));
+}
+
+deleteDonorRequest(request: Partial<Request>): Observable<object> {
+  // Send delete request to delete a request
+  return this.httpClient.delete(this.requestDonorUrl + '/' + request._id).pipe(map(res => res));
 }
 }

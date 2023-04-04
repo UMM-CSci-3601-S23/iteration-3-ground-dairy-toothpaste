@@ -58,5 +58,48 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
       this.ngUnsubscribe.next();
       this.ngUnsubscribe.complete();
   }
+  public deleteRequest(request: Request): void {
+    this.requestService.deleteClientRequest(request).pipe(
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe({
+      next: (returnedRequests) => {
+        this.getRequestsFromServer();
+      },
+
+      error: (err) => {
+        this.snackBar.open(
+          `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`,
+          'OK',
+          {duration: 5000});
+      },
+    });
+  }
+  public postRequest(request: Request): void {
+    const strippedRequest: Partial<Request> = {...request};
+    delete strippedRequest._id;
+    this.requestService.addDonorRequest(strippedRequest).pipe(
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe({
+      next: (returnedRequests) => {
+        this.requestService.deleteClientRequest(request).subscribe({
+          next: (_) => {},
+          error: (err) => {
+            this.snackBar.open(
+              `Problem contacting the server to delete request – Error Code: ${err.status}\nMessage: ${err.message}`,
+              'OK',
+              {duration: 5000});
+          },
+        });
+        this.getRequestsFromServer();
+      },
+
+      error: (err) => {
+        this.snackBar.open(
+          `Problem contacting the server to add request – Error Code: ${err.status}\nMessage: ${err.message}`,
+          'OK',
+          {duration: 5000});
+      },
+    });
+  }
 }
 

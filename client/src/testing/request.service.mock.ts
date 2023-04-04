@@ -8,7 +8,7 @@ import { RequestService } from 'src/app/requests/request.service';
   providedIn: AppComponent
 })
 export class MockRequestService extends RequestService {
-  static testRequests: Request[] = [
+  public static testRequests: Request[] = [
     {
       _id: '1_id',
       itemType: 'food',
@@ -35,8 +35,11 @@ export class MockRequestService extends RequestService {
     }
   ];
 
-  public addedDonorRequests: Partial<Request>[] = [];
   public addedClientRequests: Partial<Request>[] = [];
+  public addedDonorRequests: Partial<Request>[] = [];
+
+  public deletedClientRequests: Partial<Request>[] = [];
+  public deletedDonorRequests: Partial<Request>[] = [];
 
   constructor() {
     super(null);
@@ -49,7 +52,19 @@ export class MockRequestService extends RequestService {
   getDonorRequests(filters?: { itemType?: ItemType; foodType?: FoodType }): Observable<Request[]> {
     return of(MockRequestService.testRequests);
   }
-  deleteRequest(request: Partial<Request>): Observable<object> {
+  deleteClientRequest(request: Partial<Request>): Observable<object> {
+    this.deletedClientRequests.push(request);
+    // Send delete request to delete a request
+    return of (Object);
+  }
+
+  // deleteRequest(request: Partial<Request>): Observable<object> {
+  //   // Send delete request to delete a request
+  //   return of (Object);
+  // }
+
+  deleteDonorRequest(request: Partial<Request>): Observable<object> {
+    this.deletedDonorRequests.push(request);
     // Send delete request to delete a request
     return of (Object);
   }

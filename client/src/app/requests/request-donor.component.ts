@@ -60,7 +60,7 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
   }
 
   public deleteRequest(request: Request): void {
-    this.requestService.deleteRequest(request).pipe(
+    this.requestService.deleteDonorRequest(request).pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe({
       next: (returnedRequests) => {
