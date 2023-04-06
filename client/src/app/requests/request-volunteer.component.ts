@@ -86,7 +86,7 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
     ).subscribe({
       next: (returnedRequests) => {
         this.requestService.deleteClientRequest(request).subscribe({
-          next: (_) => {},
+          next: (_) => { this.getRequestsFromServer(); },
           error: (err) => {
             this.snackBar.open(
               `Problem contacting the server to delete request – Error Code: ${err.status}\nMessage: ${err.message}`,
@@ -94,7 +94,7 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
               {duration: 5000});
           },
         });
-        this.getRequestsFromServer();
+
       },
 
       error: (err) => {
