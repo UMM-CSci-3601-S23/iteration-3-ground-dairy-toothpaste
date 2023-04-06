@@ -57,14 +57,18 @@
     <mat-card-content>
       <mat-nav-list class="donor-nav-list">
         <h3 mat-subheader>Requests</h3>
-        <a mat-list-item *ngFor="let request of this.serverFilteredRequests" [routerLink]="['/requests/donor', request._id]" class="donor-list-item">
+        <div mat-list-item *ngFor="let request of this.serverFilteredRequests" [routerLink]="['/requests/donor', request._id]" class="donor-list-item">
+          <a>
           <span matListItemTitle class="donor-list-itemType">Item Type: {{request.itemType}}</span>
           <span matListItemLine class="donor-list-foodType">Food Type: {{request.foodType}}</span>
           <span matListItemBody class="donor-list-description">{{request.description}}</span>
-          <button mat-icon-button data-test="deleteRequestButton" (click)="deleteRequest(request)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </a>
+          </a>
+          <a>
+            <button mat-icon-button data-test="deleteRequestButton" (click)="deleteRequest(request)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </a>
+        </div>
       </mat-nav-list>
     </mat-card-content>
   </div>
