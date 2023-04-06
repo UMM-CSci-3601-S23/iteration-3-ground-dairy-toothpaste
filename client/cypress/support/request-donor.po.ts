@@ -36,10 +36,11 @@ export class RequestDonorPage {
 
   getFormField(fieldName: string) {
     return cy.get(`${this.formFieldSelector} [formcontrolname=${fieldName}]`);
-
-  deleteRequest() {
-
-    cy.get(this.deleteButton).first().click({ multiple: false }) ;
-
   }
-}
+
+    deleteRequest() {
+
+      cy.get(this.deleteButton).first().click({ multiple: false }) ;
+
+    }
+};
