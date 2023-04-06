@@ -283,6 +283,24 @@ describe('deleteClientRequest', ()=> {
 
 });
 
+describe('deleteDonorRequest', ()=> {
+  it('talks to the right endpoint and is called once', waitForAsync(() => {
+
+    const REQUEST_ID = '2';
+    const mockedMethod = spyOn(httpClient, 'delete').and.returnValue(of(REQUEST_ID));
+
+    requestService.deleteDonorRequest(testRequests[1]).subscribe((returnedString) => {
+      console.log('The thing returned was:' + returnedString);
+      expect(mockedMethod)
+        .withContext('one call')
+        .toHaveBeenCalledTimes(1);
+      expect(mockedMethod)
+        .withContext('talks to the correct endpoint');
+    });
+}));
+
+});
+
 });
 
 });
