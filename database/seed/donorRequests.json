@@ -54,5 +54,33 @@
     "itemType": "food",
     "description": "Assorted Vegetables",
     "foodType": "vegetable"
+  },
+
+  {
+    "_id": {
+      "$oid": "588935f5556f992bf8f37c02"
+    },
+    "itemType": "food",
+    "description": "I want ground vegetables",
+    "foodType": "vegetable"
+  },
+
+  {
+    "_id": {
+      "$oid": "588935f5556f992bf8f37c03"
+    },
+    "itemType": "toiletries",
+    "description": "I want toothpaste",
+    "foodType": ""
+  },
+
+  {
+    "_id": {
+      "$oid": "588935f5556f992bf8f37c04"
+    },
+    "itemType": "food",
+    "description": "I want pasta",
+    "foodType": "grain"
   }
+
 ]

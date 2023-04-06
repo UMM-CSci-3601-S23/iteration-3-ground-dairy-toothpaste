@@ -8,7 +8,7 @@ export class RequestDonorPage {
   private readonly dropdownOptionSelector = `mat-option`;
   private readonly requestListItemSelector = '.donor-nav-list .donor-list-item';
   private readonly formFieldSelector = `mat-form-field`;
-
+  private readonly descFieldName = 'description';
   navigateTo() {
     return cy.visit(this.baseUrl);
   }
