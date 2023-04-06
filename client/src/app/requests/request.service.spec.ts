@@ -217,7 +217,7 @@ describe('RequestService', () => {
 
   describe('filterRequests', ()=> {
     it('returns the correct array of requests', ()=>{
-      expect(requestService.filterRequests(testRequests) === testRequests);
+      expect(requestService.filterRequests(testRequests) === testRequests).toBeTrue();
     });
   });
 
@@ -279,10 +279,30 @@ describe('deleteClientRequest', ()=> {
       expect(mockedMethod)
         .withContext('talks to the correct endpoint');
     });
+}));});
+
+describe('deleteDonorRequest', ()=> {
+  it('talks to the right endpoint and is called once', waitForAsync(() => {
+    // Mock the `httpClient.addUser()` method, so that instead of making an HTTP request,
+    // it just returns our test data.
+    const REQUEST_ID = '2';
+    const mockedMethod = spyOn(httpClient, 'delete').and.returnValue(of(REQUEST_ID));
+
+    // paying attention to what is returned (undefined) didn't work well here,
+    // but I'm putting something in here to remind us to look into that
+    requestService.deleteDonorRequest(testRequests[1]).subscribe((returnedString) => {
+      console.log('The thing returned was:' + returnedString);
+      expect(mockedMethod)
+        .withContext('one call')
+        .toHaveBeenCalledTimes(1);
+      expect(mockedMethod)
+        .withContext('talks to the correct endpoint');
+    });
 }));
 
 });
-
 });
+
+
 
 });
