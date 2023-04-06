@@ -56,18 +56,22 @@
   <div class="flex-1" *ngIf="serverFilteredRequests; else requestsError">
     <mat-card-content>
       <mat-nav-list class="donor-nav-list">
-        <h3 mat-subheader>Requests</h3>
+        <h2 mat-subheader>Requests</h2>
         <div mat-list-item *ngFor="let request of this.serverFilteredRequests" [routerLink]="['/requests/donor', request._id]" class="donor-list-item">
-          <a>
-          <span matListItemTitle class="donor-list-itemType">Item Type: {{request.itemType}}</span>
-          <span matListItemLine class="donor-list-foodType">Food Type: {{request.foodType}}</span>
-          <span matListItemBody class="donor-list-description">{{request.description}}</span>
-          </a>
-          <a>
-            <button mat-icon-button data-test="deleteRequestButton" (click)="deleteRequest(request)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </a>
+          <mat-card class="example-card">
+            <mat-card-header>
+              <mat-card-title class="donor-list-itemType">{{request.itemType}}</mat-card-title>
+              <mat-card-subtitle class="donor-list-foodType">{{request.foodType}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p matListItemBody class="donor-list-description"> {{request.description}} </p>
+            </mat-card-content>
+            <mat-card-actions *ngIf="this.authHypothesis">
+              <button mat-icon-button data-test="deleteRequestButton" (click)="deleteRequest(request)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
         </div>
       </mat-nav-list>
     </mat-card-content>

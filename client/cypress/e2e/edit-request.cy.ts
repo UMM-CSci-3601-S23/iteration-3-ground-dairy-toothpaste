@@ -5,8 +5,8 @@ describe('Edit a request', ()=> {
   const page = new EditRequestPage();
 
   beforeEach(()=> {
-    cy.task('seed:database');
     cy.setCookie('auth_token', 'TOKEN');
+    cy.task('seed:database');
     page.navigateToRequest();
   });
 

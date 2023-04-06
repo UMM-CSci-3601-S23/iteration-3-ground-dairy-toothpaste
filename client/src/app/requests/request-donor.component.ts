@@ -20,6 +20,8 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
   public requestDescription: string;
   public requestFoodType: FoodType;
 
+  authHypothesis: boolean;
+
 
   private ngUnsubscribe = new Subject<void>();
 
@@ -52,6 +54,7 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
       this.getRequestsFromServer();
+      this.authHypothesis = document.cookie.includes('auth_token');
   }
 
   ngOnDestroy(): void {

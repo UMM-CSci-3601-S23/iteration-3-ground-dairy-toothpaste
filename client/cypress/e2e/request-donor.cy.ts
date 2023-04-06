@@ -8,8 +8,8 @@ describe('Donor View', () => {
   });
 
   beforeEach(() => {
-    page.navigateTo();
     cy.setCookie('auth_token', 'TOKEN');
+    page.navigateTo();
   });
   //Tests for the page with no filters
   it('Should have the correct title', () => {
@@ -27,7 +27,7 @@ describe('Donor View', () => {
     page.getRequestListItems().should('have.length', 7);
 
     page.getRequestListItems().each(el => {
-      cy.wrap(el).find('.donor-list-itemType').should('contain.text', 'Item Type: food');
+      cy.wrap(el).find('.donor-list-itemType').should('contain.text', 'food');
     });
   });
 
@@ -37,7 +37,7 @@ describe('Donor View', () => {
     page.getRequestListItems().should('have.length', 2);
 
     page.getRequestListItems().each($list => {
-      cy.wrap($list).find('.donor-list-itemType').should('contain.text', 'Item Type: toiletries');
+      cy.wrap($list).find('.donor-list-itemType').should('contain.text', 'toiletries');
     });
   });
 
@@ -54,11 +54,11 @@ describe('Donor View', () => {
     page.getRequestListItems().should('have.length', 1);
 
     page.getRequestListItems().each(el => {
-      cy.wrap(el).find('.donor-list-itemType').should('contain.text', 'Item Type: food');
+      cy.wrap(el).find('.donor-list-itemType').should('contain.text', 'food');
     });
 
     page.getRequestListItems().each(el => {
-      cy.wrap(el).find('.donor-list-foodType').should('contain.text', 'Food Type: dairy');
+      cy.wrap(el).find('.donor-list-foodType').should('contain.text', 'dairy');
     });
   });
 
@@ -69,11 +69,11 @@ describe('Donor View', () => {
     page.getRequestListItems().should('have.length', 1);
 
     page.getRequestListItems().each(el => {
-      cy.wrap(el).find('.donor-list-itemType').should('contain.text', 'Item Type: food');
+      cy.wrap(el).find('.donor-list-itemType').should('contain.text', 'food');
     });
 
     page.getRequestListItems().each(el => {
-      cy.wrap(el).find('.donor-list-foodType').should('contain.text', 'Food Type: meat');
+      cy.wrap(el).find('.donor-list-foodType').should('contain.text', 'meat');
     });
   });
 

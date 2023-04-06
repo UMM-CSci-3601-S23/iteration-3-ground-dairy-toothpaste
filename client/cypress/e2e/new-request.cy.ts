@@ -6,8 +6,8 @@ describe('Add donor request', () => {
   const page = new NewRequestPage();
 
   beforeEach(() => {
-    page.navigateTo();
     cy.setCookie('auth_token', 'TOKEN');
+    page.navigateTo();
   });
 
   it('Should have the correct title', () => {
@@ -96,8 +96,8 @@ describe('Add volunteer request', () => {
   const page = new NewVolunteerRequestPage();
 
   beforeEach(() => {
-    page.navigateTo();
     cy.setCookie('auth_token', 'TOKEN');
+    page.navigateTo();
   });
 
   it('Should have the correct title', () => {

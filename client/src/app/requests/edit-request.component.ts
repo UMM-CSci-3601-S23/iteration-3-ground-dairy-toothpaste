@@ -6,6 +6,7 @@ import { map, Subject, switchMap, takeUntil } from 'rxjs';
 import { FoodType, ItemType, Request } from './request';
 import { RequestVolunteerComponent } from './request-volunteer.component';
 import { RequestService } from './request.service';
+import { ɵparseCookieValue } from '@angular/common';
 
 @Component({
   selector: 'app-edit-request',
@@ -102,6 +103,8 @@ export class EditRequestComponent implements OnInit, OnDestroy{
       foodType: this.request.foodType, itemType: this.request.itemType});
   }
 
+
+
   ngOnInit(): void {
     this.route.paramMap.pipe(
       //Map the paramMap into the id
@@ -121,6 +124,7 @@ export class EditRequestComponent implements OnInit, OnDestroy{
         }); */
       }
     });
+
 
   }
 
