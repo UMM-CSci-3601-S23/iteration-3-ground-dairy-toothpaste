@@ -169,7 +169,7 @@ describe('RequestService', () => {
       const mockedMethod = spyOn(httpClient, 'get').and.returnValue(of(testRequests));
 
       //get requests with foodType dairy
-      requestService.getClientRequests({description: 'Need Milk'}).subscribe(() => {
+      requestService.getDonorRequests({description: 'Need Milk'}).subscribe(() => {
         //check if called once
         expect(mockedMethod)
           .withContext('one call')
@@ -177,7 +177,7 @@ describe('RequestService', () => {
         //check if it's at the correct endpoint
         expect(mockedMethod)
           .withContext('talks to the correct endpoint')
-          .toHaveBeenCalledWith(requestService.requestClientUrl, { params: new HttpParams().set('description', 'Need Milk')});
+          .toHaveBeenCalledWith(requestService.requestDonorUrl, { params: new HttpParams().set('description', 'Need Milk')});
       });
     });
   });
@@ -302,23 +302,6 @@ describe('deleteDonorRequest', ()=> {
 
 });
 
-describe('deleteDonorRequest', ()=> {
-  it('talks to the right endpoint and is called once', waitForAsync(() => {
-
-    const REQUEST_ID = '2';
-    const mockedMethod = spyOn(httpClient, 'delete').and.returnValue(of(REQUEST_ID));
-
-    requestService.deleteDonorRequest(testRequests[1]).subscribe((returnedString) => {
-      console.log('The thing returned was:' + returnedString);
-      expect(mockedMethod)
-        .withContext('one call')
-        .toHaveBeenCalledTimes(1);
-      expect(mockedMethod)
-        .withContext('talks to the correct endpoint');
-    });
-}));
-
-});
 
 
 
