@@ -88,7 +88,7 @@ describe('Donor View', () => {
   });
 
   it('Should return the correct elements with description and Itemtype filters', () => {
-    page.selectItemType('food')
+    page.selectItemType('food');
     cy.get('#descriptionID input').clear().type('I want').focus().blur();
     page.getRequestListItems().should('have.length', 2);
 });
