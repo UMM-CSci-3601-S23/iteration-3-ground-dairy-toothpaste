@@ -86,6 +86,8 @@ public class Server {
 
     //Request api endpoints
 
+    //Get a request by a specific ID
+    server.get("/api/clientRequests/{id}", clientRequestController::getRequest);
     //List requests, filtered using query parameters
     server.get("/api/clientRequests", clientRequestController::getRequests);
     server.get("/api/donorRequests", donorRequestController::getRequests);
