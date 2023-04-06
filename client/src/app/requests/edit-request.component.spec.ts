@@ -12,7 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NewRequestComponent } from './new-request/new-request.component';
 import { RequestService } from './request.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ActivatedRouteStub } from 'src/testing/activated-route-stub';
 import { Request } from './request';
@@ -109,6 +109,19 @@ describe('EditRequestComponent', () => {
       expect(service.addedDonorRequests[0].itemType).toEqual('food');
       expect(service.addedDonorRequests[0].foodType).toEqual('dairy');
       expect(service.addedDonorRequests[0].description).toEqual('this is a description I guess');
+    });
+
+    it('should fill in values properly', ()=> {
+      editRequestComponent.setRequestValues({
+        _id: '134',
+        itemType: 'food',
+        description: 'Description',
+        foodType: 'fruit'
+      });
+
+      expect(itemTypeControl.value === 'food').toBeTrue();
+      expect(foodTypeControl.value === 'fruit').toBeTrue();
+      expect(descControl.value === 'Description').toBeTrue();
     });
   });
 /*
@@ -234,7 +247,7 @@ describe('Partially Misbehaving request service', () => {
     addClientRequest: () => Observable<string>;
     getClientRequests: () => Observable<Request[]>;
     getDonorRequests: () => Observable<Request[]>;
-    getRequestById: () => Observable<Request[]>;
+    getRequestById: () => Observable<Request>;
   };
 
   beforeEach(() => {
@@ -251,9 +264,7 @@ describe('Partially Misbehaving request service', () => {
       addClientRequest: () => new Observable(observer => {
         observer.error('addClientRequest() Observer generates an error');
       }),
-      getRequestById: () => new Observable(observer => {
-        observer.error('getRequestById() Observer generates an error');
-      }),
+      getRequestById: () => of(MockRequestService.testRequests[0]),
 
       deleteRequest: () => new Observable(observer => {
         observer.error('deleteRequest() Observer generates an error');
@@ -299,12 +310,19 @@ describe('Partially Misbehaving request service', () => {
     expect(newRequestForm.controls).toBeDefined();
   });
 
-  it('should get angy when talking with the donor database', ()=> {
-    foodTypeControl.setValue('dairy');
-    itemTypeControl.setValue('food');
-    descControl.setValue('this is a description I guess');
+  it('should fill in values properly', ()=> {
+    editRequestComponent.setRequestValues({
+      _id: '134',
+      itemType: 'food',
+      description: 'Description',
+      foodType: 'fruit'
+    });
 
-    editRequestComponent.submitForm();
+
+
+    expect(newRequestForm.value.description === 'Description').toBeTrue();
+    expect(newRequestForm.value.foodType === 'fruit').toBeTrue();
+    expect(newRequestForm.value.itemType === 'food').toBeTrue();
   });
 
 });

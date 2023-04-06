@@ -93,6 +93,15 @@ export class EditRequestComponent implements OnInit, OnDestroy{
     });
   }
 
+  setRequestValues(request: Request): void {
+    console.log('THIS IS THE REQUEST:');
+    console.log(request);
+    this.request = request;
+
+    this.newRequestForm.setValue({description: this.request.description,
+      foodType: this.request.foodType, itemType: this.request.itemType});
+  }
+
   ngOnInit(): void {
     this.route.paramMap.pipe(
       //Map the paramMap into the id
@@ -104,10 +113,7 @@ export class EditRequestComponent implements OnInit, OnDestroy{
       takeUntil(this.ngUnsubscribe)
     ).subscribe({
       next: request => {
-        this.request = request;
-
-        this.newRequestForm.setValue({description: this.request.description,
-          foodType: this.request.foodType, itemType: this.request.itemType});
+        this.setRequestValues(request);
       },
       error: _err => {
         /*(this.snackbar.open('Problem loading the Request – try again', 'OK', {
