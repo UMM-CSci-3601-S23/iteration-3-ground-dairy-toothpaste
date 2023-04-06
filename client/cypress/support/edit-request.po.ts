@@ -55,7 +55,7 @@ export class EditRequestPage {
   }
 
   editRequest(newRequest: Request) {
-    this.getFormField(this.descFieldName).clear().type(newRequest.description);
+    this.getFormField(this.descFieldName).click().clear().type(newRequest.description);
     this.setMatSelect('itemType', this.capitalize(newRequest.itemType));
     if (newRequest.itemType === 'food'){
       this.setMatSelect('foodType', this.capitalize(newRequest.foodType));
