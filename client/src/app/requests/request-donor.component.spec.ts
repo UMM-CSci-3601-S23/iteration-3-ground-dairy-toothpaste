@@ -19,7 +19,7 @@ import { ItemType, FoodType, Request } from './request';
 import { RequestDonorComponent } from './request-donor.component';
 import { RequestService } from './request.service';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
@@ -94,9 +94,14 @@ describe('Misbehaving Donor view', () => {
   let fixture: ComponentFixture<RequestDonorComponent>;
 
   let requestServiceStub: {
-    deleteRequest: () => Observable<object>;
+    deleteDonorRequest: () => Observable<object>;
     getClientRequests: () => Observable<Request[]>;
     getDonorRequests: () => Observable<Request[]>;
+  };
+
+  let snackbarModuleStub: {
+    open: (msg, buttons, settings) => void;
+    called: boolean;
   };
 
   beforeEach(() => {
@@ -108,15 +113,22 @@ describe('Misbehaving Donor view', () => {
         observer.error('getDonorRequests() Observer generates an error');
       }),
 
-      deleteRequest: () => new Observable(observer => {
-        observer.error('deleteRequest() Observer generates an error');
+      deleteDonorRequest: () => new Observable(observer => {
+        observer.error('deleteDonorRequest() Observer generates an error');
       })
+    };
+
+    snackbarModuleStub = {
+      open: (msg, buttons, settings) => {
+        snackbarModuleStub.called = true;
+      },
+      called: false
     };
 
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
       declarations: [RequestDonorComponent],
-      providers: [{provide: RequestService, useValue: requestServiceStub}]
+      providers: [{provide: RequestService, useValue: requestServiceStub}, {provide: MatSnackBar, useValue: snackbarModuleStub}]
     });
   });
 
@@ -131,6 +143,12 @@ describe('Misbehaving Donor view', () => {
   // it('generates an error if we don\'t set up a RequestDonorService, but delete', () => {
   //   donorList.deleteRequest(null);
   // });
+
+  it('opens snackbar on failures', () => {
+    snackbarModuleStub.called = false;
+    donorList.deleteRequest(null);
+    expect(snackbarModuleStub.called).toBeTrue();
+  });
 
   it('generates an error if we don\'t set up a RequestDonorService', () => {
     expect(donorList.serverFilteredRequests).toBeUndefined();
