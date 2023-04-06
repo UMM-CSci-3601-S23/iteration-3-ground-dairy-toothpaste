@@ -98,7 +98,7 @@ describe('Donor View', () => {
 
     page.deleteRequest();
 
-    page.getRequestListItems().should('have.length', 6);
+    page.getRequestListItems().should('have.length', 9);
 
   });
 
