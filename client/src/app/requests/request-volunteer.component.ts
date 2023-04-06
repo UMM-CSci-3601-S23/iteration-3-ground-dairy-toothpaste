@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
@@ -15,14 +15,17 @@ import { RequestService } from './request.service';
 })
 
 export class RequestVolunteerComponent implements OnInit, OnDestroy {
+  @Input() request: Request;
   public serverFilteredRequests: Request[];
   public filteredRequests: Request[];
 
   public requestItemType: ItemType;
+
   public requestDescription: string;
   public requestFoodType: FoodType;
 
   private ngUnsubscribe = new Subject<void>();
+
 
   constructor(private requestService: RequestService, private snackBar: MatSnackBar) {
   }
@@ -50,13 +53,14 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   public updateFilter(): void {
     this.filteredRequests = this.serverFilteredRequests;
   }
+
   ngOnInit(): void {
-      this.getRequestsFromServer();
-  }
+    this.getRequestsFromServer();
+}
 
   ngOnDestroy(): void {
-      this.ngUnsubscribe.next();
-      this.ngUnsubscribe.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
   public deleteRequest(request: Request): void {
     this.requestService.deleteClientRequest(request).pipe(

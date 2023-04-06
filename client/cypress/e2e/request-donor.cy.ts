@@ -9,6 +9,7 @@ describe('Donor View', () => {
 
   beforeEach(() => {
     page.navigateTo();
+    cy.setCookie('auth_token', 'TOKEN');
   });
   //Tests for the page with no filters
   it('Should have the correct title', () => {
@@ -92,4 +93,13 @@ describe('Donor View', () => {
     cy.get('#descriptionID input').clear().type('I want').focus().blur();
     page.getRequestListItems().should('have.length', 2);
 });
+
+  it('Should delete a request', () => {
+
+    page.deleteRequest();
+
+    page.getRequestListItems().should('have.length', 6);
+
+  });
+
 });
