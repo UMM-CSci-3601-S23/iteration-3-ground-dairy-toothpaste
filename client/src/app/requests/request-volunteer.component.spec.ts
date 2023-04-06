@@ -13,13 +13,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MockRequestService } from 'src/testing/request.service.mock';
 import { ItemType, Request } from './request';
 import { RequestVolunteerComponent } from './request-volunteer.component';
 import { RequestService } from './request.service';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 const COMMON_IMPORTS: unknown[] = [
   FormsModule,
@@ -106,10 +106,19 @@ describe('Volunteer Request View', () => {
 describe('Misbehaving Volunteer view', () => {
   let volunteerList: RequestVolunteerComponent;
   let fixture: ComponentFixture<RequestVolunteerComponent>;
+  let hasCalledDelete = false;
+  let hasCalledAddDonor = false;
 
   let requestServiceStub: {
     getClientRequests: () => Observable<Request[]>;
     getDonorRequests: () => Observable<Request[]>;
+    deleteClientRequest: () => Observable<object>;
+    addDonorRequest: () => Observable<string>;
+  };
+
+  let snackbarModuleStub: {
+    open: (msg, buttons, settings) => void;
+    called: boolean;
   };
 
   beforeEach(() => {
@@ -119,7 +128,93 @@ describe('Misbehaving Volunteer view', () => {
       }),
       getDonorRequests: () => new Observable(observer => {
         observer.error('getDonorRequests() Observer generates an error');
+      }),
+      deleteClientRequest: () => new Observable(observer => {
+        hasCalledDelete = true;
+        observer.error('getDonorRequest() Observer generates an error');
+      }),
+      addDonorRequest: () => new Observable(observer => {
+        hasCalledAddDonor = true;
+        observer.error('addDonorRequest() Observer generates an error');
       })
+    };
+
+    snackbarModuleStub = {
+      open: (msg, buttons, settings) => {
+        snackbarModuleStub.called = true;
+      },
+      called: false
+    };
+
+    TestBed.configureTestingModule({
+      imports: [COMMON_IMPORTS],
+      declarations: [RequestVolunteerComponent],
+      providers: [{provide: RequestService, useValue: requestServiceStub}, {provide: MatSnackBar, useValue: snackbarModuleStub}]
+    });
+  });
+
+  beforeEach(waitForAsync(() => {
+    TestBed.compileComponents().then(() => {
+      fixture = TestBed.createComponent(RequestVolunteerComponent);
+      volunteerList = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+  }));
+
+  it('generates an error if we don\'t set up a RequestVolunteerService', () => {
+    expect(volunteerList.serverFilteredRequests).toBeUndefined();
+  });
+
+  it('opens snackbar on failures', () => {
+    snackbarModuleStub.called = false;
+    volunteerList.deleteRequest(null);
+    expect(snackbarModuleStub.called).toBeTrue();
+  });
+
+  it('does not call delete if the post failed when calling `postRequest`', () => {
+    hasCalledDelete = false;
+    hasCalledAddDonor = false;
+    volunteerList.postRequest(null);
+    expect(hasCalledDelete).toBeFalse();
+    expect(hasCalledAddDonor).toBeTrue();
+  });
+
+  it('updateFilter properly reassigns our request list', ()=>{
+    volunteerList.updateFilter();
+    expect(volunteerList.filteredRequests === volunteerList.serverFilteredRequests).toBeTruthy();
+  });
+
+});
+
+describe('Partially misbehaving Volunteer view', () => {
+  let volunteerList: RequestVolunteerComponent;
+  let fixture: ComponentFixture<RequestVolunteerComponent>;
+  let hasCalledDelete = false;
+  let hasCalledAddDonor = false;
+
+  let requestServiceStub: {
+    getClientRequests: () => Observable<Request[]>;
+    getDonorRequests: () => Observable<Request[]>;
+    deleteClientRequest: () => Observable<object>;
+    addDonorRequest: () => Observable<string>;
+  };
+
+  beforeEach(() => {
+    requestServiceStub = {
+      getClientRequests: () => new Observable(observer => {
+        observer.error('getClientRequests() Observer generates an error');
+      }),
+      getDonorRequests: () => new Observable(observer => {
+        observer.error('getDonorRequests() Observer generates an error');
+      }),
+      deleteClientRequest: () => new Observable(observer => {
+        hasCalledDelete = true;
+        observer.error('getDonorRequest() Observer generates an error');
+      }),
+      addDonorRequest: () => {
+        hasCalledAddDonor = true;
+        return of('<3');
+      }
     };
 
     TestBed.configureTestingModule({
@@ -137,13 +232,11 @@ describe('Misbehaving Volunteer view', () => {
     });
   }));
 
-  it('generates an error if we don\'t set up a RequestVolunteerService', () => {
-    expect(volunteerList.serverFilteredRequests).toBeUndefined();
+  it('does call delete if the post succeeded when calling `postRequest`, even if the delete call fails too', () => {
+    hasCalledDelete = false;
+    hasCalledAddDonor = false;
+    volunteerList.postRequest(null);
+    expect(hasCalledDelete).toBeTrue();
+    expect(hasCalledAddDonor).toBeTrue();
   });
-
-  it('updateFilter properly reassigns our request list', ()=>{
-    volunteerList.updateFilter();
-    expect(volunteerList.filteredRequests === volunteerList.serverFilteredRequests).toBeTruthy();
-  });
-
 });
