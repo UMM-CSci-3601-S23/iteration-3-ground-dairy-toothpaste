@@ -7,6 +7,7 @@ export class RequestDonorPage {
   private readonly requestFoodTypeDropDown = '[data-test=requestFoodTypeSelect]';
   private readonly dropdownOptionSelector = `mat-option`;
   private readonly requestListItemSelector = '.donor-nav-list .donor-list-item';
+  private readonly deleteButton = '[data-test=deleteRequestButton]';
 
   navigateTo() {
     return cy.visit(this.baseUrl);
@@ -28,5 +29,10 @@ export class RequestDonorPage {
   selectFoodType(value: FoodType) {
     cy.get(this.requestFoodTypeDropDown).click();
     return cy.get(`${this.dropdownOptionSelector}[value="${value}"]`).click();
+  }
+
+  deleteRequest() {
+
+    cy.get(this.deleteButton).first().click({ multiple: false }) ;
   }
 }
