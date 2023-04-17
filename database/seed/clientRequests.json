@@ -5,7 +5,8 @@
     },
     "itemType": "food",
     "description": "I'd like some apples",
-    "foodType": "fruit"
+    "foodType": "fruit",
+    "isFromFoodShelf": true
   },
   {
     "_id": {
