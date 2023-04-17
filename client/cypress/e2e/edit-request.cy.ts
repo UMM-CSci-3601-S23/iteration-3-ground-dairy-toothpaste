@@ -32,4 +32,22 @@ describe('Edit a request', ()=> {
     cy.get('.donor-list-foodType').should('contain.text', request.foodType);
   });
 
+  it('Should delete the old request on the volunteer page', () => {
+    const request: Request = {
+      _id: '588935f57546a2daea44de7c',
+      itemType: 'food',
+      foodType: 'fruit',
+      description: 'I\'d like some apples'
+    };
+
+    page.navigateToVolunteer();
+    page.selectEditButton();
+    page.newRequestButton().click();
+    page.navigateToVolunteer();
+
+    cy.get('.volunteer-list-description').should('not.contain.text', request.description);
+    cy.get('.volunteer-list-description').should('not.contain.text', request.itemType);
+    cy.get('.volunteer-list-description').should('not.contain.text', request.foodType);
+  });
+
 });
