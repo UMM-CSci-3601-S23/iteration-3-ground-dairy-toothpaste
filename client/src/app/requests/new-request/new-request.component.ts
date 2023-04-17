@@ -67,6 +67,11 @@ export class NewRequestComponent {
     return 'Unknown error';
   }
 
+  resetForm() {
+    this.newRequestForm.patchValue({foodType: ''});
+    console.log('this is a test');
+  }
+
   submitForm() {
     if (this.destination === 'client') {
       this.requestService.addClientRequest(this.newRequestForm.value).subscribe({
