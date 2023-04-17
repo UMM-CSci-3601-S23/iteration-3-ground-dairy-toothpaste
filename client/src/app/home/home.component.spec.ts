@@ -28,7 +28,7 @@ describe('Home', () => {
 
   it('It has the basic home page text', () => {
     fixture.detectChanges();
-    expect(el.textContent).toContain('PocketShelf: brought to you by the SC food shelf in collaboration with UMM!');
+    expect(el.textContent).toContain('Iteration 3 brought to you by the SC food shelf in collaboration with UMM!');
     expect(component).toBeTruthy();
   });
 
