@@ -2,6 +2,7 @@ import { FoodType, ItemType, Request } from 'src/app/requests/request';
 
 export class EditRequestPage {
   private readonly requestUrl = '/requests/volunteer/588935f57546a2daea44de7c';
+  private readonly volunteerUrl = '/requests/volunteer';
   private readonly donorUrl = '/requests/donor';
   private readonly title = '.new-request-title';
   private readonly button = '[data-test=confirmNewRequestButton]';
@@ -18,6 +19,9 @@ export class EditRequestPage {
     return cy.visit(this.requestUrl);
   }
 
+  navigateToVolunteer() {
+    return cy.visit(this.volunteerUrl);
+  }
   navigateToDonor() {
     return cy.visit(this.donorUrl);
   }
