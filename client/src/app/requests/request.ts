@@ -3,6 +3,7 @@ export interface Request {
   itemType: ItemType;
   description: string;
   foodType: FoodType;
+  isFromFoodShelf: boolean;
 }
 
 export type ItemType = 'food' | 'toiletries' | 'other';
