@@ -160,7 +160,6 @@ describe('ClientFormComponent', () => {
     const shortDay = 3;
     beforeEach(() => {
       testComponent.selections = ['hotSauce', 'rice', 'bread'];
-      testComponent.date = date;
     });
 
     it('submission goes through successfully', ()=> {
