@@ -5,7 +5,7 @@ export class EditRequestPage {
   private readonly volunteerUrl = '/requests/volunteer';
   private readonly donorUrl = '/requests/donor';
   private readonly title = '.new-request-title';
-  private readonly button = '[data-test=confirmNewRequestButton]';
+  private readonly submitButton = '[data-test=confirmNewRequestButton]';
   private readonly snackBar = '.mat-mdc-simple-snack-bar';
   private readonly itemTypeFieldName = 'itemType';
   private readonly foodTypeFieldName = 'foodType';
@@ -15,6 +15,7 @@ export class EditRequestPage {
   private readonly requestItemTypeDropDown = '[data-test=requestItemTypeSelect]';
   private readonly requestFoodTypeDropDown = '[data-test=requestFoodTypeSelect]';
   private readonly requestDescription = '[data-test=requestDescriptionInput]';
+  private readonly editButton = '[data-test=editRequestButton]';
   navigateToRequest() {
     return cy.visit(this.requestUrl);
   }
@@ -31,9 +32,12 @@ export class EditRequestPage {
   }
 
   newRequestButton() {
-    return cy.get(this.button);
+    return cy.get(this.submitButton);
   }
 
+  selectEditButton() {
+    return cy.get(this.editButton).first().click();
+  }
   selectMatSelectValue(select: Cypress.Chainable, value: string) {
     // Find and click the drop down
     return select.click()
