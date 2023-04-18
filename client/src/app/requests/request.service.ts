@@ -93,4 +93,5 @@ export class RequestService {
     // Send delete request to delete a request
     return this.httpClient.delete(this.requestDonorUrl + '/' + request._id).pipe(map(res => res));
   }
+
 }

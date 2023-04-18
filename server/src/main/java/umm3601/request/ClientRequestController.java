@@ -155,7 +155,7 @@ public class ClientRequestController {
       .check(req -> req.foodType.matches(FOOD_TYPE_REGEX), "Request must contain valid food type").get();
 
     // Add the date to the request formatted as an ISO 8601 string
-    newRequest.dateAdded = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_DATE);
+    newRequest.dateAdded = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_LOCAL_DATE);
 
     // Insert the newRequest into the requestCollection
     requestCollection.insertOne(newRequest);
