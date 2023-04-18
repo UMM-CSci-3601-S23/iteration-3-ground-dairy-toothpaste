@@ -105,6 +105,9 @@ public class Server {
     server.get("/api/auth", auth::grant);
 
 
+    server.post("/api/auth", auth::add_cookie);
+
+
     // This catches any uncaught exceptions thrown in the server
     // code and turns them into a 500 response ("Internal Server
     // Error Response"). In general you'll like to *never* actually

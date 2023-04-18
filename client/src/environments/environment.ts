@@ -4,8 +4,17 @@
 
 export const environment = {
   production: false,
-  apiUrl: '/api/'
+  apiUrl: '/api/',
+  firebase: {
+    apiKey: 'AIzaSyDyCnyWk9Nd-luuB203LifN-XlgFR927f0',
+    authDomain: 'project.firebaseapp.com',
+    databaseURL: 'https://project.firebaseio.com',
+    projectId: 'designanddev-ba841',
+    storageBucket: 'project.appspot.com',
+    messagingSenderId: '...'
+  }
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file

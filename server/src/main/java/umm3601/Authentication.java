@@ -34,6 +34,10 @@ public class Authentication {
   public void authenticate(Context ctx) throws ForbiddenResponse {
     String cookie = ctx.cookie("auth_token");
 
+    if (cookie != null) {
+      logger.error("Using cookie: `" + cookie + "`");
+    }
+
     if (bypassAuth) {
       if (!(ctx.cookie("auth_token") != null && cookie.equals("TOKEN"))) {
 
@@ -59,5 +63,14 @@ public class Authentication {
     ctx.result("<h1></b>"
       + "DO NOT USE THIS! THIS IS A TERRIBLE IDEA AND NOT THE WAY SECURITY SHOULD EVER WORK, THIS IS FOR THE DEMO ONLY!"
       + "<b></h1>");
+  }
+
+  // Request the cookie be set by the server, the cookie is passed in the body of a post request
+  public void add_cookie(Context ctx) {
+    if (ctx.body() != null) {
+      logger.error("Setting cookie: `" + ctx.body() + "`");
+    }
+    ctx.cookie("auth_token", ctx.body());
+    ctx.status(HttpStatus.OK);
   }
 }

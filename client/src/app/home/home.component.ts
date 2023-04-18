@@ -12,6 +12,4 @@ export class HomeComponent {
   changeRole(newRole: HomeComponent['userRole']){
     this.userRole = newRole;
   }
-
 }
-
