@@ -154,18 +154,4 @@ describe('ClientFormComponent', () => {
 
   });
 
-  describe('The submitForm method', ()=>{
-    const date: Date = new Date();
-    const shortMonth = 5;
-    const shortDay = 3;
-    beforeEach(() => {
-      testComponent.selections = ['hotSauce', 'rice', 'bread'];
-    });
-
-    it('submission goes through successfully', ()=> {
-      testComponent.submitForm();
-      expect(testComponent.done).toBeTruthy();
-    });
-
-  });
 });

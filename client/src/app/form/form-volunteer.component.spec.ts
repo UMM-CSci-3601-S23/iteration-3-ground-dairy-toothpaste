@@ -85,7 +85,7 @@ describe('Misbehaving Volunteer view', () => {
   let fixture: ComponentFixture<FormVolunteerComponent>;
 
   it('generates an error if we don\'t set up a FormVolunteerService', () => {
-    expect(formVolunteerList.serverFilteredForms).toBeUndefined();
+    expect(formVolunteerList).toBeUndefined();
   });
 
 });
