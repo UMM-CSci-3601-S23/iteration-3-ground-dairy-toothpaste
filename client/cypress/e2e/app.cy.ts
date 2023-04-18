@@ -6,7 +6,7 @@ describe('App', () => {
   beforeEach(() => page.navigateTo());
 
   it('Should have the correct title', () => {
-    page.getAppTitle().should('contain', 'Iteration 3.0');
+    page.getAppTitle().should('contain', 'Iteration 3');
   });
 
 
