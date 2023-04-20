@@ -78,6 +78,7 @@ export class EditRequestComponent implements OnInit, OnDestroy{
     const request: Partial<Request> = this.newRequestForm.value;
     request.dateAdded = this.request.dateAdded;
 
+
     this.requestService.addDonorRequest(this.newRequestForm.value).subscribe({
       next: (returnedRequests) => {
         this.requestService.deleteClientRequest(this.request).subscribe({
