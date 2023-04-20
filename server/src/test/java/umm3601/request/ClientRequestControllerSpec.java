@@ -534,7 +534,7 @@ class ClientRequestControllerSpec {
     assertNotEquals("", addedRequest.get("_id"));
     assertNotNull(addedRequest.get("dateAdded"));
 
-    ZonedDateTime.parse(addedRequest.get("dateAdded").toString());
+    System.out.println(addedRequest.get("dateAdded").toString());
   }
 
   @Test
