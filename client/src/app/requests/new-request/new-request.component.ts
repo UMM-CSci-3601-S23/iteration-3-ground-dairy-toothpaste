@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { FoodType } from '../request';
+import { FoodType, OriginType } from '../request';
 import { ItemType } from '../request';
 import { RequestService } from '../request.service';
 
@@ -15,6 +15,7 @@ export class NewRequestComponent {
 
   @Input() destination: 'client' | 'donor' = 'client';
   public type: ItemType = 'food';
+  public originType: OriginType = 'volunteer';
 
   newRequestForm = new FormGroup({
     // We want descriptions to be short and sweet, yet still required so we have at least some idea what
@@ -66,6 +67,8 @@ export class NewRequestComponent {
     }
     return 'Unknown error';
   }
+
+
 
   submitForm() {
     if (this.destination === 'client') {

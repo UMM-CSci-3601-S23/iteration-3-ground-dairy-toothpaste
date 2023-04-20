@@ -47,7 +47,7 @@ export class RequestService {
   }
 
 
-  getDonorRequests(filters?: {itemType?: ItemType; foodType?: FoodType; description?: string}): Observable<Request[]> {
+  getDonorRequests(filters?: {itemType?: ItemType; foodType?: FoodType; description?: string; originType?: string}): Observable<Request[]> {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.itemType) {
