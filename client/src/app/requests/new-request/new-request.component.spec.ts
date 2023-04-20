@@ -178,6 +178,14 @@ describe('NewRequestComponent', () => {
       foodTypeControl.setValue('cars');
       expect(foodTypeControl.valid).toBeFalsy();
     });
+
+    it('should be clearable by `resetForm`', () => {
+      foodTypeControl.setValue('vegetable');
+      expect(foodTypeControl.value).toEqual('vegetable');
+      newRequestComponent.resetForm();
+      expect(foodTypeControl.value).toBeFalsy();
+
+    });
   });
   describe('The getErrorMessage method', ()=>{
     let itemTypeControl: AbstractControl;
