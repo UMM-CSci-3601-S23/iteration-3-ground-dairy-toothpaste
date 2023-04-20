@@ -5,7 +5,8 @@
     },
     "itemType": "food",
     "description": "Fresh Apples",
-    "foodType": "fruit"
+    "foodType": "fruit",
+    "dateAdded": "1999-12-06"
   },
   {
     "_id": {
@@ -13,7 +14,8 @@
     },
     "itemType": "toiletries",
     "description": "Toothpaste",
-    "foodType": ""
+    "foodType": "",
+    "dateAdded": "2006-11-16"
   },
   {
     "_id": {
@@ -21,7 +23,8 @@
     },
     "itemType": "other",
     "description": "Plates",
-    "foodType": ""
+    "foodType": "",
+    "dateAdded": "2008-10-13"
   },
   {
     "_id": {
@@ -29,7 +32,8 @@
     },
     "itemType": "food",
     "description": "Milk",
-    "foodType": "dairy"
+    "foodType": "dairy",
+    "dateAdded": "2020-05-23"
   },
   {
     "_id": {
@@ -37,7 +41,9 @@
     },
     "itemType": "food",
     "description": "Bread",
-    "foodType": "grain"
+    "foodType": "grain",
+    "dateAdded": "2023-01-28"
+
   },
   {
     "_id": {
@@ -45,7 +51,8 @@
     },
     "itemType": "food",
     "description": "Ground beef",
-    "foodType": "meat"
+    "foodType": "meat",
+    "dateAdded": "2019-12-28"
   },
   {
     "_id": {
@@ -53,7 +60,8 @@
     },
     "itemType": "food",
     "description": "Assorted Vegetables",
-    "foodType": "vegetable"
+    "foodType": "vegetable",
+    "dateAdded": "2019-03-12"
   },
 
   {
@@ -62,7 +70,8 @@
     },
     "itemType": "food",
     "description": "I want ground vegetables",
-    "foodType": "vegetable"
+    "foodType": "vegetable",
+    "dateAdded": "2016-04-22"
   },
 
   {
@@ -71,7 +80,8 @@
     },
     "itemType": "toiletries",
     "description": "I want toothpaste",
-    "foodType": ""
+    "foodType": "",
+    "dateAdded": "2021-05-22"
   },
 
   {
@@ -80,7 +90,8 @@
     },
     "itemType": "food",
     "description": "I want pasta",
-    "foodType": "grain"
+    "foodType": "grain",
+    "dateAdded": "2022-02-22"
   }
 
 ]
