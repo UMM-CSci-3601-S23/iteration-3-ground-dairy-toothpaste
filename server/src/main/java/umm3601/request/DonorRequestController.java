@@ -25,9 +25,6 @@ import umm3601.Authentication;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 
 public class DonorRequestController {
@@ -153,7 +150,7 @@ public class DonorRequestController {
       .check(req -> req.foodType.matches(FOOD_TYPE_REGEX), "Request must contain valid food type").get();
 
     // Add the date to the request formatted as an ISO 8601 string
-    newRequest.dateAdded = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
+    //newRequest.dateAdded = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
 
     // Insert the newRequest into the requestCollection
     requestCollection.insertOne(newRequest);

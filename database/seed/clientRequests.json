@@ -5,7 +5,8 @@
     },
     "itemType": "food",
     "description": "I'd like some apples",
-    "foodType": "fruit"
+    "foodType": "fruit",
+    "dateAdded": "1999-12-06"
   },
   {
     "_id": {
@@ -13,7 +14,8 @@
     },
     "itemType": "toiletries",
     "description": "I need some toothpaste",
-    "foodType": ""
+    "foodType": "",
+    "dateAdded": "2006-11-16"
   },
   {
     "_id": {
@@ -21,7 +23,8 @@
     },
     "itemType": "other",
     "description": "I need paper plates",
-    "foodType": ""
+    "foodType": "",
+    "dateAdded": "2008-10-13"
   },
   {
     "_id": {
@@ -29,7 +32,8 @@
     },
     "itemType": "food",
     "description": "Need milk",
-    "foodType": "dairy"
+    "foodType": "dairy",
+    "dateAdded": "2020-05-23"
   },
   {
     "_id": {
@@ -37,7 +41,8 @@
     },
     "itemType": "food",
     "description": "I need bread",
-    "foodType": "grain"
+    "foodType": "grain",
+    "dateAdded": "2023-01-28"
   },
   {
     "_id": {
@@ -45,7 +50,8 @@
     },
     "itemType": "food",
     "description": "I would like some more ground beef",
-    "foodType": "meat"
+    "foodType": "meat",
+    "dateAdded": "2019-12-28"
   },
   {
     "_id": {
@@ -53,6 +59,7 @@
     },
     "itemType": "food",
     "description": "If possible I'd like to be able to add more vegetables to my meals",
-    "foodType": "vegetable"
+    "foodType": "vegetable",
+    "dateAdded": "2019-03-12"
   }
 ]

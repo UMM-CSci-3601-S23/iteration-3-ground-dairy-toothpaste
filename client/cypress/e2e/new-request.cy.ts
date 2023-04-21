@@ -73,6 +73,7 @@ describe('Add donor request', () => {
         itemType: 'food',
         foodType: 'meat',
         description: ' TEST REQUEST!!!!',
+        dateAdded: '2023-4-18'
       };
       page.setMatSelect('itemType', 'Other');
       page.newRequest(request);
@@ -87,6 +88,7 @@ describe('Add donor request', () => {
       cy.get('.request-list-description').should('contain.text', request.description);
       cy.get('.request-list-itemType').should('contain.text', request.itemType);
       cy.get('.request-list-foodType').should('contain.text', request.foodType);
+      cy.get('.request-list-dateAdded').should('contain.text', 'Date Added: ');
       // We should see the confirmation message at the bottom of the screen
     });
   });
@@ -162,6 +164,7 @@ describe('Add volunteer request', () => {
         itemType: 'food',
         foodType: 'meat',
         description: ' TEST REQUEST!!!!',
+        dateAdded: '2023-4-18'
       };
       page.setMatSelect('itemType', 'Other');
       page.newRequest(request);
