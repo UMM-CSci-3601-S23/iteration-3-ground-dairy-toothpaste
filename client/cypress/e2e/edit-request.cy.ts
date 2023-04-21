@@ -27,9 +27,9 @@ describe('Edit a request', ()=> {
     page.selectFoodType('meat');
     page.filterDescription('This is a test edit');
 
-    cy.get('.donor-list-description').should('contain.text', request.description);
-    cy.get('.donor-list-itemType').should('contain.text', request.itemType);
-    cy.get('.donor-list-foodType').should('contain.text', request.foodType);
+    cy.get('.request-list-description').should('contain.text', request.description);
+    cy.get('.request-list-itemType').should('contain.text', request.itemType);
+    cy.get('.request-list-foodType').should('contain.text', request.foodType);
   });
 
   it('Should delete the old request on the volunteer page', () => {
@@ -45,9 +45,9 @@ describe('Edit a request', ()=> {
     page.newRequestButton().click();
     page.navigateToVolunteer();
 
-    cy.get('.volunteer-list-description').should('not.contain.text', request.description);
-    cy.get('.volunteer-list-description').should('not.contain.text', request.itemType);
-    cy.get('.volunteer-list-description').should('not.contain.text', request.foodType);
+    cy.get('.request-list-description').should('not.contain.text', request.description);
+    cy.get('.request-list-description').should('not.contain.text', request.itemType);
+    cy.get('.request-list-description').should('not.contain.text', request.foodType);
   });
 
 });
