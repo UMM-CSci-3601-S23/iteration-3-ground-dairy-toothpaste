@@ -15,7 +15,7 @@ import { ɵparseCookieValue } from '@angular/common';
   providers: [RequestVolunteerComponent]
 })
 
-export class EditRequestComponent implements OnInit, OnDestroy{
+export class EditRequestComponent implements OnInit, OnDestroy {
   request: Request;
   router: any;
   itemType: any;
@@ -103,8 +103,6 @@ export class EditRequestComponent implements OnInit, OnDestroy{
   }
 
   setRequestValues(request: Request): void {
-    console.log('THIS IS THE REQUEST:');
-    console.log(request);
     this.request = request;
 
     this.newRequestForm.setValue({description: this.request.description,
@@ -132,8 +130,6 @@ export class EditRequestComponent implements OnInit, OnDestroy{
         }); */
       }
     });
-
-
   }
 
   ngOnDestroy(): void {
