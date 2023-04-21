@@ -15,7 +15,8 @@ describe('Edit a request', ()=> {
       _id: '588935f57546a2daea44de7c',
       itemType: 'food',
       foodType: 'meat',
-      description: 'This is a test edit'
+      description: 'This is a test edit',
+      dateAdded:'10-18-2020'
     };
 
     page.editRequest(request);
@@ -37,7 +38,8 @@ describe('Edit a request', ()=> {
       _id: '588935f57546a2daea44de7c',
       itemType: 'food',
       foodType: 'fruit',
-      description: 'I\'d like some apples'
+      description: 'I\'d like some apples',
+      dateAdded:'1999-12-06'
     };
 
     page.navigateToVolunteer();
