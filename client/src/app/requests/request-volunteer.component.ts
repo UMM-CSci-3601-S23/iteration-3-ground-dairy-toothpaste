@@ -26,8 +26,10 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
 
   authHypothesis: boolean;
 
-  private ngUnsubscribe = new Subject<void>();
+  public deleteRequestCallback: (Request) => void;
+  public postRequestCallback: (Request) => void;
 
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(private requestService: RequestService, private snackBar: MatSnackBar) {
   }
@@ -59,6 +61,8 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getRequestsFromServer();
     this.authHypothesis = document.cookie.includes('auth_token');
+    this.deleteRequestCallback = this.deleteRequest.bind(this);
+    this.postRequestCallback = this.postRequest.bind(this);
 }
 
   ngOnDestroy(): void {

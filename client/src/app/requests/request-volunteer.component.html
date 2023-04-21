@@ -44,27 +44,8 @@
       <mat-card-content>
         <mat-nav-list class="volunteer-nav-list">
           <h3 mat-subheader>Requests</h3>
-          <div mat-list-item *ngFor="let request of this.serverFilteredRequests" [routerLink]="['/requests/donor', request._id]" class="volunteer-list-item edit-request">
-            <mat-card class="example-card">
-              <mat-card-header>
-                <mat-card-title class="volunteer-list-itemType">{{request.itemType}}</mat-card-title>
-                <mat-card-subtitle class="volunteer-list-foodType">{{request.foodType}}</mat-card-subtitle>
-              </mat-card-header>
-              <mat-card-content>
-                <p matListItemBody class="volunteer-list-description"> {{request.description}} </p>
-              </mat-card-content>
-              <mat-card-actions>
-                <button mat-button matToolTip="Edit Request" [routerLink]="['/requests/volunteer', request._id]" data-test="editRequestButton">
-                  Edit Request
-                </button>
-                <button mat-button data-test="postRequestButton" (click)="postRequest(request)">
-                  Post
-                </button>
-                <button mat-icon-button data-test="deleteRequestButton" (click)="deleteRequest(request)">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </mat-card-actions>
-            </mat-card>
+          <div mat-list-item *ngFor="let request of this.serverFilteredRequests" class="volunteer-list-item edit-request">
+            <app-request-card [request]="request" [editable]="true" [deletable]="true" [deleteCallback]="deleteRequestCallback" [postCallback]="postRequestCallback"></app-request-card>
           </div>
         </mat-nav-list>
       </mat-card-content>
