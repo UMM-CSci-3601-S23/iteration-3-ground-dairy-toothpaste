@@ -1,0 +1,11 @@
+<mat-card class="request-card" *ngIf="this.request">
+  <mat-card-header>
+    <mat-card-title class="request-card-itemType">{{this.request.itemType}}</mat-card-title>
+    <mat-card-subtitle class="request-card-foodType">{{this.request.foodType}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>Description: <span class="request-card-description">{{this.request.description}}</span></p>
+    <p>Date Added: <span class="request-card-date">{{this.request.dateAdded}}</span></p>
+  </mat-card-content>
+  <button mat-button data-test="backtorequestsbutton"[routerLink]="['/requests/donor']">Go back</button>
+ </mat-card>

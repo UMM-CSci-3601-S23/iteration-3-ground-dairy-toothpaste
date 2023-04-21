@@ -5,6 +5,7 @@ import { EditRequestComponent } from './requests/edit-request.component';
 import { NewRequestComponent } from './requests/new-request/new-request.component';
 import { RequestDonorComponent } from './requests/request-donor.component';
 import { RequestVolunteerComponent } from './requests/request-volunteer.component';
+import { RequestDonorCardComponent } from './request-donor-card/request-donor-card.component';
 
 // Note that the 'users/new' route needs to come before 'users/:id'.
 // If 'users/:id' came first, it would accidentally catch requests to
@@ -12,6 +13,7 @@ import { RequestVolunteerComponent } from './requests/request-volunteer.componen
 const routes: Routes = [
   {path: '', component: HomeComponent, title: 'Home'},
   {path: 'requests/donor', component: RequestDonorComponent, title: 'Donor View'},
+  {path: 'requests/donor/:id', component: RequestDonorCardComponent, title: 'Detailed Request View'},
   {path: 'requests/volunteer', component: RequestVolunteerComponent, title: 'Volunteer View'},
   {path: 'requests/client', component: NewRequestComponent, title: 'New Request'},
   {path: 'requests/donor', component: RequestDonorComponent, title: 'Donor View'},

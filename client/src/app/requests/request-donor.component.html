@@ -71,6 +71,9 @@
               <button mat-icon-button data-test="deleteRequestButton" (click)="deleteRequest(request)">
                 <mat-icon>delete</mat-icon>
               </button>
+              <button mat-icon-button data-test="viewRequestButton"[routerLink]="['/requests/donor/{_id}', this.request._id]">
+                <mat-icon>launch</mat-icon>
+              </button>
             </mat-card-actions>
           </mat-card>
         </div>
