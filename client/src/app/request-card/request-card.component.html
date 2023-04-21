@@ -11,6 +11,9 @@
     <button mat-button matToolTip="Edit Request" [routerLink]="['/requests/volunteer', request._id]" data-test="editRequestButton" *ngIf="this.editable">
       Edit Request
     </button>
+    <button mat-button matToolTip="View Detailed" [routerLink]="['/requests/donor', request._id]" data-test="detailedButton" *ngIf="this.showDetail">
+      View Detailed
+    </button>
     <button mat-button data-test="postRequestButton" (click)="postRequest()" *ngIf="this.editable">
       Post
     </button>

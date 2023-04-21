@@ -13,6 +13,7 @@ export class RequestCardComponent {
   @Input() request: Request;
   @Input() editable = false;
   @Input() deletable = false;
+  @Input() showDetail = false;
   @Input() deleteCallback: (Request) => void;
   @Input() postCallback: (Request) => void;
 

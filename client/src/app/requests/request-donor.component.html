@@ -58,7 +58,7 @@
       <mat-nav-list class="donor-nav-list">
         <h2 mat-subheader>Requests</h2>
         <div mat-list-item *ngFor="let request of this.serverFilteredRequests" class="donor-list-item">
-          <app-request-card [request]="request" [deletable]="this.authHypothesis" [deleteCallback]="deleteRequestCallback"></app-request-card>
+          <app-request-card [request]="request" [deletable]="this.authHypothesis" [showDetail]="true" [deleteCallback]="deleteRequestCallback"></app-request-card>
         </div>
       </mat-nav-list>
     </mat-card-content>
