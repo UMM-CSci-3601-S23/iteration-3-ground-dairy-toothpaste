@@ -22,7 +22,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -52,30 +52,31 @@ const MATERIAL_MODULES: any[] = [
   MatSnackBarModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatDialogModule,
+  MatDialogModule
 ];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    NewRequestComponent,
-    RequestDonorComponent,
-    RequestVolunteerComponent,
-    EditRequestComponent,
-    NewRequestHelpComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    MATERIAL_MODULES,
-    LayoutModule,
-    MatDialogModule,
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        NewRequestComponent,
+        RequestDonorComponent,
+        RequestVolunteerComponent,
+        EditRequestComponent,
+        NewRequestHelpComponent,
+    ],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        MATERIAL_MODULES,
+        LayoutModule,
+        MatDialogModule,
+        MatCardModule
+    ]
 })
 export class AppModule { }
