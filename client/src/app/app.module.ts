@@ -32,6 +32,7 @@ import { RequestVolunteerComponent } from './requests/request-volunteer.componen
 import { NewRequestComponent } from './requests/new-request/new-request.component';
 import { EditRequestComponent } from './requests/edit-request.component';
 import { NewRequestHelpComponent } from './requests/new-request/new-request-help/new-request-help.component';
+import { VolunteerHelpComponent } from './volunteer-help/volunteer-help.component';
 
 
 
@@ -56,27 +57,27 @@ const MATERIAL_MODULES: any[] = [
 ];
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        HomeComponent,
-        NewRequestComponent,
-        RequestDonorComponent,
-        RequestVolunteerComponent,
-        EditRequestComponent,
-        NewRequestHelpComponent,
-    ],
-    bootstrap: [AppComponent],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        MATERIAL_MODULES,
-        LayoutModule,
-        MatDialogModule,
-        MatCardModule
-    ]
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    NewRequestComponent,
+    RequestDonorComponent,
+    RequestVolunteerComponent,
+    EditRequestComponent,
+    NewRequestHelpComponent,
+    VolunteerHelpComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MATERIAL_MODULES,
+    LayoutModule,
+    MatDialogModule,
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
