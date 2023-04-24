@@ -7,7 +7,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
   styleUrls: ['./new-request-help.component.scss']
 })
 export class NewRequestHelpComponent {
- // dialogRef: MatDialogRef <any> ;
+  // dialogRef: MatDialogRef <any> ;
   constructor(public dialog: MatDialog) { }
 
   openDialog() {
@@ -18,8 +18,8 @@ export class NewRequestHelpComponent {
 
     this.dialog.open(NewRequestHelpComponent, dialogRef);
 
-   // dialogRef.afterClosed().subscribe(result => {
-   //   console.log(`Dialog result: ${result}`);
-   // });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log(`Dialog result: ${result}`);
+    // });
   }
 }
