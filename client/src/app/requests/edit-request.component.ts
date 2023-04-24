@@ -75,14 +75,22 @@ export class EditRequestComponent implements OnInit, OnDestroy{
   }
 
   submitForm() {
+    const request: Partial<Request> = this.newRequestForm.value;
+    request.dateAdded = this.request.dateAdded;
+
+
     this.requestService.addDonorRequest(this.newRequestForm.value).subscribe({
-      next: (newId) => {
-        this.snackBar.open(
-          `Request successfully submitted`,
-          null,
-          { duration: 2000 }
-        );
-      },
+      next: (returnedRequests) => {
+        this.requestService.deleteClientRequest(this.request).subscribe({
+          next: (newId) => {
+            this.snackBar.open(
+              `Request successfully submitted`,
+              null,
+              { duration: 2000 }
+            );
+          },
+        });
+    },
       error: err => {
         this.snackBar.open(
           `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`,

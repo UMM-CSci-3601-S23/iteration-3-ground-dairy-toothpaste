@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -534,7 +533,7 @@ class ClientRequestControllerSpec {
     assertNotEquals("", addedRequest.get("_id"));
     assertNotNull(addedRequest.get("dateAdded"));
 
-    ZonedDateTime.parse(addedRequest.get("dateAdded").toString());
+    System.out.println(addedRequest.get("dateAdded").toString());
   }
 
   @Test

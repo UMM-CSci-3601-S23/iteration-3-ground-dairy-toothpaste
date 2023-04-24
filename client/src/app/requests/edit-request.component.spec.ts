@@ -16,6 +16,8 @@ import { Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ActivatedRouteStub } from 'src/testing/activated-route-stub';
 import { Request } from './request';
+import { TestRequest } from '@angular/common/http/testing';
+
 
 describe('EditRequestComponent', () => {
   let editRequestComponent: EditRequestComponent;
@@ -91,24 +93,33 @@ describe('EditRequestComponent', () => {
     let itemTypeControl: AbstractControl;
     let foodTypeControl: AbstractControl;
     let descControl: AbstractControl;
+    let dateAdded: string;
+
 
     beforeEach(() => {
       itemTypeControl = newRequestForm.controls.itemType;
       foodTypeControl = newRequestForm.controls.foodType;
       descControl = editRequestComponent.newRequestForm.controls.description;
+
+
     });
 
     it('should not get angy', ()=> {
 
-      foodTypeControl.setValue('dairy');
-      itemTypeControl.setValue('food');
-      descControl.setValue('this is a description I guess');
+      editRequestComponent.setRequestValues({
+        _id: '134',
+        itemType: 'food',
+        description: 'Description',
+        foodType: 'fruit',
+        dateAdded: '2023-4-2'
+      });
 
       editRequestComponent.submitForm();
 
       expect(service.addedDonorRequests[0].itemType).toEqual('food');
-      expect(service.addedDonorRequests[0].foodType).toEqual('dairy');
-      expect(service.addedDonorRequests[0].description).toEqual('this is a description I guess');
+      expect(service.addedDonorRequests[0].foodType).toEqual('fruit');
+      expect(service.addedDonorRequests[0].description).toEqual('Description');
+      expect(service.addedDonorRequests[0].dateAdded).toEqual('2023-4-2');
     });
 
     it('should fill in values properly', ()=> {
@@ -116,7 +127,8 @@ describe('EditRequestComponent', () => {
         _id: '134',
         itemType: 'food',
         description: 'Description',
-        foodType: 'fruit'
+        foodType: 'fruit',
+        dateAdded: '2023-4-2'
       });
 
       expect(itemTypeControl.value === 'food').toBeTrue();
@@ -220,9 +232,13 @@ describe('Misbehaving request service', () => {
   });
 
   it('should get angy when talking with the donor database', ()=> {
-    foodTypeControl.setValue('dairy');
-    itemTypeControl.setValue('food');
-    descControl.setValue('this is a description I guess');
+    editRequestComponent.setRequestValues({
+      _id: '134',
+      itemType: 'food',
+      description: 'Description',
+      foodType: 'fruit',
+      dateAdded: '2023-4-2'
+    });
 
     editRequestComponent.submitForm();
   });
@@ -315,7 +331,8 @@ describe('Partially Misbehaving request service', () => {
       _id: '134',
       itemType: 'food',
       description: 'Description',
-      foodType: 'fruit'
+      foodType: 'fruit',
+      dateAdded: null
     });
 
 
