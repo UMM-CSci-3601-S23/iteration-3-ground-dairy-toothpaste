@@ -84,4 +84,7 @@ export class MockRequestService extends RequestService {
     return of('added! <3');
   }
 
+  getDonorRequestById(id: string): Observable<Request> {
+    return of(MockRequestService.testRequests[2]);
+  }
 }
