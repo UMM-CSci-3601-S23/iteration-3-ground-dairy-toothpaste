@@ -8,18 +8,14 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 })
 export class NewRequestHelpComponent {
   // dialogRef: MatDialogRef <any> ;
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) {}
 
   openDialog() {
-    const dialogRef = new MatDialogConfig();
+    const dialogRef = this.dialog.open(NewRequestHelpComponent);
 
-    dialogRef.disableClose = true;
-    dialogRef.autoFocus = true;
-
-    this.dialog.open(NewRequestHelpComponent, dialogRef);
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log(`Dialog result: ${result}`);
-    // });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }
+
