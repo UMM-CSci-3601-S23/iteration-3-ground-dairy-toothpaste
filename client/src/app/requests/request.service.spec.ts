@@ -86,6 +86,27 @@ describe('RequestService', () => {
     });
   });
 
+  describe('When getDonorRequestById() is called', () => {
+    it('calls `api/requests`', () => {
+      const targetRequest: Request = testRequests[1];
+      const targetId: string = targetRequest._id;
+      const mockedMethod = spyOn(httpClient, 'get').and.returnValue(of(targetRequest));
+
+      requestService.getDonorRequestById(targetId).subscribe((request: Request) => {
+        expect(request)
+          .withContext('expected request')
+          .toBe(targetRequest);
+        expect(mockedMethod)
+          .withContext('one call')
+          .toHaveBeenCalledTimes(1);
+
+        expect(mockedMethod)
+          .withContext('talks to the correct endpoint')
+          .toHaveBeenCalledWith(requestService.requestDonorUrl + '/' + targetId);
+      });
+    });
+  });
+
   describe('When getClientRequests() is called with a parameter', () => {
     //test food top level category
     it('correctly calls api/requests with itemType \'food\'', () => {

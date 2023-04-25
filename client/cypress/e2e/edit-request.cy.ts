@@ -10,13 +10,6 @@
      page.navigateToRequest();
    });
 
-//   it('Should edit the request', ()=> {
-//     const request: Request = {
-//       _id: '588935f57546a2daea44de7c',
-//       itemType: 'food',
-//       foodType: 'meat',
-//       description: 'This is a test edit'
-//     };
 
 //     page.editRequest(request);
 //     page.getSnackBar().should('contain', `Request successfully submitted`);
@@ -38,7 +31,8 @@
       _id: '588935f57546a2daea44de7c',
       itemType: 'food',
       foodType: 'fruit',
-      description: 'I\'d like some apples'
+      description: 'I\'d like some apples',
+      dateAdded:'1999-12-06'
     };
 
     page.navigateToVolunteer();
@@ -46,9 +40,9 @@
     page.newRequestButton().click();
     page.navigateToVolunteer();
 
-    cy.get('.volunteer-list-description').should('not.contain.text', request.description);
-    cy.get('.volunteer-list-description').should('not.contain.text', request.itemType);
-    cy.get('.volunteer-list-description').should('not.contain.text', request.foodType);
+    cy.get('.request-list-description').should('not.contain.text', request.description);
+    cy.get('.request-list-description').should('not.contain.text', request.itemType);
+    cy.get('.request-list-description').should('not.contain.text', request.foodType);
   });
 
 });

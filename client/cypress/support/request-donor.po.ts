@@ -6,7 +6,7 @@ export class RequestDonorPage {
   private readonly requestItemTypeDropDown = '[data-test=requestItemTypeSelect]';
   private readonly requestFoodTypeDropDown = '[data-test=requestFoodTypeSelect]';
   private readonly dropdownOptionSelector = `mat-option`;
-  private readonly requestListItemSelector = '.donor-nav-list .donor-list-item';
+  private readonly requestListItemSelector = '.request-list-item';
   private readonly formFieldSelector = `mat-form-field`;
   private readonly descFieldName = 'description';
   private readonly deleteButton = '[data-test=deleteRequestButton]';
