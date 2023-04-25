@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { Request, ItemType, FoodType } from './request';
 import { RequestService } from './request.service';
+import { MatDialog } from '@angular/material/dialog';
+import { VolunteerHelpComponent } from '../volunteer-help/volunteer-help.component';
+
 
 
 @Component({
@@ -29,7 +32,8 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
 
 
-  constructor(private requestService: RequestService, private snackBar: MatSnackBar) {
+  constructor(private requestService: RequestService, private snackBar: MatSnackBar,
+    private router: Router, private dialogRef: MatDialog) {
   }
   //Gets the requests from the server with the correct filters
   getRequestsFromServer(): void {
@@ -54,6 +58,10 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   //
   public updateFilter(): void {
     this.filteredRequests = this.serverFilteredRequests;
+  }
+
+  openDialog() {
+    this.dialogRef.open(VolunteerHelpComponent);
   }
 
   ngOnInit(): void {
