@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { FoodType, OriginType } from '../request';
+import { FoodType } from '../request';
 import { ItemType } from '../request';
 import { RequestService } from '../request.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-new-request',
@@ -15,11 +16,14 @@ export class NewRequestComponent {
 
   @Input() destination: 'client' | 'donor' = 'client';
   public type: ItemType = 'food';
-  public originType: OriginType = 'volunteer';
+ // public originType: OriginType = 'volunteer';
+  public generalNeed: boolean;
 
   newRequestForm = new FormGroup({
     // We want descriptions to be short and sweet, yet still required so we have at least some idea what
     // the client wants
+    generalNeed: new FormControl<boolean>(false),
+
     description: new FormControl('', Validators.compose([
       Validators.required,
       Validators.minLength(5),
@@ -51,7 +55,12 @@ export class NewRequestComponent {
     ]
   };
 
-  constructor(private requestService: RequestService, private snackBar: MatSnackBar, private router: Router) {
+  // eslint-disable-next-line max-len
+  constructor(private requestService: RequestService, private snackBar: MatSnackBar, private router: Router, private route: ActivatedRoute) {
+  }
+
+  onPage(): boolean {
+    return this.route.snapshot.url[1].path === 'volunteer';
   }
 
   formControlHasError(controlName: string): boolean {

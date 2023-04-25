@@ -5,8 +5,7 @@
     },
     "itemType": "food",
     "description": "Fresh Apples",
-    "foodType": "fruit",
-    "origintype": ""
+    "foodType": "fruit"
   },
   {
     "_id": {
@@ -14,8 +13,7 @@
     },
     "itemType": "toiletries",
     "description": "Toothpaste",
-    "foodType": "",
-    "origintype": ""
+    "foodType": ""
   },
   {
     "_id": {
@@ -23,8 +21,7 @@
     },
     "itemType": "other",
     "description": "Plates",
-    "foodType": "",
-    "origintype": ""
+    "foodType": ""
   },
   {
     "_id": {
@@ -32,8 +29,7 @@
     },
     "itemType": "food",
     "description": "Milk",
-    "foodType": "dairy",
-    "origintype": ""
+    "foodType": "dairy"
   },
   {
     "_id": {
@@ -41,8 +37,7 @@
     },
     "itemType": "food",
     "description": "Bread",
-    "foodType": "grain",
-    "origintype": ""
+    "foodType": "grain"
   },
   {
     "_id": {
@@ -50,8 +45,7 @@
     },
     "itemType": "food",
     "description": "Ground beef",
-    "foodType": "meat",
-    "origintype": ""
+    "foodType": "meat"
   },
   {
     "_id": {
@@ -59,8 +53,7 @@
     },
     "itemType": "food",
     "description": "Assorted Vegetables",
-    "foodType": "vegetable",
-    "origintype": ""
+    "foodType": "vegetable"
   },
 
   {
@@ -69,8 +62,7 @@
     },
     "itemType": "food",
     "description": "I want ground vegetables",
-    "foodType": "vegetable",
-    "origintype": ""
+    "foodType": "vegetable"
   },
 
   {
@@ -79,8 +71,7 @@
     },
     "itemType": "toiletries",
     "description": "I want toothpaste",
-    "foodType": "",
-    "origintype": ""
+    "foodType": ""
   },
 
   {
@@ -89,8 +80,7 @@
     },
     "itemType": "food",
     "description": "I want pasta",
-    "foodType": "grain",
-    "origintype": ""
+    "foodType": "grain"
   }
 
 ]

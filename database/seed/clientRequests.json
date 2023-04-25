@@ -5,8 +5,7 @@
     },
     "itemType": "food",
     "description": "I'd like some apples",
-    "foodType": "fruit",
-    "origintype": ""
+    "foodType": "fruit"
 
   },
   {
@@ -15,8 +14,7 @@
     },
     "itemType": "toiletries",
     "description": "I need some toothpaste",
-    "foodType": "",
-    "origintype": ""
+    "foodType": ""
   },
   {
     "_id": {
@@ -24,8 +22,7 @@
     },
     "itemType": "other",
     "description": "I need paper plates",
-    "foodType": "",
-    "origintype": ""
+    "foodType": ""
   },
   {
     "_id": {
@@ -33,8 +30,7 @@
     },
     "itemType": "food",
     "description": "Need milk",
-    "foodType": "dairy",
-    "origintype": ""
+    "foodType": "dairy"
   },
   {
     "_id": {
@@ -42,8 +38,7 @@
     },
     "itemType": "food",
     "description": "I need bread",
-    "foodType": "grain",
-    "origintype": ""
+    "foodType": "grain"
   },
   {
     "_id": {
@@ -51,8 +46,7 @@
     },
     "itemType": "food",
     "description": "I would like some more ground beef",
-    "foodType": "meat",
-    "origintype": ""
+    "foodType": "meat"
   },
   {
     "_id": {
@@ -60,7 +54,6 @@
     },
     "itemType": "food",
     "description": "If possible I'd like to be able to add more vegetables to my meals",
-    "foodType": "vegetable",
-    "origintype": ""
+    "foodType": "vegetable"
   }
 ]

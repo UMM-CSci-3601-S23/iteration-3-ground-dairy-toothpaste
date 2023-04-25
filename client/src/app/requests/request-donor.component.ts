@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
-import { Request, ItemType, FoodType, OriginType } from './request';
+import { Request, ItemType, FoodType } from './request';
 import { RequestService } from './request.service';
+import { NewRequestComponent } from './new-request/new-request.component';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
   public requestItemType: ItemType;
   public requestDescription: string;
   public requestFoodType: FoodType;
-  public requestOriginType: OriginType;
+  public requestGeneralNeed: boolean;
 
   authHypothesis: boolean;
 
@@ -34,7 +35,7 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
       itemType: this.requestItemType,
       foodType: this.requestFoodType,
       description: this.requestDescription,
-      originType: this.requestOriginType
+      generalNeed: this.requestGeneralNeed
     }).pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe({

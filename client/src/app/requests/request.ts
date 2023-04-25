@@ -3,9 +3,10 @@ export interface Request {
   itemType: ItemType;
   description: string;
   foodType: FoodType;
-  originType: OriginType;
+  generalNeed: boolean;
+//  originType: OriginType;
 }
 
-export type OriginType = 'volunteer' | 'client';
+//export type OriginType = 'volunteer' | 'client';
 export type ItemType = 'food' | 'toiletries' | 'other';
 export type FoodType = '' | 'dairy' | 'grain' | 'meat' | 'fruit' | 'vegetable';

@@ -16,7 +16,8 @@ public class Request {
   public String description;
   public String foodType;
   public String dateAdded;
-  public String originType;
+  public Boolean generalNeed;
+//  public String originType;
 
   @Override
   public boolean equals(Object obj) {
