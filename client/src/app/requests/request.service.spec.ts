@@ -12,19 +12,22 @@ describe('RequestService', () => {
       _id: '1',
       itemType: 'food',
       description: 'I would like to be able to get some spaghetti noodles',
-      foodType: 'grain'
+      foodType: 'grain',
+      generalNeed: false
     },
     {
       _id: '2',
       itemType: 'toiletries',
       description: 'I need some toothpaste',
-      foodType: ''
+      foodType: '',
+      generalNeed: false
     },
     {
       _id: '3',
       itemType: 'other',
       description: 'Would it be possible for me to get some Advil?',
-      foodType: ''
+      foodType: '',
+      generalNeed: false
     }
   ];
 
