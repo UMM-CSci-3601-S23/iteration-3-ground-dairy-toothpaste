@@ -26,6 +26,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
@@ -37,6 +38,7 @@ import { RequestCardComponent } from './request-card/request-card.component';
 import { DetailedRequestComponent } from './detailed-request/detailed-request.component';
 import { ClientFormComponent } from './form/form-client.component';
 import { FormVolunteerComponent } from './form/form-volunteer.component';
+import { NewRequestHelpComponent } from './requests/new-request/new-request-help/new-request-help.component';
 import { VolunteerHelpComponent } from './volunteer-help/volunteer-help.component';
 
 
@@ -60,6 +62,7 @@ const MATERIAL_MODULES: any[] = [
   MatTooltipModule,
   MatCheckboxModule,
   MatStepperModule,
+  MatDialogModule
 ];
 
 @NgModule({
@@ -87,6 +90,6 @@ const MATERIAL_MODULES: any[] = [
     LayoutModule,
     MatDialogModule,
   ],
-  bootstrap: [AppComponent]
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

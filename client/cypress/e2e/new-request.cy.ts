@@ -14,6 +14,10 @@ describe('Add donor request', () => {
     page.getTitle().should('have.text',' Item Request Form ');
   });
 
+  it('Should have a help button and display the correct information', () => {
+    cy.get('[data-test=new-request-help-button]').click();
+    cy.get('[data-test=help-title]').should('contain.text', 'How To Use Item Request Form');
+  });
   it('Should enable the submit request button once all criteria are met', () => {
     // ADD USER button should be disabled until all the necessary fields
     // are filled. Once the last (`#emailField`) is filled, then the button should
