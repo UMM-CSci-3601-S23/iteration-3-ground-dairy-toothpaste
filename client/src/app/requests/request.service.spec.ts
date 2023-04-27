@@ -4,6 +4,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Request } from './request';
 import { RequestService } from './request.service';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('RequestService', () => {
   //small collection of test Requests

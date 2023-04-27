@@ -40,9 +40,9 @@
     page.newRequestButton().click();
     page.navigateToVolunteer();
 
-    cy.get('.request-list-description').should('not.contain.text', request.description);
-    cy.get('.request-list-description').should('not.contain.text', request.itemType);
-    cy.get('.request-list-description').should('not.contain.text', request.foodType);
+    cy.get('.volunteer-list-description').should('not.contain.text', request.description);
+    cy.get('.volunteer-list-description').should('not.contain.text', request.itemType);
+    cy.get('.volunteer-list-description').should('not.contain.text', request.foodType);
   });
 
 });

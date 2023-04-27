@@ -20,6 +20,7 @@ import { RequestDonorComponent } from './request-donor.component';
 import { RequestService } from './request.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 
 
 

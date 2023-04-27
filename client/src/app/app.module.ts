@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -38,6 +39,7 @@ import { DetailedRequestComponent } from './detailed-request/detailed-request.co
 import { ClientFormComponent } from './form/form-client.component';
 import { FormVolunteerComponent } from './form/form-volunteer.component';
 import { NewRequestHelpComponent } from './requests/new-request/new-request-help/new-request-help.component';
+import { VolunteerHelpComponent } from './volunteer-help/volunteer-help.component';
 
 
 
@@ -75,6 +77,7 @@ const MATERIAL_MODULES: any[] = [
     DetailedRequestComponent,
     ClientFormComponent,
     FormVolunteerComponent,
+    VolunteerHelpComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,6 +88,7 @@ const MATERIAL_MODULES: any[] = [
     HttpClientModule,
     MATERIAL_MODULES,
     LayoutModule,
+    MatDialogModule,
   ],
   bootstrap: [AppComponent]
     declarations: [
