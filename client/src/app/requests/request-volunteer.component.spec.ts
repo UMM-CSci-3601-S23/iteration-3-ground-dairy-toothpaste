@@ -20,6 +20,7 @@ import { RequestVolunteerComponent } from './request-volunteer.component';
 import { RequestService } from './request.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 
 const COMMON_IMPORTS: unknown[] = [
   FormsModule,
@@ -44,14 +45,22 @@ describe('Volunteer Request View', () => {
   let volunteerList: RequestVolunteerComponent;
   let fixture: ComponentFixture<RequestVolunteerComponent>;
   const service = new MockRequestService();
+  let dialogStub: {
+    open: (stuff) => void;
+    calledWith: any;
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
       declarations: [RequestVolunteerComponent],
-      providers: [{ provide: RequestService, useValue: service }]
+      providers: [{ provide: RequestService, useValue: service },
+        {provide: MatDialog, useValue: dialogStub},
+      ]
     });
   });
+
+
 
   beforeEach(waitForAsync (() => {
     TestBed.compileComponents().then(() => {
@@ -60,6 +69,8 @@ describe('Volunteer Request View', () => {
       fixture.detectChanges();
     });
   }));
+
+
 
   it('contains all requests', () => {
     volunteerList.updateFilter();
@@ -121,6 +132,11 @@ describe('Misbehaving Volunteer view', () => {
     called: boolean;
   };
 
+  let dialogStub: {
+    open: (stuff) => void;
+    calledWith: any;
+  };
+
   beforeEach(() => {
     requestServiceStub = {
       getClientRequests: () => new Observable(observer => {
@@ -139,6 +155,13 @@ describe('Misbehaving Volunteer view', () => {
       })
     };
 
+    dialogStub = {
+      open: (stuff: any) => {
+        dialogStub.calledWith = stuff;
+      },
+      calledWith: undefined
+    };
+
     snackbarModuleStub = {
       open: (msg, buttons, settings) => {
         snackbarModuleStub.called = true;
@@ -149,7 +172,9 @@ describe('Misbehaving Volunteer view', () => {
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
       declarations: [RequestVolunteerComponent],
-      providers: [{provide: RequestService, useValue: requestServiceStub}, {provide: MatSnackBar, useValue: snackbarModuleStub}]
+      providers: [{provide: RequestService, useValue: requestServiceStub},
+        {provide: MatDialog, useValue: dialogStub},
+        {provide: MatSnackBar, useValue: snackbarModuleStub}]
     });
   });
 
@@ -198,6 +223,10 @@ describe('Partially misbehaving Volunteer view', () => {
     deleteClientRequest: () => Observable<object>;
     addDonorRequest: () => Observable<string>;
   };
+  let dialogStub: {
+    open: (stuff) => void;
+    calledWith: any;
+  };
 
   beforeEach(() => {
     requestServiceStub = {
@@ -217,10 +246,18 @@ describe('Partially misbehaving Volunteer view', () => {
       }
     };
 
+    dialogStub = {
+      open: (stuff: any) => {
+        dialogStub.calledWith = stuff;
+      },
+      calledWith: undefined
+    };
+
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
       declarations: [RequestVolunteerComponent],
-      providers: [{provide: RequestService, useValue: requestServiceStub}]
+      providers: [{provide: RequestService, useValue: requestServiceStub},
+        {provide: MatDialog, useValue: dialogStub},]
     });
   });
 
