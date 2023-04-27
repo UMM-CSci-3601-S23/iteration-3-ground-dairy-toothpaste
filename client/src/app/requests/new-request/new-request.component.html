@@ -52,17 +52,11 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <!-- <div class = "checkbox">
-      <label>
-        <mat-label>Add foodshelf origin</mat-label>
-        <input #Origin (checked)="originType" type="checkbox" data-toggle="toggle" Add Origin >
-      </label>
-    </div> -->
     <div *ngIf="onPage()">
       <div>
         <mat-label>General Need</mat-label>
       </div>
-      <input type="checkbox" name="from-volunteer-checkbox" [(ngModel)]="generalNeed">
+      <input type="checkbox" name="from-volunteer-checkbox" [(ngModel)]="generalNeed" formControlName="generalNeed">
     </div>
     <mat-divider></mat-divider>
     </mat-card-content>

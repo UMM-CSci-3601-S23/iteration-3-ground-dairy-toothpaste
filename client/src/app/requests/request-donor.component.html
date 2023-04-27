@@ -62,11 +62,17 @@
             <mat-card-header>
               <mat-card-title class="donor-list-itemType">{{request.itemType}}</mat-card-title>
               <mat-card-subtitle class="donor-list-foodType">{{request.foodType}}</mat-card-subtitle>
-              <!--<mat-card-subtitle class="donor-list-originType">{{request.originType}} </mat-card-subtitle> -->
             </mat-card-header>
             <mat-card-content>
               <p matListItemBody class="donor-list-description"> {{request.description}} </p>
             </mat-card-content>
+
+            <mat-card-content>
+             <mat-card-subtitle>
+                <div *ngIf="request.generalNeed"> Request from the foodshelf</div>
+              </mat-card-subtitle>
+            </mat-card-content>
+
             <mat-card-actions *ngIf="this.authHypothesis">
               <button mat-icon-button data-test="deleteRequestButton" (click)="deleteRequest(request)">
                 <mat-icon>delete</mat-icon>
