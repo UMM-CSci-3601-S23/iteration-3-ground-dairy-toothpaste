@@ -97,6 +97,18 @@ describe('Add donor request', () => {
     });
   });
 });
+describe('Test volunteer help button', () =>{
+  const page = new NewRequestPage();
+  beforeEach(() => {
+    cy.task('seed:database');
+    cy.setCookie('auth_token', 'TOKEN');
+  });
+  it('Should go to the right page, and press help button', () => {
+    cy.visit('/requests/volunteer');
+    page.selectHelpButton();
+    cy.get('[data-test=VolunteerHelpWindow]').should('exist').and('be.visible');
+  });
+});
 
 describe('Add volunteer request', () => {
   const page = new NewVolunteerRequestPage();
