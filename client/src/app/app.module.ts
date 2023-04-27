@@ -25,7 +25,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { MatDialogModule } from '@angular/material/dialog';
+
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -90,28 +90,6 @@ const MATERIAL_MODULES: any[] = [
     LayoutModule,
     MatDialogModule,
   ],
-  bootstrap: [AppComponent]
-    declarations: [
-        AppComponent,
-        HomeComponent,
-        NewRequestComponent,
-        RequestDonorComponent,
-        RequestVolunteerComponent,
-        EditRequestComponent,
-        NewRequestHelpComponent,
-    ],
-    bootstrap: [AppComponent],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        MATERIAL_MODULES,
-        LayoutModule,
-        MatDialogModule,
-        MatCardModule
-    ]
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
