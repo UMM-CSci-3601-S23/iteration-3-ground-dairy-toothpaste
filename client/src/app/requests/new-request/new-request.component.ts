@@ -71,8 +71,7 @@ export class NewRequestComponent {
   }
 
   resetForm() {
-    this.newRequestForm.patchValue({ foodType: '' });
-    console.log('this is a test');
+    this.newRequestForm.patchValue({foodType: ''});
   }
 
   openDialog() {

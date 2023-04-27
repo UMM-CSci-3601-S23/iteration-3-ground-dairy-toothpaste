@@ -27,7 +27,7 @@ describe('Donor View', () => {
     page.getRequestListItems().should('have.length', 7);
 
     page.getRequestListItems().each(el => {
-      cy.wrap(el).find('.donor-list-itemType').should('contain.text', 'food');
+      cy.wrap(el).find('.request-list-itemType').should('contain.text', 'food');
     });
   });
 
@@ -37,7 +37,7 @@ describe('Donor View', () => {
     page.getRequestListItems().should('have.length', 2);
 
     page.getRequestListItems().each($list => {
-      cy.wrap($list).find('.donor-list-itemType').should('contain.text', 'toiletries');
+      cy.wrap($list).find('.request-list-itemType').should('contain.text', 'toiletries');
     });
   });
 
@@ -54,11 +54,11 @@ describe('Donor View', () => {
     page.getRequestListItems().should('have.length', 1);
 
     page.getRequestListItems().each(el => {
-      cy.wrap(el).find('.donor-list-itemType').should('contain.text', 'food');
+      cy.wrap(el).find('.request-list-itemType').should('contain.text', 'food');
     });
 
     page.getRequestListItems().each(el => {
-      cy.wrap(el).find('.donor-list-foodType').should('contain.text', 'dairy');
+      cy.wrap(el).find('.request-list-foodType').should('contain.text', 'dairy');
     });
   });
 
@@ -69,11 +69,11 @@ describe('Donor View', () => {
     page.getRequestListItems().should('have.length', 1);
 
     page.getRequestListItems().each(el => {
-      cy.wrap(el).find('.donor-list-itemType').should('contain.text', 'food');
+      cy.wrap(el).find('.request-list-itemType').should('contain.text', 'food');
     });
 
     page.getRequestListItems().each(el => {
-      cy.wrap(el).find('.donor-list-foodType').should('contain.text', 'meat');
+      cy.wrap(el).find('.request-list-foodType').should('contain.text', 'meat');
     });
   });
 

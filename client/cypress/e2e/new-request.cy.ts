@@ -73,6 +73,7 @@ describe('Add donor request', () => {
         itemType: 'food',
         foodType: 'meat',
         description: ' TEST REQUEST!!!!',
+        dateAdded: '2023-4-18'
       };
       page.setMatSelect('itemType', 'Other');
       page.newRequest(request);
@@ -84,9 +85,10 @@ describe('Add donor request', () => {
 
       // The new request should have all the same attributes as we entered
       cy.visit('/requests/volunteer');
-      cy.get('.volunteer-list-description').should('contain.text', request.description);
-      cy.get('.volunteer-list-itemType').should('contain.text', request.itemType);
-      cy.get('.volunteer-list-foodType').should('contain.text', request.foodType);
+      cy.get('.request-list-description').should('contain.text', request.description);
+      cy.get('.request-list-itemType').should('contain.text', request.itemType);
+      cy.get('.request-list-foodType').should('contain.text', request.foodType);
+      cy.get('.request-list-dateAdded').should('contain.text', 'Date Added: ');
       // We should see the confirmation message at the bottom of the screen
     });
   });
@@ -162,6 +164,7 @@ describe('Add volunteer request', () => {
         itemType: 'food',
         foodType: 'meat',
         description: ' TEST REQUEST!!!!',
+        dateAdded: '2023-4-18'
       };
       page.setMatSelect('itemType', 'Other');
       page.newRequest(request);
@@ -173,9 +176,9 @@ describe('Add volunteer request', () => {
 
       // The new request should have all the same attributes as we entered
       cy.visit('/requests/donor');
-      cy.get('.donor-list-description').should('contain.text', request.description);
-      cy.get('.donor-list-itemType').should('contain.text', request.itemType);
-      cy.get('.donor-list-foodType').should('contain.text', request.foodType);
+      cy.get('.request-list-description').should('contain.text', request.description);
+      cy.get('.request-list-itemType').should('contain.text', request.itemType);
+      cy.get('.request-list-foodType').should('contain.text', request.foodType);
       // We should see the confirmation message at the bottom of the screen
     });
   });

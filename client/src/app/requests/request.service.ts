@@ -46,6 +46,10 @@ export class RequestService {
     return this.httpClient.get<Request>(this.requestClientUrl + '/' + id);
   }
 
+  getDonorRequestById(id: string): Observable<Request>{
+    return this.httpClient.get<Request>(this.requestDonorUrl + '/' + id);
+  }
+
 
   getDonorRequests(filters?: {itemType?: ItemType; foodType?: FoodType; description?: string}): Observable<Request[]> {
     let httpParams: HttpParams = new HttpParams();
@@ -93,4 +97,5 @@ export class RequestService {
     // Send delete request to delete a request
     return this.httpClient.delete(this.requestDonorUrl + '/' + request._id).pipe(map(res => res));
   }
+
 }

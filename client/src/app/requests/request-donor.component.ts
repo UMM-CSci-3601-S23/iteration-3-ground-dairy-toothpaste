@@ -20,6 +20,8 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
   public requestDescription: string;
   public requestFoodType: FoodType;
 
+  public deleteRequestCallback: (Request) => void;
+
   authHypothesis: boolean;
 
 
@@ -55,6 +57,7 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
       this.getRequestsFromServer();
       this.authHypothesis = document.cookie.includes('auth_token');
+      this.deleteRequestCallback = this.deleteRequest.bind(this);
   }
 
   ngOnDestroy(): void {

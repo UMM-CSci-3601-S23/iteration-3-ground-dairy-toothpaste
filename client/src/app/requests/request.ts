@@ -3,6 +3,7 @@ export interface Request {
   itemType: ItemType;
   description: string;
   foodType: FoodType;
+  dateAdded: string;
 }
 
 export type ItemType = 'food' | 'toiletries' | 'other';
