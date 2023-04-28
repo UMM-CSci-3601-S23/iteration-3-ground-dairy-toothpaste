@@ -51,6 +51,11 @@ describe('Volunteer Request View', () => {
   };
 
   beforeEach(() => {
+    dialogStub = {
+      open: (stuff) => { dialogStub.calledWith = stuff; },
+      calledWith: undefined
+    };
+
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
       declarations: [RequestVolunteerComponent],
@@ -70,7 +75,11 @@ describe('Volunteer Request View', () => {
     });
   }));
 
-
+  it('should be able to open the dialog', () => {
+    expect(dialogStub.calledWith).toBeUndefined();
+    volunteerList.openDialog();
+    expect(dialogStub.calledWith).toBeDefined();
+  });
 
   it('contains all requests', () => {
     volunteerList.updateFilter();
