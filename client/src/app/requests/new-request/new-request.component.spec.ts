@@ -12,6 +12,8 @@ import { Observable } from 'rxjs';
 import { MockRequestService } from 'src/testing/request.service.mock';;
 import { RequestService } from '../request.service';
 import { NewRequestComponent } from './new-request.component';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { UrlSegment } from '@angular/router';
 
 describe('NewRequestComponent', () => {
   let newRequestComponent: NewRequestComponent;
@@ -34,6 +36,20 @@ describe('NewRequestComponent', () => {
         RouterTestingModule
       ],
       declarations: [NewRequestComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              url: [
+                { path: 'some-path' },
+                { path: 'volunteer' }
+              ],
+              paramMap: convertToParamMap({ id: '123' })
+            }
+          }
+        }
+      ],
     }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
@@ -47,6 +63,18 @@ describe('NewRequestComponent', () => {
     expect(newRequestForm).toBeDefined();
     expect(newRequestForm.controls).toBeDefined();
   });
+
+  it('should return false if route snapshot url length is less than 2', () => {
+    newRequestComponent.route.snapshot.url = [new UrlSegment ('requests', {})];
+    expect(newRequestComponent.onPage()).toBe(false);
+  });
+
+  it('should return true if route snapshot url has "volunteer" as the second path', () => {
+    newRequestComponent.route.snapshot.url = [
+      { path: 'requests' },
+      { path: 'volunteer' }
+    ];
+    expect(newRequestComponent.onPage()).toBe(true);
 
   // Not terribly important; if the component doesn't create
   // successfully that will probably blow up a lot of things.
@@ -341,6 +369,8 @@ describe('Misbehaving request service', () => {
 
     newRequestComponent.submitForm();
   });
+
+
 
 });
 

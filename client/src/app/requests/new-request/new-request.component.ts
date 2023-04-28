@@ -55,10 +55,14 @@ export class NewRequestComponent {
   };
 
   // eslint-disable-next-line max-len
-  constructor(private requestService: RequestService, private snackBar: MatSnackBar, private router: Router, private route: ActivatedRoute) {
+  constructor(private requestService: RequestService, private snackBar: MatSnackBar, private router: Router, public route: ActivatedRoute) {
   }
 
   onPage(): boolean {
+    console.log(this.route.snapshot.url);
+    if (this.route.snapshot.url.length < 2) {
+      return false;
+    }
     return this.route.snapshot.url[1].path === 'volunteer';
   }
 
