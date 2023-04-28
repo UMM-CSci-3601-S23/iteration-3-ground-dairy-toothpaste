@@ -50,12 +50,17 @@ export class MockFormService extends FormService {
       timeSubmitted: '20200604'
     }
   ];
-
+  public addedFormRequests: Partial<Form>[] = [];
   constructor() {
     super(null);
   }
 
-  getForms(): Observable<Form[]> {
+  addFormRequest(newForm: Partial<Form>): Observable<string> {
+    this.addedFormRequests.push(newForm);
+    return of('added!');
+  }
+
+  getForms(filters?: {sortOrder?: string}): Observable<Form[]> {
       return of(MockFormService.testForms);
   }
 

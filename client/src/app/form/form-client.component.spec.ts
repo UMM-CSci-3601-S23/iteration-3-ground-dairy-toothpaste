@@ -11,11 +11,12 @@ import { ClientFormComponent } from './form-client.component';
 import { FormService } from './form.service';
 import { MockFormService } from 'src/testing/form.service.mock';
 
+
 describe('ClientFormComponent', () => {
   let testComponent: ClientFormComponent;
   let formGroup: FormGroup;
   let fixture: ComponentFixture<ClientFormComponent>;
-
+  const service: MockFormService = new MockFormService();
   beforeEach(waitForAsync(() => {
     TestBed.overrideProvider(FormService, { useValue: new MockFormService() });
     TestBed.configureTestingModule({
@@ -54,6 +55,33 @@ describe('ClientFormComponent', () => {
   // People can't submit an empty form.
   it('form should be invalid when empty', () => {
     expect(formGroup.valid).toBeFalsy();
+  });
+
+  describe('Can we submit stuff to the client database?', () => {
+    let timeSubmittedControl: AbstractControl;
+    let nameControl: AbstractControl;
+    let diaperSizeControl: AbstractControl;
+    let selectionsControl: AbstractControl;
+    let idControl: AbstractControl;
+    beforeEach(() =>{
+      idControl = formGroup.controls._id;
+      timeSubmittedControl = formGroup.controls.timeSubmitted;
+      nameControl = testComponent.form.controls.clientName;
+      diaperSizeControl = formGroup.controls.diaperSize;
+      selectionsControl = formGroup.controls.selections;
+    });
+
+  it('Should be able to submit a form', () => {
+    nameControl.setValue('Tome Cruise');
+    idControl.setValue('1_id');
+    timeSubmittedControl.setValue('20200604');
+    diaperSizeControl.setValue(false);
+    selectionsControl.setValue(['hotSauce', 'rice', 'bread']);
+    testComponent.submitForm();
+
+    expect(service.addedFormRequests[0].name).toEqual('Tome Cruise');
+  });
+
   });
 
   describe('The name field', () =>{
