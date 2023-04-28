@@ -1,4 +1,56 @@
-<div class="flex-row">
+<mat-card class="home-card">
+  <mat-card-header>
+    <mat-card-title>
+      PocketShelf: Request Form!
+    </mat-card-title>
+  </mat-card-header>
+</mat-card>
+
+<form [formGroup]="checkboxForm" (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Fruits</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div formGroupName="fruits">
+        <div *ngFor="let item of fruits.fresh">
+          <mat-checkbox formControlName="{{item.name}}">{{item.name}}</mat-checkbox>
+        </div>
+        <div *ngFor="let item of fruits.canned">
+          <mat-checkbox formControlName="{{item.name}}">{{item.name}}</mat-checkbox>
+        </div>
+        <div *ngFor="let item of fruits.dried">
+          <mat-checkbox formControlName="{{item.name}}">{{item.name}}</mat-checkbox>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Vegetables</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div formGroupName="vegetables">
+        <div *ngFor="let item of vegetables.fresh">
+          <mat-checkbox formControlName="{{item.name}}">{{item.name}}</mat-checkbox>
+        </div>
+        <div *ngFor="let item of vegetables.canned">
+          <mat-checkbox formControlName="{{item.name}}">{{item.name}}</mat-checkbox>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <button mat-raised-button type="submit">Submit</button>
+</form>
+
+
+
+
+
+
+<!-- <div class="flex-row">
   <div class="flex-1">
     <mat-card class="home-card">
       <mat-card-header>
@@ -8,9 +60,9 @@
       </mat-card-header>
     </mat-card>
   </div>
-</div>
+</div> -->
 
-<mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+<!-- <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
   <mat-step [stepControl] = "form">
     <form [formGroup] = "form">
         <section class="form-fruits-fresh" [formGroup]="form">
@@ -116,7 +168,7 @@
       </section>
       <section class="form-canned-beans" [formGroup]="form">
         <mat-card-subtitle class="choose-1-or-2-subtitle">Canned beans / Frijoles en Lata</mat-card-subtitle>
-        <mat-checkbox  (change)="updateList('blackEyedPeas')">Black eyed peas / Frijol carita negro</mat-checkbox><br />
+        <mat-checkbox  (change)="updateList('blacnameedPeas')">Black eyed peas / Frijol carita negro</mat-checkbox><br />
         <mat-checkbox  (change)="updateList('yellowEyedBeans')">Yellow eyed beans / Frijoles amarillos</mat-checkbox><br />
         <mat-checkbox  (change)="updateList('pintoBeans')">Pinto beans / Frijoles pintos</mat-checkbox><br />
         <mat-checkbox  (change)="updateList('porkAndBeans')">Pork & beans / Frijoles con puerco</mat-checkbox><br />
@@ -331,4 +383,4 @@
       </mat-card-actions>
     </form>
   </mat-step>
-</mat-stepper>
+</mat-stepper> -->

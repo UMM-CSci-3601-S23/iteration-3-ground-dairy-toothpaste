@@ -1,11 +1,8 @@
-// import {Component} from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+/* eslint-disable no-underscore-dangle */
+
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup,  } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { FormService } from './form.service';
-import { Form } from './form';
 
 
 
@@ -16,101 +13,100 @@ import { Form } from './form';
   styleUrls: ['./form-client.component.scss']
 })
 
-export class ClientFormComponent {
+export class ClientFormComponent implements OnInit {
 
-  form = this.formBuilder.group({
-    clientName:['', Validators.compose([
-      Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(50),
-    ])],
-    diaperSize: 0,
-  });
-
-  newRequestValidationMessages = {
-    clientName: [
-      {type: 'required', message: 'Name is required'},
-      {type: 'minlength', message: 'Name must be at least 2 characters long'},
-      {type: 'maxlength', message: 'Name cannot be more than 50 characters long'},
+  fruits: { fresh: { name: string }[]; canned: { name: string }[]; dried: { name: string }[] } = {
+    fresh: [
+      { name: 'Misc Fresh Fruit' },
+      { name: 'Apple Juice' },
+      { name: 'Frozen Peaches' }
+    ],
+    canned: [
+      { name: 'Mixed Fruit' },
+      { name: 'Peaches' },
+      { name: 'Apple Sauce' }
+    ],
+    dried: [
+      { name: 'Dates' }
     ]
   };
 
-  selections: string[] = new Array();
-  isLinear = false;
-  diapers = false;
-  diaperSize = '1';
-  date: Date = new Date();
-  done = false;
+  vegetables: { fresh: { name: string }[]; canned: { name: string }[] } = {
+    fresh: [
+      { name: 'Carrots' },
+      { name: 'Potatoes' },
+      { name: 'Misc Veggies' }
+    ],
+    canned: [
+      { name: 'Corn' },
+      { name: 'Green Beans' },
+      { name: 'Peas' },
+      { name: 'Sweet Potatoes' },
+      { name: 'Spinach' },
+      { name: 'Carrots' },
+      { name: 'Diced Tomatoes' },
+      { name: 'Spaghetti Sauce' }
+    ]
+  };
 
-  constructor(private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar, private router: Router, private formService: FormService){
-    }
+  checkboxForm: FormGroup;
 
+  constructor(private formBuilder: FormBuilder) { }
 
-  formControlHasError(controlName: string): boolean {
-    return this.form.get(controlName).invalid &&
-      (this.form.get(controlName).dirty || this.form.get(controlName).touched);
-  }
-
-  getErrorMessage(name: string): string {
-    for(const {type, message} of this.newRequestValidationMessages[name]) {
-      if (this.form.get(name).hasError(type)) {
-        return message;
-      }
-    }
-    return 'Unknown error';
-  }
-
-  submitForm() {
-    let month: string = this.date.getMonth().toString();
-    let day: string = this.date.getDate().toString();
-    if (month.length !== 2){
-      month = '0' + month;
-    }
-    if (day.length !== 2){
-      day = '0' + day;
-    }
-    const myDate: string = (this.date.getFullYear().toString()+  month + day);
-    console.log(myDate);
-    const newForm = {selections: this.selections, timeSubmitted: myDate, name: this.form.get('clientName').getRawValue()};
-    this.formService.addForm(newForm).subscribe({
-      next: (newId) => {
-        this.snackBar.open(
-          `Request successfully submitted`,
-          null,
-          { duration: 2000 }
-        );
-        this.router.navigate(['/requests/volunteer']);
-      },
-      error: err => {
-        this.snackBar.open(
-          `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`,
-          'OK',
-          { duration: 20000 }
-        );
-      },
-      complete: () => this.done = true
+  ngOnInit() {
+    // Initialize form groups and controls
+    this.checkboxForm = this.formBuilder.group({
+      fruits: this.formBuilder.group(this.getFruitControls()),
+      vegetables: this.formBuilder.group(this.getVegetableControls())
     });
   }
 
-  updateDiapers(): void{
-    if (this.diapers){
-      this.diapers = false;
-    }
-    else {this.diapers = true;}
+  onSubmit() {
+    const selectedFruits = this.getSelectedItems(this.checkboxForm.get('fruits') as FormGroup);
+    console.log('fruits:', this.checkboxForm.get('fruits'));
+    const selectedVegetables = this.getSelectedItems(this.checkboxForm.get('vegetables') as FormGroup);
+    console.log('vegetables:', this.checkboxForm.get('vegetables'));
+    // console.log('Selected Fruits:', selectedFruits);
+    // console.log('Selected Vegetables:', selectedVegetables);
   }
 
-  updateList(newItem: string): void{
-    if (newItem === 'diapers'){
-      this.updateDiapers();
-    }
-    if (this.selections.length !== 0 && this.selections.includes(newItem)){
-      this.selections.splice(this.selections.indexOf(newItem));
-    }
-    else{
-      this.selections.push(newItem);
-    }
-    console.log(this.selections);
+  private getFruitControls(): { [key: string]: any } {
+    const controls = {};
+    this.fruits.fresh.forEach((item) => {
+      controls[item.name] = [false];
+    });
+    this.fruits.canned.forEach((item) => {
+      controls[item.name] = [false];
+    });
+    this.fruits.dried.forEach((item) => {
+      controls[item.name] = [false];
+    });
+    return controls;
   }
 
+  private getVegetableControls(): { [key: string]: any } {
+    const controls = {};
+    this.vegetables.fresh.forEach((item) => {
+      controls[item.name] = [false];
+    });
+    this.vegetables.canned.forEach((item) => {
+      controls[item.name] = [false];
+    });
+    return controls;
+  }
+
+
+  private getSelectedItems(formGroup: FormGroup) {
+    const selectedItems = [];
+    formGroup.controls.
+
+    // .forEach((control, i) => {
+    //   if (control.value) {
+    //     selectedItems.push(formGroup.at(i).value);
+    //   }
+    // });
+    return selectedItems;
+  }
 }
+
+

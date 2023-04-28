@@ -98,7 +98,7 @@ export class EditRequestComponent implements OnInit, OnDestroy{
           { duration: 5000 }
         );
       },
-      // complete: () => console.log('Add user completes!')
+      complete: () => console.log('Add user completes!')
     });
   }
 
