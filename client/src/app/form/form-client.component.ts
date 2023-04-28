@@ -80,7 +80,6 @@ export class ClientFormComponent {
           null,
           { duration: 2000 }
         );
-        this.router.navigate(['/requests/volunteer']);
       },
       error: err => {
         this.snackBar.open(
