@@ -4,26 +4,30 @@
 [![Client Build Status](../../actions/workflows/client.yaml/badge.svg)](../../actions/workflows/client.yaml)
 [![End to End Build Status](../../actions/workflows/e2e.yaml/badge.svg)](../../actions/workflows/e2e.yaml)
 
-- [Development](#development)
-  - [Common commands](#common-commands)
-- [Deployment](#deployment)
-- [Resources](#resources)
-- [Contributors](#contributors)
-- [Changing the name](#changing-the-name)
+- [What is PocketShelf?](#what-is-pocketshelf)
+- [How to use PocketShelf](#how-to-use-pocketshelf)
+  - [Development](#development)
+    - [Common commands](#common-commands)
+  - [Deployment](#deployment)
+  - [Resources](#resources)
+  - [Contributors](#contributors)
+  - [Changing the name](#changing-the-name)
 
-This is your starter code for Iteration 1.
+# What is PocketShelf?
+PocketShelf is an app that makes the process of requesting and donating food and other products to the food shelf easy and convenient. 
 
-There are a number of elements of this production template that you don't need
-(or even want down the road), but are provided as examples to help you get started.
-As you work on your project, you should replace some of these pieces with
-elements of your project and _remove whatever you don't need_ (e.g., markdown
-files, JSON data files, or any remnants of the labs). We include, for example,
-the `User` parts of the previous labs. These are almost certainly not relevant
-to your project and should be removed once you've started.
+This app allows people who rely on the food shelf to easily and conveniently make requests for their various needs to the food shelf. 
 
-:exclamation: You should remove this sentence and the text above, and
-replace them with at least an elevator pitch description of your project so that
-if someone comes to this repo they'll know what the project is about.
+This app also allows volunteers who work at the food shelf to more easily see what people are requesting and to add requests themselves for items that the food shelf needs but no one made a specific request for.   
+
+Finally this app allows people who want to donate to the food shelf the ability to easily see the needs of the food shelf providing them an easy way to make sure that they are making a meaningful donation. 
+
+# How to use PocketShelf
+PocketShelf is broken down to four main parts. The home page, the client page, volunteer page, and the donor page. at the top of each page there are navigation buttons to each page.
+
+The home page currently displays the title of our project along with a link to the food shelfs official website. in the future this page could also be used to display other relevant information.  
+
+The client page is for people who want to request food and/or other products from the food shelf. 
 
 ## [Development](DEVELOPMENT.md)
 
