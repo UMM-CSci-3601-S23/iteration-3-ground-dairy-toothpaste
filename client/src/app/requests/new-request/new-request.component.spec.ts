@@ -53,6 +53,11 @@ describe('NewRequestComponent', () => {
   };
 
   beforeEach(waitForAsync(() => {
+    dialogStub = {
+      open: (stuff) => { dialogStub.calledWith = stuff; },
+      calledWith: undefined
+    };
+
     TestBed.overrideProvider(RequestService, { useValue: service });
     TestBed.configureTestingModule({
       imports: [
@@ -97,6 +102,12 @@ describe('NewRequestComponent', () => {
   // people can't submit an empty form.
   it('form should be invalid when empty', () => {
     expect(newRequestForm.valid).toBeFalsy();
+  });
+
+  it('should be able to open the dialog', () => {
+    expect(dialogStub.calledWith).toBeUndefined();
+    newRequestComponent.openDialog();
+    expect(dialogStub.calledWith).toBeDefined();
   });
 
   describe('The description field', () => {

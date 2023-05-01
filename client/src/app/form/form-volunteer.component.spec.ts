@@ -18,7 +18,7 @@ import { Form } from './form';
 import { FormVolunteerComponent } from './form-volunteer.component';
 import { FormService } from './form.service';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MockFormService } from 'src/testing/form.service.mock';
 
 
@@ -84,10 +84,89 @@ describe('Misbehaving Volunteer view', () => {
   let formVolunteerList: FormVolunteerComponent;
   let fixture: ComponentFixture<FormVolunteerComponent>;
 
+  let snackbarModuleStub: {
+    open: (msg, buttons, settings) => void;
+    called: boolean;
+  };
+
+  let formServiceStub: {
+    getForms: () => Observable<Form[]>;
+  };
+
+  beforeEach(() => {
+    snackbarModuleStub = {
+      open: (msg, buttons, settings) => {
+        snackbarModuleStub.called = true;
+      },
+      called: false
+    };
+
+    formServiceStub = {
+      getForms: () => new Observable(observer => {
+        observer.error('getForms() Observer generates an error');
+      }),
+    };
+
+    TestBed.configureTestingModule({
+      imports: [COMMON_IMPORTS],
+      declarations: [FormVolunteerComponent],
+      providers: [{ provide: FormService, useValue: formServiceStub },
+                  { provide: MatSnackBar, useValue: snackbarModuleStub }]
+    });
+  });
+
   it('generates an error if we don\'t set up a FormVolunteerService', () => {
     expect(formVolunteerList).toBeUndefined();
   });
+});
 
+describe('Misbehaving Form Service', () => {
+  let formVolunteerList: FormVolunteerComponent;
+  let fixture: ComponentFixture<FormVolunteerComponent>;
+
+  let snackbarModuleStub: {
+    open: (msg, buttons, settings) => void;
+    called: boolean;
+  };
+
+  let formServiceStub: {
+    getForms: () => Observable<Form[]>;
+  };
+
+  beforeEach(() => {
+    snackbarModuleStub = {
+      open: (msg, buttons, settings) => {
+        snackbarModuleStub.called = true;
+      },
+      called: false
+    };
+
+    formServiceStub = {
+      getForms: () => new Observable(observer => {
+        observer.error('getForms() Observer generates an error');
+      }),
+    };
+
+    TestBed.configureTestingModule({
+      imports: [COMMON_IMPORTS],
+      declarations: [FormVolunteerComponent],
+      providers: [{ provide: FormService, useValue: formServiceStub },
+                  { provide: MatSnackBar, useValue: snackbarModuleStub }]
+    });
+  });
+
+  beforeEach(waitForAsync (() => {
+    TestBed.compileComponents().then(() => {
+      fixture = TestBed.createComponent(FormVolunteerComponent);
+      formVolunteerList = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+  }));
+
+  it('should open the snackbar due to erroring out', () => {
+    formVolunteerList.getFormsFromServer();
+    expect(snackbarModuleStub.called).toBeTruthy();
+  });
 });
 
 
