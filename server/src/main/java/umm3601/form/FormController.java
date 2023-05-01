@@ -58,16 +58,12 @@ public class FormController {
 
 
   public void addNewForm(Context ctx) {
-    // Document newRequest = ctx.bodyAsClass(Document.class);
-    System.out.println("test");
-    System.out.println(ctx.body());
+    // System.out.println(ctx.body());
     Document shoppingFormDocument = Document.parse(ctx.body().toString());
-
-
 
     requestCollection.insertOne(shoppingFormDocument);
 
-    // ctx.json(Map.of("id", shoppingFormDocument._id));
+    ctx.json(Map.of("id", shoppingFormDocument.getObjectId("_id")));
     // 201 is the HTTP code for when we successfully
     // create a new resource (a request in this case).
     // See, e.g., https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
