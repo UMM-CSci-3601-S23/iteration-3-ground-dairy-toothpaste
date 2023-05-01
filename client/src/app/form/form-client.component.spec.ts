@@ -1,54 +1,55 @@
-// import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-// import { FormsModule, ReactiveFormsModule, FormGroup, AbstractControl } from '@angular/forms';
-// import { MatCardModule } from '@angular/material/card';
-// import { MatFormFieldModule } from '@angular/material/form-field';
-// import { MatInputModule } from '@angular/material/input';
-// import { MatSelectModule } from '@angular/material/select';
-// import { MatSnackBarModule } from '@angular/material/snack-bar';
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { RouterTestingModule } from '@angular/router/testing';
-// import { ClientFormComponent } from './form-client.component';
-// import { FormService } from './form.service';
-// import { MockFormService } from 'src/testing/form.service.mock';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule, FormGroup, AbstractControl } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ClientFormComponent } from './form-client.component';
+import { FormService } from './form.service';
+import { MockFormService } from 'src/testing/form.service.mock';
 
-// describe('ClientFormComponent', () => {
-//   let testComponent: ClientFormComponent;
-//   let formGroup: FormGroup;
-//   let fixture: ComponentFixture<ClientFormComponent>;
 
-//   beforeEach(waitForAsync(() => {
-//     TestBed.overrideProvider(FormService, { useValue: new MockFormService() });
-//     TestBed.configureTestingModule({
-//       imports: [
-//         FormsModule,
-//         ReactiveFormsModule,
-//         MatSnackBarModule,
-//         MatCardModule,
-//         MatFormFieldModule,
-//         MatSelectModule,
-//         MatInputModule,
-//         BrowserAnimationsModule,
-//         RouterTestingModule
-//       ],
-//       declarations: [ClientFormComponent],
-//     }).compileComponents().catch(error => {
-//       expect(error).toBeNull();
-//     });
-//   }));
+describe('ClientFormComponent', () => {
+  let testComponent: ClientFormComponent;
+  let formGroup: FormGroup;
+  let fixture: ComponentFixture<ClientFormComponent>;
+  const service: MockFormService = new MockFormService();
+  beforeEach(waitForAsync(() => {
+    TestBed.overrideProvider(FormService, { useValue: new MockFormService() });
+    TestBed.configureTestingModule({
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+        RouterTestingModule
+      ],
+      declarations: [ClientFormComponent],
+    }).compileComponents().catch(error => {
+      expect(error).toBeNull();
+    });
+  }));
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(ClientFormComponent);
-//     testComponent = fixture.componentInstance;
-//     fixture.detectChanges();
-//     formGroup = testComponent.form;
-//     expect(formGroup).toBeDefined();
-//     expect(formGroup.controls).toBeDefined();
-//   });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ClientFormComponent);
+    testComponent = fixture.componentInstance;
+    fixture.detectChanges();
+    formGroup = testComponent.shoppingForm;
+    expect(formGroup).toBeDefined();
+    expect(formGroup.controls).toBeDefined();
+  });
 
-//   it('should create the component and form', () => {
-//     expect(testComponent).toBeTruthy();
-//     expect(formGroup).toBeTruthy();
-//   });
+  it('should create the component and form', () => {
+    expect(testComponent).toBeTruthy();
+    expect(formGroup).toBeTruthy();
+  });
 
 //   // Confirms that an initial, empty form is *not* valid.
 //   // People can't submit an empty form.
@@ -56,37 +57,33 @@
 //     expect(formGroup.valid).toBeFalsy();
 //   });
 
+//   describe('Can we submit stuff to the client database?', () => {
+//     let monthControl: AbstractControl;
+//     let nameControl: AbstractControl;
+//     let diaperSizeControl: AbstractControl;
+//     let selectionsControl: AbstractControl;
+//     let idControl: AbstractControl;
+//     beforeEach(() =>{
+//       idControl = formGroup.controls._id;
+//       monthControl = formGroup.controls.month;
+//       nameControl = formGroup.controls.clientName;
+//       diaperSizeControl = formGroup.controls.diaperSize;
+//       selectionsControl = formGroup.controls.selections;
+//     });
+
+//   it('Should be able to submit a form', () => {
+//     nameControl.setValue('Tome Cruise');
+//     monthControl.setValue('06');
+//     selectionsControl.setValue(['hotSauce', 'rice', 'bread']);
+//     testComponent.submitForm();
+
+//     expect(service.addedFormRequests[0].name).toEqual('Tome Cruise');
+//   });
+
+//   });
+
 //   describe('The name field', () =>{
 //     let nameControl: AbstractControl;
-  describe('Can we submit stuff to the client database?', () => {
-    let timeSubmittedControl: AbstractControl;
-    let nameControl: AbstractControl;
-    let diaperSizeControl: AbstractControl;
-    let selectionsControl: AbstractControl;
-    let idControl: AbstractControl;
-    beforeEach(() =>{
-      idControl = formGroup.controls._id;
-      timeSubmittedControl = formGroup.controls.timeSubmitted;
-      nameControl = testComponent.form.controls.clientName;
-      diaperSizeControl = formGroup.controls.diaperSize;
-      selectionsControl = formGroup.controls.selections;
-    });
-
-  it('Should be able to submit a form', () => {
-    nameControl.setValue('Tome Cruise');
-    idControl.setValue('1_id');
-    timeSubmittedControl.setValue('20200604');
-    diaperSizeControl.setValue(false);
-    selectionsControl.setValue(['hotSauce', 'rice', 'bread']);
-    testComponent.submitForm();
-
-    expect(service.addedFormRequests[0].name).toEqual('Tome Cruise');
-  });
-
-  });
-
-  describe('The name field', () =>{
-    let nameControl: AbstractControl;
 
 //     beforeEach(() => {
 //       nameControl = testComponent.form.controls.clientName;
@@ -183,4 +180,4 @@
 
 //   });
 
-// });
+});
