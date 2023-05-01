@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
-import { Form } from './form';
+import { OldForm } from './form';
 import { FormService } from './form.service';
 
 
@@ -13,8 +13,8 @@ import { FormService } from './form.service';
 })
 
 export class FormVolunteerComponent implements OnInit, OnDestroy {
-  public serverFilteredForms: Form[];
-  public filteredForms: Form[];
+  public serverFilteredForms: OldForm[];
+  public filteredForms: OldForm[];
   public sortOrder: string;
   readonly itemMap = new Map<string, string>([
     ['glutenFree','Gluten Free'],
@@ -141,9 +141,9 @@ export class FormVolunteerComponent implements OnInit, OnDestroy {
     }).pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe({
-      next: (returnedForms) => {
-        this.serverFilteredForms = this.makeFormsReadable(returnedForms);
-      },
+      // next: (returnedForms) => {
+      //   this.serverFilteredForms = this.makeFormsReadable(returnedForms);
+      // },
 
       error: (err) => {
         let message = '';
@@ -160,7 +160,7 @@ export class FormVolunteerComponent implements OnInit, OnDestroy {
     });
   }
 
-  public makeFormsReadable(formList: Form[]): Form[]{
+  public makeFormsReadable(formList: OldForm[]): OldForm[]{
     const items = this.itemMap;
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < formList.length; i++){

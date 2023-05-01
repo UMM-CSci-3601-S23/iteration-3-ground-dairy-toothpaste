@@ -1,5 +1,15 @@
 import { FormGroup } from '@angular/forms';
 
+export interface OldForm {
+  _id: string;
+
+  timeSubmitted?: string;
+  name?: string;
+  diaperSize?: string;
+
+  selections: string[];
+}
+
 export interface Form {
   _id: string;
 

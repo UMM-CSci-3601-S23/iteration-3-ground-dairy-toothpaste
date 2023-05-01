@@ -30,9 +30,11 @@ export class FormService {
   }
 
 
-  addForm(form: Partial<Form>): Observable<string> {
+  addForm(form: FormGroup): Observable<string> {
     // Send post form to add a new Form with the Form data as the body.
-    return this.httpClient.post<{id: string}>(this.newFormUrl, form).pipe(map(res => res.id));
+    const formJson = JSON.stringify(form);
+    // return this.http.post<{id: string}>(this.addFormUrl, formJson).pipe(map(res => res.id));
+    return this.httpClient.post<{id: string}>(this.newFormUrl, formJson).pipe(map(res => res.id));
   }
 }
 
