@@ -4,6 +4,7 @@ export interface Request {
   description: string;
   foodType: FoodType;
   generalNeed: boolean;
+  dateAdded: string;
 }
 
 export type ItemType = 'food' | 'toiletries' | 'other';

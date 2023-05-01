@@ -4,6 +4,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Request } from './request';
 import { RequestService } from './request.service';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('RequestService', () => {
   //small collection of test Requests
@@ -13,21 +14,24 @@ describe('RequestService', () => {
       itemType: 'food',
       description: 'I would like to be able to get some spaghetti noodles',
       foodType: 'grain',
-      generalNeed: false
+      generalNeed: false,
+      dateAdded: null
     },
     {
       _id: '2',
       itemType: 'toiletries',
       description: 'I need some toothpaste',
       foodType: '',
-      generalNeed: false
+      generalNeed: false,
+      dateAdded: null
     },
     {
       _id: '3',
       itemType: 'other',
       description: 'Would it be possible for me to get some Advil?',
       foodType: '',
-      generalNeed: false
+      generalNeed: false,
+      dateAdded: null
     }
   ];
 
@@ -81,6 +85,27 @@ describe('RequestService', () => {
         expect(mockedMethod)
           .withContext('talks to the correct endpoint')
           .toHaveBeenCalledWith(requestService.requestClientUrl + '/' + targetId);
+      });
+    });
+  });
+
+  describe('When getDonorRequestById() is called', () => {
+    it('calls `api/requests`', () => {
+      const targetRequest: Request = testRequests[1];
+      const targetId: string = targetRequest._id;
+      const mockedMethod = spyOn(httpClient, 'get').and.returnValue(of(targetRequest));
+
+      requestService.getDonorRequestById(targetId).subscribe((request: Request) => {
+        expect(request)
+          .withContext('expected request')
+          .toBe(targetRequest);
+        expect(mockedMethod)
+          .withContext('one call')
+          .toHaveBeenCalledTimes(1);
+
+        expect(mockedMethod)
+          .withContext('talks to the correct endpoint')
+          .toHaveBeenCalledWith(requestService.requestDonorUrl + '/' + targetId);
       });
     });
   });

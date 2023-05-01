@@ -79,6 +79,8 @@
               </button>
             </mat-card-actions>
           </mat-card>
+        <div mat-list-item *ngFor="let request of this.serverFilteredRequests" class="donor-list-item">
+          <app-request-card [request]="request" [deletable]="this.authHypothesis" [showDetail]="true" [deleteCallback]="deleteRequestCallback"></app-request-card>
         </div>
       </mat-nav-list>
     </mat-card-content>

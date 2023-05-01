@@ -6,6 +6,8 @@ import { FoodType } from '../request';
 import { ItemType } from '../request';
 import { RequestService } from '../request.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-new-request',
@@ -54,6 +56,7 @@ export class NewRequestComponent {
     ]
   };
 
+
   // eslint-disable-next-line max-len
   constructor(private requestService: RequestService, private snackBar: MatSnackBar, private router: Router, public route: ActivatedRoute) {
   }
@@ -64,6 +67,8 @@ export class NewRequestComponent {
       return false;
     }
     return this.route.snapshot.url[1].path === 'volunteer';
+  constructor(private requestService: RequestService, private snackBar: MatSnackBar,
+    private router: Router, private dialogRef: MatDialog) {
   }
 
   formControlHasError(controlName: string): boolean {
@@ -80,7 +85,13 @@ export class NewRequestComponent {
     return 'Unknown error';
   }
 
+  resetForm() {
+    this.newRequestForm.patchValue({foodType: ''});
+  }
 
+  openDialog() {
+    this.dialogRef.open(NewRequestHelpComponent);
+  }
 
   submitForm() {
     if (this.destination === 'client') {
@@ -102,8 +113,8 @@ export class NewRequestComponent {
         // complete: () => console.log('Add user completes!')
       });
     }
-//this if statement checks if destination is set to donor. Destination is set in the
-//html of the request-volunteer component.
+    //this if statement checks if destination is set to donor. Destination is set in the
+    //html of the request-volunteer component.
     if (this.destination === 'donor') {
       this.requestService.addDonorRequest(this.newRequestForm.value).subscribe({
         next: (newId) => {
@@ -126,3 +137,9 @@ export class NewRequestComponent {
   }
 
 }
+
+@Component({
+  selector: 'app-new-request-help',
+  templateUrl: 'new-request-help/new-request-help.component.html',
+})
+export class NewRequestHelpComponent { }

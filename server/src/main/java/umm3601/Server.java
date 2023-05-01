@@ -14,7 +14,7 @@ import io.javalin.Javalin;
 import io.javalin.plugin.bundled.RouteOverviewPlugin;
 import umm3601.request.ClientRequestController;
 import umm3601.request.DonorRequestController;
-import umm3601.user.UserController;
+import umm3601.form.FormController;
 
 public class Server {
 
@@ -49,7 +49,7 @@ public class Server {
     Authentication auth = new Authentication(doDummyAuth);
 
     // Initialize dependencies
-    UserController userController = new UserController(database);
+    FormController formController = new FormController(database);
     ClientRequestController clientRequestController = new ClientRequestController(database, auth);
     DonorRequestController donorRequestController = new DonorRequestController(database, auth);
 
@@ -71,24 +71,12 @@ public class Server {
 
     server.start(SERVER_PORT);
 
-    // List users, filtered using query parameters
-    server.get("/api/users", userController::getUsers);
+    //////////////////////////// Request api endpoints //////////////////////////////////////
 
-    // Get the specified user
-    server.get("/api/users/{id}", userController::getUser);
-
-    // Delete the specified user
-    server.delete("/api/users/{id}", userController::deleteUser);
-
-    // Add new user with the user info being in the JSON body
-    // of the HTTP request
-    server.post("/api/users", userController::addNewUser);
-
-    //Request api endpoints
-
-    //Get a request by a specific ID
+    // Get a request by a specific ID
     server.get("/api/clientRequests/{id}", clientRequestController::getRequest);
-    //List requests, filtered using query parameters
+    server.get("/api/donorRequests/{id}", donorRequestController::getRequest);
+    // List requests, filtered using query parameters
     server.get("/api/clientRequests", clientRequestController::getRequests);
     server.get("/api/donorRequests", donorRequestController::getRequests);
 
@@ -96,9 +84,18 @@ public class Server {
     server.post("/api/clientRequests", clientRequestController::addNewRequest);
     server.post("/api/donorRequests", donorRequestController::addNewRequest);
 
-    //Deleting requests
+    // Deleting requests
     server.delete("/api/clientRequests/{id}", clientRequestController::deleteRequest);
     server.delete("/api/donorRequests/{id}", donorRequestController::deleteRequest);
+
+    ///////////////////////// Form API Endpoints //////////////////////////////////////
+
+    // Get forms, post forms, and delete forms
+    server.get("/api/forms/get", formController::getForms);
+
+    server.post("/api/form/add", formController::addNewForm);
+
+    server.delete("/api/requests/{id}]", formController::deleteForm);
 
     // Magically grant authorization for the demo
     // DO NOT USE THIS! THIS IS A TERRIBLE IDEA AND NOT THE WAY SECURITY SHOULD EVER WORK, THIS IS FOR THE DEMO ONLY
