@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Form } from './form';
 import { map } from 'rxjs/operators';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -29,9 +30,9 @@ export class FormService {
   }
 
 
-  addForm(newForm: Partial<Form>): Observable<string> {
+  addForm(form: Partial<Form>): Observable<string> {
     // Send post form to add a new Form with the Form data as the body.
-    return this.httpClient.post<{id: string}>(this.newFormUrl, newForm).pipe(map(res => res.id));
+    return this.httpClient.post<{id: string}>(this.newFormUrl, form).pipe(map(res => res.id));
   }
 }
 

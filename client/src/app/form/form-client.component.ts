@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/member-delimiter-style */
 /* eslint-disable no-underscore-dangle */
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, } from '@angular/forms';
 import { FormService } from './form.service';
+import { fruits, proteins, vegetables, grains } from './form';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
@@ -15,98 +18,68 @@ import { FormService } from './form.service';
 
 export class ClientFormComponent implements OnInit {
 
-  fruits: { fresh: { name: string }[]; canned: { name: string }[]; dried: { name: string }[] } = {
-    fresh: [
-      { name: 'Misc Fresh Fruit' },
-      { name: 'Apple Juice' },
-      { name: 'Frozen Peaches' }
-    ],
-    canned: [
-      { name: 'Mixed Fruit' },
-      { name: 'Peaches' },
-      { name: 'Apple Sauce' }
-    ],
-    dried: [
-      { name: 'Dates' }
-    ]
-  };
+  fruits = fruits;
+  proteins = proteins;
+  vegetables = vegetables;
+  grains = grains;
+  shoppingForm: FormGroup;
 
-  vegetables: { fresh: { name: string }[]; canned: { name: string }[] } = {
-    fresh: [
-      { name: 'Carrots' },
-      { name: 'Potatoes' },
-      { name: 'Misc Veggies' }
-    ],
-    canned: [
-      { name: 'Corn' },
-      { name: 'Green Beans' },
-      { name: 'Peas' },
-      { name: 'Sweet Potatoes' },
-      { name: 'Spinach' },
-      { name: 'Carrots' },
-      { name: 'Diced Tomatoes' },
-      { name: 'Spaghetti Sauce' }
-    ]
-  };
-
-  checkboxForm: FormGroup;
-
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private formService: FormService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     // Initialize form groups and controls
-    this.checkboxForm = this.formBuilder.group({
-      fruits: this.formBuilder.group(this.getFruitControls()),
-      vegetables: this.formBuilder.group(this.getVegetableControls())
+    this.shoppingForm = this.formBuilder.group({
+      fruitGroup: this.formBuilder.group(this.getFruitControls()),
+      vegetableGroup: this.formBuilder.group(this.getVegetableControls())
     });
+
   }
 
-  onSubmit() {
-    const selectedFruits = this.getSelectedItems(this.checkboxForm.get('fruits') as FormGroup);
-    console.log('fruits:', this.checkboxForm.get('fruits'));
-    const selectedVegetables = this.getSelectedItems(this.checkboxForm.get('vegetables') as FormGroup);
-    console.log('vegetables:', this.checkboxForm.get('vegetables'));
-    // console.log('Selected Fruits:', selectedFruits);
-    // console.log('Selected Vegetables:', selectedVegetables);
+  submitForm() {
+    this.formService.addForm(this.shoppingForm.value).subscribe({
+      next: (newId) => {
+        this.snackBar.open(
+          `Added user ${this.shoppingForm.value.name}`,
+          null,
+          { duration: 2000 }
+        );
+      },
+      error: err => {
+        this.snackBar.open(
+          `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`,
+          'OK',
+          { duration: 5000 }
+        );
+      },
+    });
   }
 
   private getFruitControls(): { [key: string]: any } {
     const controls = {};
-    this.fruits.fresh.forEach((item) => {
-      controls[item.name] = [false];
+    this.fruits.fresh1.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+      console.log(item);
     });
-    this.fruits.canned.forEach((item) => {
-      controls[item.name] = [false];
+    this.fruits.canned.descriptions.forEach((item) => {
+      controls[item.description] = [false];
     });
-    this.fruits.dried.forEach((item) => {
-      controls[item.name] = [false];
+    this.fruits.dried.descriptions.forEach((item) => {
+      controls[item.description] = [false];
     });
     return controls;
   }
 
   private getVegetableControls(): { [key: string]: any } {
     const controls = {};
-    this.vegetables.fresh.forEach((item) => {
-      controls[item.name] = [false];
+    this.vegetables.fresh.descriptions.forEach((item) => {
+      controls[item.description] = [false];
     });
-    this.vegetables.canned.forEach((item) => {
-      controls[item.name] = [false];
+    this.vegetables.canned.descriptions.forEach((item) => {
+      controls[item.description] = [false];
     });
     return controls;
   }
 
-
-  private getSelectedItems(formGroup: FormGroup) {
-    const selectedItems = [];
-    formGroup.controls.
-
-    // .forEach((control, i) => {
-    //   if (control.value) {
-    //     selectedItems.push(formGroup.at(i).value);
-    //   }
-    // });
-    return selectedItems;
-  }
 }
 
 
