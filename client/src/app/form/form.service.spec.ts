@@ -2,12 +2,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { Form } from './form';
+import { OldForm } from './form';
 import { FormService } from './form.service';
 
 describe('FormService', () => {
   //small collection of test Forms
-    const testForms: Form[] = [
+    const testForms: OldForm[] = [
       {
         _id: '1_id',
         name: 'Chris Pine',

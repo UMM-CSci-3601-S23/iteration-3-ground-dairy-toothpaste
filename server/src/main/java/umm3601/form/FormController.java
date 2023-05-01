@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.DeleteResult;
 
+import org.bson.Document;
 import org.bson.UuidRepresentation;
 import org.bson.types.ObjectId;
 import org.mongojack.JacksonMongoCollection;
@@ -20,48 +21,49 @@ public class FormController {
   // private static final String SORT_ORDER_REGEX = "^(oldest|newest)$";
 
 
-  private final JacksonMongoCollection<Form> requestCollection;
+  private final JacksonMongoCollection<Document> requestCollection;
 
 
   public FormController(MongoDatabase database) {
     requestCollection = JacksonMongoCollection.builder().build(
       database,
       "forms",
-      Form.class,
+      Document.class,
       UuidRepresentation.STANDARD);
   }
 
-  /**foodType and itemType
-   * Set the JSON body of the response to be a list of all the requests returned from the database
-   * that match any requested filters and ordering
-   *
-   * @param ctx a Javalin HTTP context
-   */
-  public void getForms(Context ctx) {
+  // /**foodType and itemType
+  //  * Set the JSON body of the response to be a list of all the requests returned from the database
+  //  * that match any requested filters and ordering
+  //  *
+  //  * @param ctx a Javalin HTTP context
+  //  */
+  // public void getForms(Context ctx) {
 
-    // All three of the find, sort, and into steps happen "in parallel" inside the
-    // database system. So MongoDB is going to find the requests with the specified
-    // properties, return those sorted in the specified manner, and put the
-    // results into an initially empty ArrayList.
-    ArrayList<Form> matchingRequests = requestCollection.find().into(new ArrayList<>());
+  //   // All three of the find, sort, and into steps happen "in parallel" inside the
+  //   // database system. So MongoDB is going to find the requests with the specified
+  //   // properties, return those sorted in the specified manner, and put the
+  //   // results into an initially empty ArrayList.
+  //   ArrayList<Form> matchingRequests = requestCollection.find().into(new ArrayList<>());
 
-    // Set the JSON body of the response to be the list of requests returned by the database.
-    // According to the Javalin documentation (https://javalin.io/documentation#context),
-    // this calls result(jsonString), and also sets content type to json
-    System.out.println(matchingRequests);
-    ctx.json(matchingRequests);
+  //   // Set the JSON body of the response to be the list of requests returned by the database.
+  //   // According to the Javalin documentation (https://javalin.io/documentation#context),
+  //   // this calls result(jsonString), and also sets content type to json
+  //   System.out.println(matchingRequests);
+  //   ctx.json(matchingRequests);
 
-    // Explicitly set the context status to OK
-    ctx.status(HttpStatus.OK);
-  }
+  //   // Explicitly set the context status to OK
+  //   ctx.status(HttpStatus.OK);
+  // }
 
 
   public void addNewForm(Context ctx) {
-    Form newRequest = ctx.bodyAsClass(Form.class);
+    // System.out.println(ctx.body());
+    Document shoppingFormDocument = Document.parse(ctx.body().toString());
 
-    requestCollection.insertOne(newRequest);
+    requestCollection.insertOne(shoppingFormDocument);
 
-    ctx.json(Map.of("id", newRequest._id));
+    ctx.json(Map.of("id", shoppingFormDocument.getObjectId("_id")));
     // 201 is the HTTP code for when we successfully
     // create a new resource (a request in this case).
     // See, e.g., https://developer.mozilla.org/en-US/docs/Web/HTTP/Status

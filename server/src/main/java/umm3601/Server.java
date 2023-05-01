@@ -91,7 +91,7 @@ public class Server {
     ///////////////////////// Form API Endpoints //////////////////////////////////////
 
     // Get forms, post forms, and delete forms
-    server.get("/api/forms/get", formController::getForms);
+    // server.get("/api/forms/get", formController::getForms);
 
     server.post("/api/form/add", formController::addNewForm);
 

@@ -14,7 +14,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
-import { Form } from './form';
+import { OldForm } from './form';
 import { FormVolunteerComponent } from './form-volunteer.component';
 import { FormService } from './form.service';
 import { MatIconModule } from '@angular/material/icon';
@@ -67,15 +67,16 @@ describe('Volunteer Form View', () => {
   });
 
   it('contains a form with name Chris Pine', () => {
-    expect(formVolunteerList.serverFilteredForms.some((form: Form) => form.name === 'Chris Pine')).toBe(true);
+    expect(formVolunteerList.serverFilteredForms.some((form: OldForm) => form.name === 'Chris Pine')).toBe(true);
   });
 
   it('doesn\'t contains a form with name Thor', () => {
-    expect(formVolunteerList.serverFilteredForms.some((form: Form) => form.name === 'Thor')).toBe(false);
+    expect(formVolunteerList.serverFilteredForms.some((form: OldForm) => form.name === 'Thor')).toBe(false);
   });
 
   it('contains a form with timeSubmitted 20190604', () => {
-    expect(formVolunteerList.serverFilteredForms.some((form: Form) => form.timeSubmitted === 'submitted a form on: 06-04-2019')).toBe(true);
+    expect(formVolunteerList.serverFilteredForms
+      .some((form: OldForm) => form.timeSubmitted === 'submitted a form on: 06-04-2019')).toBe(true);
   });
 
 });
@@ -191,13 +192,13 @@ describe('makeFormsReadable works as expected', ()=>{
   }));
 
   it('makeFormsReadable properly processes date values', ()=>{
-    const alteredTestForms: Form[] = formVolunteerList.makeFormsReadable(formVolunteerList.serverFilteredForms);
+    const alteredTestForms: OldForm[] = formVolunteerList.makeFormsReadable(formVolunteerList.serverFilteredForms);
     expect(alteredTestForms[1].timeSubmitted !== '20190604').toBeTruthy();
     expect(alteredTestForms[1].timeSubmitted === 'submitted a form on: 06-04-2019').toBeTruthy();
   });
 
   it('makeFormsReadable properly processes selections values', ()=>{
-    const testForms2: Form[] = [
+    const testForms2: OldForm[] = [
       {
         _id: '1_id',
         name: 'Chris Pine',
@@ -239,7 +240,7 @@ describe('makeFormsReadable works as expected', ()=>{
         timeSubmitted: '20200604'
       }
     ];
-    const alteredTestForms2: Form[] = formVolunteerList.makeFormsReadable(testForms2);
+    const alteredTestForms2: OldForm[] = formVolunteerList.makeFormsReadable(testForms2);
     expect(alteredTestForms2[3].selections[0] !== 'tomatoSoup').toBeTruthy();
     expect(alteredTestForms2[3].selections[0] === ' Tomato soup').toBeTruthy();
   });
