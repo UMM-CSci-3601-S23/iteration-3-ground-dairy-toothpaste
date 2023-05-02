@@ -90,11 +90,9 @@ public class Server {
     ///////////////////////// Form API Endpoints //////////////////////////////////////
 
     // Get forms, post forms, and delete forms
-    // server.get("/api/forms/get", formController::getForms);
+    server.get("/api/forms/get", formController::getForms);
 
     server.post("/api/form/add", formController::addNewForm);
-
-    server.delete("/api/requests/{id}]", formController::deleteForm);
 
     // Magically grant authorization for the demo
     // DO NOT USE THIS! THIS IS A TERRIBLE IDEA AND NOT THE WAY SECURITY SHOULD EVER WORK, THIS IS FOR THE DEMO ONLY
