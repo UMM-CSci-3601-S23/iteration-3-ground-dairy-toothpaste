@@ -21,8 +21,8 @@ export class RequestService {
 
   constructor(private httpClient: HttpClient) {
   }
-
-  getClientRequests(filters?: {itemType?: ItemType; foodType?: FoodType; description?: string}): Observable<Request[]> {
+// eslint-disable-next-line max-len
+  getClientRequests(filters?: {itemType?: ItemType; foodType?: FoodType; description?: string; generalNeed?: boolean}): Observable<Request[]> {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.itemType) {
@@ -50,9 +50,8 @@ export class RequestService {
     return this.httpClient.get<Request>(this.requestDonorUrl + '/' + id);
   }
 
-
-  getDonorRequests(filters?: {itemType?: ItemType; foodType?: FoodType; description?: string;
-     originType?: string;}): Observable<Request[]> {
+ // eslint-disable-next-line max-len
+  getDonorRequests(filters?: {itemType?: ItemType; foodType?: FoodType; description?: string; generalNeed?: boolean}): Observable<Request[]> {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.itemType) {
