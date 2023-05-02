@@ -234,11 +234,13 @@ class DonorRequestControllerSpec {
   @Test
   void canGetRequestWithDescription() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(DonorRequestController.DESCRIPTION_KEY, Arrays.asList(new String[] {"I want more ground dairy toothpaste meat"}));
+    queryParams.put(DonorRequestController.DESCRIPTION_KEY, Arrays.asList(
+      new String[] {"I want more ground dairy toothpaste meat"}));
     queryParams.put(DonorRequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
     when(ctx.queryParamAsClass(ClientRequestController.DESCRIPTION_KEY, String.class))
-      .thenReturn(Validator.create(String.class, "I want more ground dairy toothpaste meat", ClientRequestController.DESCRIPTION_KEY));
+      .thenReturn(Validator.create(
+        String.class, "I want more ground dairy toothpaste meat", ClientRequestController.DESCRIPTION_KEY));
 
     requestController.getRequests(ctx);
 
