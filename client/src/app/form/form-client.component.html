@@ -14,43 +14,43 @@
     <mat-card-content>
       <div formGroupName="personalInfo">
 
-      <mat-form-field>
-        <mat-label>Full Name / Nombre</mat-label>
-        <input matInput formControlName="fullName">
-      </mat-form-field>
+        <mat-form-field>
+          <mat-label>Full Name / Nombre</mat-label>
+          <input matInput formControlName="fullName">
+        </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Zip Code / Código Postal</mat-label>
-        <input matInput formControlName="zipCode">
-      </mat-form-field>
+        <mat-form-field>
+          <mat-label>Zip Code / Código Postal</mat-label>
+          <input matInput formControlName="zipCode">
+        </mat-form-field>
 
-      <mat-form-field>
-        <mat-label># of persons in Home/ Número de Personas en Casa?</mat-label>
-        <input matInput type="number" formControlName="personsInHome">
-      </mat-form-field>
+        <mat-form-field>
+          <mat-label># of persons in Home/ Número de Personas en Casa?</mat-label>
+          <input matInput type="number" formControlName="personsInHome">
+        </mat-form-field>
 
-      <mat-form-field>
-        <mat-label># under 18?</mat-label>
-        <input matInput type="number" formControlName="personsUnder18">
-      </mat-form-field>
+        <mat-form-field>
+          <mat-label># under 18?</mat-label>
+          <input matInput type="number" formControlName="personsUnder18">
+        </mat-form-field>
 
-      <mat-form-field>
-        <mat-label># over 65?</mat-label>
-        <input matInput type="number" formControlName="personsOver65">
-      </mat-form-field>
+        <mat-form-field>
+          <mat-label># over 65?</mat-label>
+          <input matInput type="number" formControlName="personsOver65">
+        </mat-form-field>
 
-      <mat-checkbox formControlName="incomeLessThanGuideline">
-        Is income less than the guideline for family size?
-      </mat-checkbox>
+        <mat-checkbox ngDefaultControl formControlName="incomeLessThanGuideline">
+          Is income less than the guideline for family size?
+        </mat-checkbox>
 
-      <mat-checkbox formControlName="glutenFree">Gluten-free/ Sin gluten</mat-checkbox>
+        <mat-checkbox ngDefaultControl formControlName="glutenFree">Gluten-free/ Sin gluten</mat-checkbox>
 
-      <mat-checkbox formControlName="lowSugar">Low-sugar/ Bajo azúcar</mat-checkbox>
+        <mat-checkbox ngDefaultControl formControlName="lowSugar">Low-sugar/ Bajo azúcar</mat-checkbox>
 
-      <mat-checkbox formControlName="lactoseFree">Lactose free/ Sin lactosa</mat-checkbox>
+        <mat-checkbox ngDefaultControl formControlName="lactoseFree">Lactose free/ Sin lactosa</mat-checkbox>
 
-      <mat-checkbox formControlName="vegetarian">Vegetarian/ Vegetariano</mat-checkbox>
-    </div>
+        <mat-checkbox ngDefaultControl formControlName="vegetarian">Vegetarian/ Vegetariano</mat-checkbox>
+      </div>
     </mat-card-content>
   </mat-card>
 
@@ -61,13 +61,13 @@
     <mat-card-content>
       <div formGroupName="fruitGroup">
         <div *ngFor="let item of fruits.fresh.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+          <mat-checkbox ngDefaultControl formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
         </div>
         <div *ngFor="let item of fruits.canned.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+          <mat-checkbox ngDefaultControl formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
         </div>
         <div *ngFor="let item of fruits.dried.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+          <mat-checkbox ngDefaultControl formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
         </div>
       </div>
     </mat-card-content>
@@ -80,10 +80,10 @@
     <mat-card-content>
       <div formGroupName="vegetableGroup">
         <div *ngFor="let item of vegetables.fresh.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+          <mat-checkbox ngDefaultControl formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
         </div>
         <div *ngFor="let item of vegetables.canned.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+          <mat-checkbox ngDefaultControl formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
         </div>
       </div>
     </mat-card-content>

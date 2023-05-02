@@ -1,6 +1,6 @@
 import { FormGroup } from '@angular/forms';
 
-export interface Form {personalInfo: PersonalInfo; fruitGroup: FruitsType; vegetableGroup: VegetablesType}
+export interface Form {_id: string; personalInfo: PersonalInfo; fruitGroup: FruitsType| any; vegetableGroup: VegetablesType| any}
 
 type PersonalInfo = {
   fullName: string;

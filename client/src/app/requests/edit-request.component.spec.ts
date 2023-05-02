@@ -7,7 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NewRequestComponent } from './new-request/new-request.component';
@@ -163,6 +163,12 @@ describe('Misbehaving request service', () => {
   let editRequestComponent: EditRequestComponent;
   let newRequestForm: FormGroup;
   let fixture: ComponentFixture<EditRequestComponent>;
+  let snackbarModuleStub: {
+    open: (msg, buttons, settings) => void;
+    called: boolean;
+  };
+
+
 
   let requestServiceStub: {
     deleteRequest: () => Observable<object>;
@@ -173,6 +179,12 @@ describe('Misbehaving request service', () => {
   };
 
   beforeEach(() => {
+    snackbarModuleStub = {
+      open: (msg, buttons, settings) => {
+        snackbarModuleStub.called = true;
+      },
+      called: false
+    };
     requestServiceStub = {
       getClientRequests: () => new Observable(observer => {
         observer.error('getClientRequests() Observer generates an error');
@@ -206,7 +218,7 @@ describe('Misbehaving request service', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
       ],
-      providers: [{provide: RequestService, useValue: requestServiceStub}],
+      providers: [{provide: RequestService, useValue: requestServiceStub}, {provide: MatSnackBar, useValue: snackbarModuleStub }],
       declarations: [EditRequestComponent]
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(EditRequestComponent);
@@ -240,7 +252,9 @@ describe('Misbehaving request service', () => {
       dateAdded: '2023-4-2'
     });
 
+    snackbarModuleStub.called = false;
     editRequestComponent.submitForm();
+    expect(snackbarModuleStub.called).toBeTrue();
   });
 
 });
