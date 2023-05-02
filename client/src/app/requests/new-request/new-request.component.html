@@ -53,6 +53,14 @@
           {{getErrorMessage('description')}}
         </mat-error>
       </mat-form-field>
+
+      <div class = "checkbox">
+        <label>
+          <mat-label>Add foodshelf origin</mat-label>
+          <input #Origin (checked)="originType" type="checkbox" data-toggle="toggle" Add Origin >
+        </label>
+      </div>
+      <mat-divider></mat-divider>
     </div>
     </mat-card-content>
     <a>

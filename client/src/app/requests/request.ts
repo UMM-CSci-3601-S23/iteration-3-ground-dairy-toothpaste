@@ -4,8 +4,8 @@ export interface Request {
   description: string;
   foodType: FoodType;
   dateAdded: string;
-  isFromFoodShelf: boolean;
-}
+  originType: OriginType;}
 
 export type ItemType = 'food' | 'toiletries' | 'other';
 export type FoodType = '' | 'dairy' | 'grain' | 'meat' | 'fruit' | 'vegetable';
+export type OriginType = 'volunteer' | 'client';

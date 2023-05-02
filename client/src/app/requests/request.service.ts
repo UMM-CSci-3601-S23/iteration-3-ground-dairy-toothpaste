@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Request, ItemType, FoodType } from './request';
+import { Request, ItemType, FoodType, OriginType } from './request';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -51,7 +51,8 @@ export class RequestService {
   }
 
 
-  getDonorRequests(filters?: {itemType?: ItemType; foodType?: FoodType; description?: string}): Observable<Request[]> {
+  getDonorRequests(filters?: {itemType?: ItemType; foodType?: FoodType; description?: string;
+     originType?: string;}): Observable<Request[]> {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.itemType) {
