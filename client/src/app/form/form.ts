@@ -1,24 +1,24 @@
 import { FormGroup } from '@angular/forms';
 
-export interface OldForm {
-  _id: string;
+export interface Form {personalInfo: PersonalInfo; fruitGroup: FruitsType; vegetableGroup: VegetablesType}
 
-  timeSubmitted?: string;
-  name?: string;
-  diaperSize?: string;
-
-  selections: string[];
-}
-
-export interface Form {
-  _id: string;
-
-  formGroup: FormGroup;
-}
+type PersonalInfo = {
+  fullName: string;
+  zipCode: string;
+  todayDate: Date;
+  personsInHome: number;
+  personsUnder18: number;
+  personsOver65: number;
+  incomeLessThanGuideline: boolean;
+  glutenFree: boolean;
+  lowSugar: boolean;
+  lactoseFree: boolean;
+  vegetarian: boolean;
+};
 
 type FruitsType = {
   section: string;
-  fresh1: {
+  fresh: {
     label: string;
     descriptions: { description: string }[];
   };
@@ -34,7 +34,7 @@ type FruitsType = {
 
 export const fruits: FruitsType = {
   section: 'FRUITS / FRUTAS',
-  fresh1: {
+  fresh: {
     descriptions: [
       { description: 'Misc Fresh Fruit as available / Varios frutas frescas como disponible' },
       { description: 'Apple juice / Jugo de manzana' },

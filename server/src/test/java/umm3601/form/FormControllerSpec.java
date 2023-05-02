@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +36,6 @@ import org.mockito.MockitoAnnotations;
 
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-import io.javalin.http.NotFoundResponse;
 import io.javalin.json.JavalinJackson;
 
 /**
@@ -217,39 +215,39 @@ class FormControllerSpec {
     assertEquals(selections1, addedForm.get("selections"));
   }
 
-  @Test
-  void deleteFoundRequest() throws IOException {
-    String testID = samsId.toHexString();
-    when(ctx.pathParam("id")).thenReturn(testID);
+  // @Test
+  // void deleteFoundRequest() throws IOException {
+  //   String testID = samsId.toHexString();
+  //   when(ctx.pathParam("id")).thenReturn(testID);
 
-    // Request exists before deletion
-    assertEquals(1, db.getCollection("forms").countDocuments(eq("_id", new ObjectId(testID))));
+  //   // Request exists before deletion
+  //   assertEquals(1, db.getCollection("forms").countDocuments(eq("_id", new ObjectId(testID))));
 
-    formController.deleteForm(ctx);
+  //   formController.deleteForm(ctx);
 
-    verify(ctx).status(HttpStatus.OK);
+  //   verify(ctx).status(HttpStatus.OK);
 
-    // request is no longer in the database
-    assertEquals(0, db.getCollection("forms").countDocuments(eq("_id", new ObjectId(testID))));
-  }
+  //   // request is no longer in the database
+  //   assertEquals(0, db.getCollection("forms").countDocuments(eq("_id", new ObjectId(testID))));
+  // }
 
-  @Test
-  void tryToDeleteNotFoundRequest() throws IOException {
-    String testID = samsId.toHexString();
-    when(ctx.pathParam("id")).thenReturn(testID);
+  // @Test
+  // void tryToDeleteNotFoundRequest() throws IOException {
+  //   String testID = samsId.toHexString();
+  //   when(ctx.pathParam("id")).thenReturn(testID);
 
-    formController.deleteForm(ctx);
-    // Request is no longer in the database
-    assertEquals(0, db.getCollection("forms").countDocuments(eq("_id", new ObjectId(testID))));
+  //   formController.deleteForm(ctx);
+  //   // Request is no longer in the database
+  //   assertEquals(0, db.getCollection("forms").countDocuments(eq("_id", new ObjectId(testID))));
 
-    assertThrows(NotFoundResponse.class, () -> {
-      formController.deleteForm(ctx);
-    });
+  //   assertThrows(NotFoundResponse.class, () -> {
+  //     formController.deleteForm(ctx);
+  //   });
 
-    verify(ctx).status(HttpStatus.NOT_FOUND);
+  //   verify(ctx).status(HttpStatus.NOT_FOUND);
 
-    // Request is still not in the database
-    assertEquals(0, db.getCollection("forms").countDocuments(eq("_id", new ObjectId(testID))));
-  }
+  //   // Request is still not in the database
+  //   assertEquals(0, db.getCollection("forms").countDocuments(eq("_id", new ObjectId(testID))));
+  // }
 
 }

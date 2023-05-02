@@ -29,17 +29,32 @@ export class ClientFormComponent implements OnInit {
   ngOnInit() {
     // Initialize form groups and controls
     this.shoppingForm = this.formBuilder.group({
+      personalInfo: this.formBuilder.group({
+        fullName: '',
+        zipCode: '',
+        todayDate: Date(),
+        personsInHome: '',
+        personsUnder18: '',
+        personsOver65: '',
+        incomeLessThanGuideline: false,
+        glutenFree: false,
+        lowSugar: false,
+        lactoseFree: false,
+        vegetarian: false,
+      }),
       fruitGroup: this.formBuilder.group(this.getFruitControls()),
-      vegetableGroup: this.formBuilder.group(this.getVegetableControls())
-    });
 
+      vegetableGroup: this.formBuilder.group(this.getVegetableControls()),
+    });
+    console.log(this.shoppingForm);
   }
+
 
   submitForm() {
     this.formService.addForm(this.shoppingForm.value).subscribe({
       next: (newId) => {
         this.snackBar.open(
-          `Added user ${this.shoppingForm.value.name}`,
+          `Thank You  ${this.shoppingForm.value.personalInfo.fullName}`,
           null,
           { duration: 2000 }
         );
@@ -56,9 +71,8 @@ export class ClientFormComponent implements OnInit {
 
   private getFruitControls(): { [key: string]: any } {
     const controls = {};
-    this.fruits.fresh1.descriptions.forEach((item) => {
+    this.fruits.fresh.descriptions.forEach((item) => {
       controls[item.description] = [false];
-      console.log(item);
     });
     this.fruits.canned.descriptions.forEach((item) => {
       controls[item.description] = [false];
