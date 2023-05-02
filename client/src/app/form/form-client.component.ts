@@ -49,6 +49,7 @@ export class ClientFormComponent implements OnInit {
     console.log(this.shoppingForm);
   }
 
+
   submitForm() {
     this.formService.addForm(this.shoppingForm.value).subscribe({
       next: (newId) => {
