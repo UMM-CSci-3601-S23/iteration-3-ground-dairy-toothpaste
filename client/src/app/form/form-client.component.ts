@@ -1,11 +1,11 @@
-// import {Component} from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+/* eslint-disable @typescript-eslint/member-delimiter-style */
+/* eslint-disable no-underscore-dangle */
+
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup,  } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, } from '@angular/forms';
 import { FormService } from './form.service';
-import { Form } from './form';
+import { fruits, proteins, vegetables, grains } from './form';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
@@ -16,67 +16,45 @@ import { Form } from './form';
   styleUrls: ['./form-client.component.scss']
 })
 
-export class ClientFormComponent {
+export class ClientFormComponent implements OnInit {
 
-  form = this.formBuilder.group({
-    clientName:['', Validators.compose([
-      Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(50),
-    ])],
-    diaperSize: 0,
-  });
+  fruits = fruits;
+  proteins = proteins;
+  vegetables = vegetables;
+  grains = grains;
+  shoppingForm: FormGroup;
 
-  newRequestValidationMessages = {
-    clientName: [
-      {type: 'required', message: 'Name is required'},
-      {type: 'minlength', message: 'Name must be at least 2 characters long'},
-      {type: 'maxlength', message: 'Name cannot be more than 50 characters long'},
-    ]
-  };
+  constructor(private formBuilder: FormBuilder, private formService: FormService, private snackBar: MatSnackBar) { }
 
-  selections: string[] = new Array();
-  isLinear = false;
-  diapers = false;
-  diaperSize = '1';
-  date: Date = new Date();
-  done = false;
+  ngOnInit() {
+    // Initialize form groups and controls
+    this.shoppingForm = this.formBuilder.group({
+      personalInfo: this.formBuilder.group({
+        fullName: '',
+        zipCode: '',
+        todayDate: Date(),
+        personsInHome: '',
+        personsUnder18: '',
+        personsOver65: '',
+        incomeLessThanGuideline: false,
+        glutenFree: false,
+        lowSugar: false,
+        lactoseFree: false,
+        vegetarian: false,
+      }),
+      fruitGroup: this.formBuilder.group(this.getFruitControls()),
 
-  constructor(private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar, private router: Router, private formService: FormService){
-    }
-
-
-  formControlHasError(controlName: string): boolean {
-    return this.form.get(controlName).invalid &&
-      (this.form.get(controlName).dirty || this.form.get(controlName).touched);
+      vegetableGroup: this.formBuilder.group(this.getVegetableControls()),
+    });
+    console.log(this.shoppingForm);
   }
 
-  getErrorMessage(name: string): string {
-    for(const {type, message} of this.newRequestValidationMessages[name]) {
-      if (this.form.get(name).hasError(type)) {
-        return message;
-      }
-    }
-    return 'Unknown error';
-  }
 
   submitForm() {
-    let month: string = this.date.getMonth().toString();
-    let day: string = this.date.getDate().toString();
-    if (month.length !== 2){
-      month = '0' + month;
-    }
-    if (day.length !== 2){
-      day = '0' + day;
-    }
-    const myDate: string = (this.date.getFullYear().toString()+  month + day);
-    console.log(myDate);
-    const newForm = {selections: this.selections, timeSubmitted: myDate, name: this.form.get('clientName').getRawValue()};
-    this.formService.addForm(newForm).subscribe({
+    this.formService.addForm(this.shoppingForm.value).subscribe({
       next: (newId) => {
         this.snackBar.open(
-          `Request successfully submitted`,
+          `Thank You  ${this.shoppingForm.value.personalInfo.fullName}`,
           null,
           { duration: 2000 }
         );
@@ -85,31 +63,37 @@ export class ClientFormComponent {
         this.snackBar.open(
           `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`,
           'OK',
-          { duration: 20000 }
+          { duration: 5000 }
         );
       },
-      complete: () => this.done = true
     });
   }
 
-  updateDiapers(): void{
-    if (this.diapers){
-      this.diapers = false;
-    }
-    else {this.diapers = true;}
+  private getFruitControls(): { [key: string]: any } {
+    const controls = {};
+    this.fruits.fresh.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+    this.fruits.canned.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+    this.fruits.dried.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+    return controls;
   }
 
-  updateList(newItem: string): void{
-    if (newItem === 'diapers'){
-      this.updateDiapers();
-    }
-    if (this.selections.length !== 0 && this.selections.includes(newItem)){
-      this.selections.splice(this.selections.indexOf(newItem));
-    }
-    else{
-      this.selections.push(newItem);
-    }
-    console.log(this.selections);
+  private getVegetableControls(): { [key: string]: any } {
+    const controls = {};
+    this.vegetables.fresh.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+    this.vegetables.canned.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+    return controls;
   }
 
 }
+
+

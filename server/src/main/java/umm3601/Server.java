@@ -95,8 +95,6 @@ public class Server {
 
     server.post("/api/form/add", formController::addNewForm);
 
-    server.delete("/api/requests/{id}]", formController::deleteForm);
-
     // Magically grant authorization for the demo
     // DO NOT USE THIS! THIS IS A TERRIBLE IDEA AND NOT THE WAY SECURITY SHOULD EVER WORK, THIS IS FOR THE DEMO ONLY
     server.get("/api/auth", auth::grant);

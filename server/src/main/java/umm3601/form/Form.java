@@ -2,7 +2,6 @@ package umm3601.form;
 
 import org.mongojack.Id;
 import org.mongojack.ObjectId;
-
 @SuppressWarnings({"VisibilityModifier"})
 
 public class Form {
@@ -12,10 +11,7 @@ public class Form {
 
   public String _id;
 
-  public String timeSubmitted;
-  public String[] selections;
-  public String name;
-  public String diaperSize;
+  public Object formGroup;
 
   @Override
   public boolean equals(Object obj) {
@@ -31,7 +27,4 @@ public class Form {
     return _id.hashCode();
   }
 
-  public void setSelections(String[] sel) {
-    this.selections = sel;
-  }
 }
