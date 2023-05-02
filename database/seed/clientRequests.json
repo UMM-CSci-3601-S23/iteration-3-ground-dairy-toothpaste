@@ -7,7 +7,7 @@
     "description": "I'd like some apples",
     "foodType": "fruit",
     "dateAdded": "1999-12-06",
-    "isFromFoodShelf": false
+    "origintype": ""
   },
   {
     "_id": {
@@ -17,7 +17,7 @@
     "description": "I need some toothpaste",
     "foodType": "",
     "dateAdded": "2006-11-16",
-    "isFromFoodShelf": false
+    "origintype": ""
   },
   {
     "_id": {
@@ -27,7 +27,7 @@
     "description": "I need paper plates",
     "foodType": "",
     "dateAdded": "2008-10-13",
-    "isFromFoodShelf": true
+    "origintype": ""
   },
   {
     "_id": {
@@ -37,7 +37,7 @@
     "description": "Need milk",
     "foodType": "dairy",
     "dateAdded": "2020-05-23",
-    "isFromFoodShelf": false
+    "origintype": ""
   },
   {
     "_id": {
@@ -47,7 +47,7 @@
     "description": "I need bread",
     "foodType": "grain",
     "dateAdded": "2023-01-28",
-    "isFromFoodShelf": true
+    "origintype": ""
   },
   {
     "_id": {
@@ -57,7 +57,7 @@
     "description": "I would like some more ground beef",
     "foodType": "meat",
     "dateAdded": "2019-12-28",
-    "isFromFoodShelf": false
+    "origintype": ""
   },
   {
     "_id": {
@@ -67,6 +67,6 @@
     "description": "If possible I'd like to be able to add more vegetables to my meals",
     "foodType": "vegetable",
     "dateAdded": "2019-03-12",
-    "isFromFoodShelf": false
+    "origintype": ""
   }
 ]

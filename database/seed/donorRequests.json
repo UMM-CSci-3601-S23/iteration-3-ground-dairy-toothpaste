@@ -6,7 +6,8 @@
     "itemType": "food",
     "description": "Fresh Apples",
     "foodType": "fruit",
-    "dateAdded": "1999-12-06"
+    "dateAdded": "1999-12-06",
+    "origintype": ""
   },
   {
     "_id": {
@@ -15,7 +16,8 @@
     "itemType": "toiletries",
     "description": "Toothpaste",
     "foodType": "",
-    "dateAdded": "2006-11-16"
+    "dateAdded": "2006-11-16",
+    "origintype": ""
   },
   {
     "_id": {
@@ -24,7 +26,8 @@
     "itemType": "other",
     "description": "Plates",
     "foodType": "",
-    "dateAdded": "2008-10-13"
+    "dateAdded": "2008-10-13",
+    "origintype": ""
   },
   {
     "_id": {
@@ -33,7 +36,8 @@
     "itemType": "food",
     "description": "Milk",
     "foodType": "dairy",
-    "dateAdded": "2020-05-23"
+    "dateAdded": "2020-05-23",
+    "origintype": ""
   },
   {
     "_id": {
@@ -42,7 +46,8 @@
     "itemType": "food",
     "description": "Bread",
     "foodType": "grain",
-    "dateAdded": "2023-01-28"
+    "dateAdded": "2023-01-28",
+    "origintype": ""
 
   },
   {
@@ -52,7 +57,8 @@
     "itemType": "food",
     "description": "Ground beef",
     "foodType": "meat",
-    "dateAdded": "2019-12-28"
+    "dateAdded": "2019-12-28",
+    "origintype": ""
   },
   {
     "_id": {
@@ -61,7 +67,8 @@
     "itemType": "food",
     "description": "Assorted Vegetables",
     "foodType": "vegetable",
-    "dateAdded": "2019-03-12"
+    "dateAdded": "2019-03-12",
+    "origintype": ""
   },
 
   {
@@ -71,7 +78,8 @@
     "itemType": "food",
     "description": "I want ground vegetables",
     "foodType": "vegetable",
-    "dateAdded": "2016-04-22"
+    "dateAdded": "2016-04-22",
+    "origintype": ""
   },
 
   {
@@ -81,7 +89,8 @@
     "itemType": "toiletries",
     "description": "I want toothpaste",
     "foodType": "",
-    "dateAdded": "2021-05-22"
+    "dateAdded": "2021-05-22",
+    "origintype": ""
   },
 
   {
@@ -91,7 +100,8 @@
     "itemType": "food",
     "description": "I want pasta",
     "foodType": "grain",
-    "dateAdded": "2022-02-22"
+    "dateAdded": "2022-02-22",
+    "origintype": ""
   }
 
 ]
