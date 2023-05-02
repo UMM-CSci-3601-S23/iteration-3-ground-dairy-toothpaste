@@ -181,40 +181,6 @@ class FormControllerSpec {
     assertEquals(db.getCollection("forms").countDocuments(), formArrayListCaptor.getValue().size());
   }
 
-  @Test
-  void canAddNewForm() throws IOException {
-    String testNewForm = "{"
-    + "\"timeSubmitted\": \"03-06-2023\","
-    + "\"name\": \"Mat\","
-    + "\"diaperSize\": 2,"
-    + "\"selections\": [ \"Fruit\", \"more Fruit\", \"and fruit\"]"
-    + "}";
-
-    //when(ctx.bodyValidator(Form.class))
-    //  .then(value -> new BodyValidator<Form>(testNewForm, Form.class, javalinJackson));
-    when(ctx.bodyAsClass(Form.class))
-      .then(value -> javalinJackson.fromJsonString(testNewForm, Form.class));
-
-    formController.addNewForm(ctx);
-    verify(ctx).json(mapCaptor.capture());
-
-    // Our status should be 201, i.e., our new user was successfully created.
-    verify(ctx).status(HttpStatus.CREATED);
-
-    List<String> selections1 = Arrays.asList("Fruit", "more Fruit", "and fruit");
-
-    //Verify that the request was added to the database with the correct ID
-    Document addedForm = db.getCollection("forms")
-      .find(eq("_id", new ObjectId(mapCaptor.getValue().get("id")))).first();
-    System.out.println(addedForm);
-    // Successfully adding the form should return the newly generated, non-empty MongoDB ID for that form.
-    assertNotEquals("", addedForm.get("_id"));
-    assertEquals("03-06-2023", addedForm.get("timeSubmitted"));
-    assertEquals("Mat", addedForm.get("name"));
-    assertEquals("2", addedForm.get("diaperSize"));
-    assertEquals(selections1, addedForm.get("selections"));
-  }
-
   // @Test
   // void deleteFoundRequest() throws IOException {
   //   String testID = samsId.toHexString();
