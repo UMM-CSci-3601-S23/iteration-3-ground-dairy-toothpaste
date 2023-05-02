@@ -26,6 +26,9 @@ export class FormVolunteerComponent implements OnInit, OnDestroy {
     this.formService.getAllForms().pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe({
+      next: (forms) => {
+        this.servedForms = forms;
+      },
 
       error: (err) => {
         let message = '';
