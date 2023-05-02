@@ -18,7 +18,6 @@ export class NewRequestComponent {
 
   @Input() destination: 'client' | 'donor' = 'client';
   public type: ItemType = 'food';
-  // public originType: OriginType = 'volunteer';
   public generalNeed: boolean;
 
   newRequestForm = new FormGroup({
