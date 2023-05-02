@@ -45,9 +45,8 @@ export class ClientFormComponent implements OnInit {
       fruitGroup: this.formBuilder.group(this.getFruitControls()),
 
       vegetableGroup: this.formBuilder.group(this.getVegetableControls()),
-
-
     });
+    console.log(this.shoppingForm);
   }
 
   submitForm() {

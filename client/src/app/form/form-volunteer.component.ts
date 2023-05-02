@@ -6,6 +6,7 @@ import { FormService } from './form.service';
 import { FormGroup } from '@angular/forms';
 
 
+
 @Component({
   selector: 'app-form-volunteer',
   templateUrl: './form-volunteer.component.html',
@@ -14,12 +15,12 @@ import { FormGroup } from '@angular/forms';
 })
 
 export class FormVolunteerComponent implements OnInit, OnDestroy {
-  public servedForms: FormGroup[];
-
+  public servedForms: Form[];
 
   private ngUnsubscribe = new Subject<void>();
 
   constructor(private formService: FormService, private snackBar: MatSnackBar) {
+
   }
   //Gets the forms from the server with the correct filters
   getFormsFromServer(): void {
@@ -28,6 +29,7 @@ export class FormVolunteerComponent implements OnInit, OnDestroy {
     ).subscribe({
       next: (forms) => {
         this.servedForms = forms;
+        console.log(this.servedForms);
       },
 
       error: (err) => {

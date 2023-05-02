@@ -17,8 +17,8 @@ export class FormService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getAllForms(): Observable<FormGroup[]> {
-    return this.httpClient.get<FormGroup[]>(this.formUrl);
+  getAllForms(): Observable<Form[]> {
+    return this.httpClient.get<Form[]>(this.formUrl);
   }
 
 
