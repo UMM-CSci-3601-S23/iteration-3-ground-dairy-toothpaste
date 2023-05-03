@@ -8,8 +8,8 @@
   <mat-card-content>
     <p matListItemBody class="request-list-description"> {{request.description}} </p>
 
-    <mat-card-subtitle>
-      <div *ngIf="request.generalNeed"> *Request from the foodshelf</div>
+
+      <mat-card-subtitle class="request-list-origin" data-test="checkbox" *ngIf="request.generalNeed"> *Request from the foodshelf
     </mat-card-subtitle>
   </mat-card-content>
   <mat-card-actions>
