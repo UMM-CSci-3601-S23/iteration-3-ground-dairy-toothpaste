@@ -2,13 +2,15 @@
   <mat-card-header>
     <mat-card-title class="request-list-itemType">{{request.itemType}}</mat-card-title>
     <mat-card-subtitle class="request-list-foodType">{{request.foodType}}</mat-card-subtitle>
-    <mat-card-subtitle>
-      <div *ngIf="request.generalNeed"> Request from the foodshelf</div>
-    </mat-card-subtitle>
+
     <mat-card-subtitle class="request-list-dateAdded">Date Added: {{request.dateAdded}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <p matListItemBody class="request-list-description"> {{request.description}} </p>
+
+    <mat-card-subtitle>
+      <div *ngIf="request.generalNeed"> *Request from the foodshelf</div>
+    </mat-card-subtitle>
   </mat-card-content>
   <mat-card-actions>
     <button mat-button matToolTip="Edit Request" [routerLink]="['/requests/volunteer', request._id]" data-test="editRequestButton" *ngIf="this.editable">
