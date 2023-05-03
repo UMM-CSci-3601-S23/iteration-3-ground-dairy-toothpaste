@@ -22,6 +22,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RequestVolunteerComponent } from '../request-volunteer.component';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { UrlSegment } from '@angular/router';
 
 const COMMON_IMPORTS: unknown[] = [
   FormsModule,
@@ -73,6 +75,18 @@ describe('NewRequestComponent', () => {
       ],
       declarations: [NewRequestComponent],
       providers: [{ provide: RequestService, useValue: service },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              url: [
+                { path: 'some-path' },
+                { path: 'volunteer' }
+              ],
+              paramMap: convertToParamMap({ id: '123' })
+            }
+          }
+        },
       { provide: MatDialog, useValue: dialogStub }]
     }).compileComponents().catch(error => {
       expect(error).toBeNull();
@@ -86,6 +100,19 @@ describe('NewRequestComponent', () => {
     newRequestForm = newRequestComponent.newRequestForm;
     expect(newRequestForm).toBeDefined();
     expect(newRequestForm.controls).toBeDefined();
+  });
+
+
+  it('should return false if route snapshot url length is less than 2', () => {
+    newRequestComponent.route.snapshot.url = [new UrlSegment ('requests', {})];
+    expect(newRequestComponent.onPage()).toBe(false);
+  });
+
+  it('should return true if route snapshot url has "volunteer" as the second path', () => {
+
+    newRequestComponent.route.snapshot.url = [ new UrlSegment('requests', {}), new UrlSegment('volunteer', {})];
+    expect(newRequestComponent.onPage()).toBe(true);
+
   });
 
   // Not terribly important; if the component doesn't create

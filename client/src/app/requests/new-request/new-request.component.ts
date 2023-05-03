@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { FoodType } from '../request';
 import { ItemType } from '../request';
 import { RequestService } from '../request.service';
 // import { NewRequestHelpComponent } from './new-request-help/new-request-help.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-new-request',
@@ -17,10 +18,12 @@ export class NewRequestComponent {
 
   @Input() destination: 'client' | 'donor' = 'client';
   public type: ItemType = 'food';
+  public generalNeed: boolean;
 
   newRequestForm = new FormGroup({
     // We want descriptions to be short and sweet, yet still required so we have at least some idea what
     // the client wants
+    generalNeed: new FormControl<boolean>(false),
     description: new FormControl('', Validators.compose([
       Validators.required,
       Validators.minLength(5),
@@ -52,9 +55,17 @@ export class NewRequestComponent {
     ]
   };
 
-  constructor(private requestService: RequestService, private snackBar: MatSnackBar,
-    private router: Router, private dialogRef: MatDialog) {
-  }
+    // eslint-disable-next-line max-len
+    constructor(private requestService: RequestService, private snackBar: MatSnackBar, private router: Router, private dialogRef: MatDialog, public route: ActivatedRoute) {
+    }
+
+    onPage(): boolean {
+      console.log(this.route.snapshot.url);
+    if (this.route.snapshot.url.length < 2) {
+      return false;
+    }
+    return this.route.snapshot.url[1].path === 'volunteer';
+    }
 
   formControlHasError(controlName: string): boolean {
     return this.newRequestForm.get(controlName).invalid &&

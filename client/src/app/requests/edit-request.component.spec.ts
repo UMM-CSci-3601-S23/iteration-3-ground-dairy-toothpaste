@@ -111,7 +111,8 @@ describe('EditRequestComponent', () => {
         itemType: 'food',
         description: 'Description',
         foodType: 'fruit',
-        dateAdded: '2023-4-2'
+        dateAdded: '2023-4-2',
+        generalNeed: false
       });
 
       editRequestComponent.submitForm();
@@ -128,7 +129,8 @@ describe('EditRequestComponent', () => {
         itemType: 'food',
         description: 'Description',
         foodType: 'fruit',
-        dateAdded: '2023-4-2'
+        dateAdded: '2023-4-2',
+        generalNeed: false
       });
 
       expect(itemTypeControl.value === 'food').toBeTrue();
@@ -249,7 +251,8 @@ describe('Misbehaving request service', () => {
       itemType: 'food',
       description: 'Description',
       foodType: 'fruit',
-      dateAdded: '2023-4-2'
+      dateAdded: '2023-4-2',
+      generalNeed: false
     });
 
     snackbarModuleStub.called = false;
@@ -346,7 +349,8 @@ describe('Partially Misbehaving request service', () => {
       itemType: 'food',
       description: 'Description',
       foodType: 'fruit',
-      dateAdded: null
+      dateAdded: null,
+      generalNeed: false
     });
 
 

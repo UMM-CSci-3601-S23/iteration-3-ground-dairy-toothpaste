@@ -53,6 +53,15 @@
           {{getErrorMessage('description')}}
         </mat-error>
       </mat-form-field>
+
+
+      <div *ngIf="onPage()">
+        <div>
+          <mat-label>Indicate to donors that this request is from the food shelf</mat-label>
+        </div>
+        <input type="checkbox" class="from-volunteer-checkbox" data-test="checkbox" [(ngModel)]="generalNeed" formControlName="generalNeed">
+      </div>
+      <mat-divider></mat-divider>
     </div>
     </mat-card-content>
     <a>

@@ -27,6 +27,7 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   public requestDescription: string;
   public requestFoodType: FoodType;
 
+
   authHypothesis: boolean;
 
   public deleteRequestCallback: (Request) => void;

@@ -77,7 +77,8 @@ describe('Add donor request', () => {
         itemType: 'food',
         foodType: 'meat',
         description: 'TEST REQUEST!!!!',
-        dateAdded: '2023-4-18'
+        dateAdded: '2023-4-18',
+        generalNeed: true
       };
       page.setMatSelect('itemType', 'Other');
       page.newRequest(request);
@@ -180,7 +181,8 @@ describe('Add volunteer request', () => {
         itemType: 'food',
         foodType: 'meat',
         description: ' TEST REQUEST!!!!',
-        dateAdded: '2023-4-18'
+        dateAdded: '2023-4-18',
+        generalNeed: true
       };
       page.setMatSelect('itemType', 'Other');
       page.newRequest(request);
@@ -195,6 +197,7 @@ describe('Add volunteer request', () => {
       cy.get('.request-list-description').should('contain.text', request.description);
       cy.get('.request-list-itemType').should('contain.text', request.itemType);
       cy.get('.request-list-foodType').should('contain.text', request.foodType);
+      cy.get('[data-test=checkbox]').should('contain.text', '*Request from the foodshelf');
       // We should see the confirmation message at the bottom of the screen
     });
   });

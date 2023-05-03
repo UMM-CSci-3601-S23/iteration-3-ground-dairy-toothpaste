@@ -19,6 +19,7 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
   public requestItemType: ItemType;
   public requestDescription: string;
   public requestFoodType: FoodType;
+  public requestGeneralNeed: boolean;
 
   public deleteRequestCallback: (Request) => void;
 
@@ -34,7 +35,8 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
     this.requestService.getDonorRequests({
       itemType: this.requestItemType,
       foodType: this.requestFoodType,
-      description: this.requestDescription
+      description: this.requestDescription,
+      generalNeed: this.requestGeneralNeed
     }).pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe({
