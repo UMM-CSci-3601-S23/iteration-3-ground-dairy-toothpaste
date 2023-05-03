@@ -3,7 +3,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { Request, ItemType, FoodType, OriginType } from './request';
+import { Request, ItemType, FoodType } from './request';
 import { RequestService } from './request.service';
 import { MatDialog } from '@angular/material/dialog';
 import { VolunteerHelpComponent } from '../volunteer-help/volunteer-help.component';
@@ -26,7 +26,7 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
 
   public requestDescription: string;
   public requestFoodType: FoodType;
-  public requestOriginType: OriginType;
+
 
   authHypothesis: boolean;
 
