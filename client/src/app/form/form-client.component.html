@@ -89,5 +89,27 @@
     </mat-card-content>
   </mat-card>
 
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Proteins</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div formGroupName="proteinGroup">
+        <div *ngFor="let item of proteins.frozen.descriptions">
+          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+        </div>
+        <div *ngFor="let item of proteins.fresh.descriptions">
+          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+        </div>
+        <div *ngFor="let item of proteins.canned.descriptions">
+          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+        </div>
+        <div *ngFor="let item of proteins.beans.descriptions">
+          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
   <button mat-raised-button type="submit">Submit</button>
 </form>

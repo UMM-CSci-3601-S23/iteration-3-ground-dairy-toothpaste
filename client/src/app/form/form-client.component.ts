@@ -4,7 +4,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, } from '@angular/forms';
 import { FormService } from './form.service';
-import { fruits, proteins, vegetables, grains } from './form';
+import { fruitLiteral, proteinLiteral, vegetableLiteral, grainLiteral, dairyLiteral } from './form';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 
@@ -18,10 +18,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class ClientFormComponent implements OnInit {
 
-  fruits = fruits;
-  proteins = proteins;
-  vegetables = vegetables;
-  grains = grains;
+  fruits = fruitLiteral;
+  proteins = proteinLiteral;
+  vegetables = vegetableLiteral;
+  grains = grainLiteral;
+  dairy = dairyLiteral;
   shoppingForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private formService: FormService, private snackBar: MatSnackBar) { }
@@ -45,6 +46,10 @@ export class ClientFormComponent implements OnInit {
       fruitGroup: this.formBuilder.group(this.getFruitControls()),
 
       vegetableGroup: this.formBuilder.group(this.getVegetableControls()),
+
+      proteinGroup: this.formBuilder.group(this.getProteinControls()),
+
+      grainGroup: this.formBuilder.group(this.getGrainControls()),
     });
     console.log(this.shoppingForm);
   }
@@ -91,6 +96,46 @@ export class ClientFormComponent implements OnInit {
     this.vegetables.canned.descriptions.forEach((item) => {
       controls[item.description] = [false];
     });
+    return controls;
+  }
+
+  private getProteinControls(): { [key: string]: any } {
+    const controls = {};
+    this.proteins.frozen.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+    this.proteins.fresh.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+    this.proteins.canned.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+    this.proteins.beans.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+    return controls;
+  }
+
+  private getGrainControls(): { [key: string]: any } {
+    const controls = {};
+    this.grains.breakfast.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+    this.grains.driedPasta.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+    this.grains.bakery.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+    return controls;
+  }
+
+  private getDairyControls(): { [key: string]: any } {
+    const controls = {};
+    this.dairy.fresh.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+
     return controls;
   }
 
