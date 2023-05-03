@@ -54,13 +54,18 @@ export class NewRequestComponent {
       { type: 'pattern', message: 'Food type must be one of dairy, grain, meat, fruit, or vegetable' },
     ]
   };
+  dialogRef: any;
 
     // eslint-disable-next-line max-len
-    constructor(private requestService: RequestService, private snackBar: MatSnackBar, private router: Router, private route: ActivatedRoute, private dialogRef: MatDialog) {
+    constructor(private requestService: RequestService, private snackBar: MatSnackBar, private router: Router, public route: ActivatedRoute) {
     }
 
     onPage(): boolean {
-      return this.route.snapshot.url[1].path === 'volunteer';
+      console.log(this.route.snapshot.url);
+    if (this.route.snapshot.url.length < 2) {
+      return false;
+    }
+    return this.route.snapshot.url[1].path === 'volunteer';
     }
 
   formControlHasError(controlName: string): boolean {
