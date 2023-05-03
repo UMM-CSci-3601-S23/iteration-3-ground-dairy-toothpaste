@@ -109,11 +109,11 @@ describe('NewRequestComponent', () => {
   });
 
   it('should return true if route snapshot url has "volunteer" as the second path', () => {
-    newRequestComponent.route.snapshot.url = [
-      { path: 'requests' },
-      { path: 'volunteer' }
-    ];
+
+    newRequestComponent.route.snapshot.url = [ new UrlSegment('requests', {}), new UrlSegment('volunteer', {})];
     expect(newRequestComponent.onPage()).toBe(true);
+
+  });
 
   // Not terribly important; if the component doesn't create
   // successfully that will probably blow up a lot of things.
