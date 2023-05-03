@@ -54,10 +54,9 @@ export class NewRequestComponent {
       { type: 'pattern', message: 'Food type must be one of dairy, grain, meat, fruit, or vegetable' },
     ]
   };
-  dialogRef: any;
 
     // eslint-disable-next-line max-len
-    constructor(private requestService: RequestService, private snackBar: MatSnackBar, private router: Router, public route: ActivatedRoute) {
+    constructor(private requestService: RequestService, private snackBar: MatSnackBar, private router: Router, private dialogRef: MatDialog, public route: ActivatedRoute) {
     }
 
     onPage(): boolean {

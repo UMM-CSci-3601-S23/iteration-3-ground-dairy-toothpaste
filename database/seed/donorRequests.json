@@ -7,7 +7,7 @@
     "description": "Fresh Apples",
     "foodType": "fruit",
     "dateAdded": "1999-12-06",
-    "origintype": ""
+    "generalNeed": true
   },
   {
     "_id": {
@@ -17,7 +17,7 @@
     "description": "Toothpaste",
     "foodType": "",
     "dateAdded": "2006-11-16",
-    "origintype": ""
+    "generalNeed": false
   },
   {
     "_id": {
@@ -27,7 +27,7 @@
     "description": "Plates",
     "foodType": "",
     "dateAdded": "2008-10-13",
-    "origintype": ""
+    "generalNeed": false
   },
   {
     "_id": {
@@ -37,7 +37,7 @@
     "description": "Milk",
     "foodType": "dairy",
     "dateAdded": "2020-05-23",
-    "origintype": ""
+    "generalNeed": false
   },
   {
     "_id": {
@@ -47,7 +47,7 @@
     "description": "Bread",
     "foodType": "grain",
     "dateAdded": "2023-01-28",
-    "origintype": ""
+    "generalNeed": false
 
   },
   {
@@ -58,7 +58,7 @@
     "description": "Ground beef",
     "foodType": "meat",
     "dateAdded": "2019-12-28",
-    "origintype": ""
+    "generalNeed": false
   },
   {
     "_id": {
@@ -68,7 +68,7 @@
     "description": "Assorted Vegetables",
     "foodType": "vegetable",
     "dateAdded": "2019-03-12",
-    "origintype": ""
+    "generalNeed": false
   },
 
   {
@@ -79,7 +79,7 @@
     "description": "I want ground vegetables",
     "foodType": "vegetable",
     "dateAdded": "2016-04-22",
-    "origintype": ""
+    "generalNeed": false
   },
 
   {
@@ -90,7 +90,7 @@
     "description": "I want toothpaste",
     "foodType": "",
     "dateAdded": "2021-05-22",
-    "origintype": ""
+    "generalNeed": false
   },
 
   {
@@ -101,7 +101,7 @@
     "description": "I want pasta",
     "foodType": "grain",
     "dateAdded": "2022-02-22",
-    "origintype": ""
+    "generalNeed": false
   }
 
 ]
