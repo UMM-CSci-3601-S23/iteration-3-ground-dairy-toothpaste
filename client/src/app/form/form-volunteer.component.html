@@ -11,14 +11,13 @@
               <mat-card>
                 <mat-card-title>{{ form.personalInfo.fullName }}</mat-card-title>
                 <mat-card-content>
-                  <p>Full Name: {{ form.personalInfo.fullName }}</p>
                   <p>Zip Code: {{ form.personalInfo.zipCode }}</p>
                   <p>Form Date {{ form.personalInfo.date }}</p>
-                  <p>Number of persons in Home/Número de Personas en Casa?
+                  <p>Number of persons in Home/Número de Personas en Casa:
                     {{ form.personalInfo.personsInHome }}</p>
-                    <p>Number under 18?
+                    <p>Number under 18:
                       {{ form.personalInfo.personsUnder18 }}</p>
-                      <p>Number over 65?
+                      <p>Number over 65:
                         {{ form.personalInfo.personsOver65 }}</p>
                         <p>Is income less than the guideline for family size?
                           {{ form.personalInfo.incomeLessThanGuideline }}</p>
@@ -27,16 +26,108 @@
                           <p>Lactose free/ Sin lactosa {{ form.personalInfo.lactoseFree }}</p>
                           <p>Vegetarian/ Vegetariano {{ form.personalInfo.vegetarian }}</p>
                 </mat-card-content>
-                <mat-card-title>FRUITS / FRUTAS </mat-card-title>
-                <mat-card-footer>Fresh / Fresca</mat-card-footer>
+              </mat-card>
+              <mat-card>
+                <mat-card-title>FRUITS / FRUTAS</mat-card-title>
                 <mat-card-content>
-                  <p>Misc Fresh Fruit as available / Varios frutas frescas como disponible
-                    <!-- {{ form.fruit.cannedAppleSauce }}</p> -->
+                  <mat-card-subtitle>Fresh / Fresca</mat-card-subtitle>
+                  <p>Misc Fresh Fruit:{{ form.fruit.freshMisc }}</p>
+                  <p>Apple juice: {{ form.fruit.freshAppleJuice }}</p>
+                  <p>Frozen peaches: {{ form.fruit.freshFrozenPeaches }}</p>
+
+                  <mat-card-subtitle>Canned / En Lata</mat-card-subtitle>
+                  <p>Mixed fruit: {{ form.fruit.cannedMixed }}</p>
+                  <p>Peaches: {{ form.fruit.cannedPeaches }}</p>
+                  <p>Apple Sauce: {{ form.fruit.cannedAppleSauce }}</p>
+
+                  <mat-card-subtitle>Dried / Seca</mat-card-subtitle>
+                  <p>Apple Sauce: {{ form.fruit.driedDates }}</p>
+
+                </mat-card-content>
+              </mat-card>
+
+              <mat-card>
+                <mat-card-title>VEGETABLES / VERDURAS</mat-card-title>
+                <mat-card-content>
+                  <mat-card-subtitle>Fresh / Fresca</mat-card-subtitle>
+                  <p>Carrots:{{ form.vegetable.freshCarrots }}</p>
+                  <p>Potatoes: {{ form.vegetable.freshPotatoes }}</p>
+                  <p>Misc veggies: {{ form.vegetable.freshMisc }}</p>
+
+                  <mat-card-subtitle>Canned / En Lata</mat-card-subtitle>
+                  <p>Corn:{{ form.vegetable.cannedCorn }}</p>
+                  <p>Green beans: {{ form.vegetable.cannedGreenBeans }}</p>
+                  <p>Peas: {{ form.vegetable.cannedPeas }}</p>
+                  <p>Sweet Potatoes:{{ form.vegetable.cannedSweetPotatoes }}</p>
+                  <p>Spinach: {{ form.vegetable.cannedSpinach }}</p>
+                  <p>Carrots: {{ form.vegetable.cannedCarrots }}</p>
+                  <p>Diced Tomatoes:{{ form.vegetable.cannedTomatoes }}</p>
+                  <p>Spaghetti sauce: {{ form.vegetable.cannedSpaghettiSauce }}</p>
+
+
+                </mat-card-content>
+              </mat-card>
+
+              <mat-card>
+                <mat-card-title>PROTEINS / PROTEÍNAS</mat-card-title>
+                <mat-card-content>
+                  <mat-card-subtitle>Frozen meat / Carne congelada</mat-card-subtitle>
+                  <p>Ground beef:{{ form.protein.frozenGroundBeef }}</p>
+                  <p>Ground Beef/Pork Blend:{{ form.protein.frozenGroundBeefPork }}</p>
+                  <p>Plant based burgers:{{ form.protein.frozenPlantBurger }}</p>
+                  <p>Pizza Ranch Pizza:{{ form.protein.frozenPizzaRanch }}</p>
+                  <p>Veggie Ravioli (for one) :{{ form.protein.frozenVeggieRavioli }}</p>
+                  <p>Chicken drumsticks:{{ form.protein.frozenChickenDrum }}</p>
+                  <p>Whole chicken:{{ form.protein.frozenWholeChicken}}</p>
+                  <p>Chicken breast:{{ form.protein.frozenChickenBreast }}</p>
+                  <p>Chicken Leg Qtrs:{{ form.protein.frozenChickenLeg }}</p>
+                  <p>Fish Sticks:{{ form.protein.frozenFishSticks }}</p>
+                  <p>Ham:{{ form.protein.frozenHam }}</p>
+                  <p>Assorted meats as available:{{ form.protein.frozenAssortedMeats }}</p>
+
+
+                  <mat-card-subtitle>Canned meat / Carne en Lata</mat-card-subtitle>
+                  <p>Chicken:{{ form.protein.cannedChicken }}</p>
+                  <p>Tuna:{{ form.protein.cannedTuna }}</p>
+                  <p>Salmon:{{ form.protein.cannedSalmon }}</p>
+
+
+                  <mat-card-subtitle>Ready to eat canned meals / Comida instantanea</mat-card-subtitle>
+                  <p>Pasta with meat sauce:{{ form.protein.cannedPastaMeatSauce }}</p>
+                  <p>Pasta in butter sauce:{{ form.protein.cannedPastaButterSauce }}</p>
+                  <p>Canned chili:{{ form.protein.cannedChili }}</p>
+                  <p>Veg Curry (for one):{{ form.protein }}</p>
+                  <p>Hot Dog sauce:{{ form.protein.cannedHotDogSauce }}</p>
+
+                  <mat-card-subtitle>Canned beans / Frijoles en Lata</mat-card-subtitle>
+                  <p>Black eyed peas:{{ form.protein.beansBlackPeas }}</p>
+                  <p>Yellow eyed beans:{{ form.protein.beansYellow }}</p>
+
+
+                  <mat-card-subtitle>Dried beans / Frijoles secos</mat-card-subtitle>
+                  <p>Black beans:{{ form.protein.driedBlack }}</p>
+                  <p>Pinto beans:{{ form.protein.driedPinto }}</p>
+                  <p>Yellow split peas:{{ form.protein.driedYellow }}</p>
+                  <p>Kidney beans:{{ form.protein.driedKidney }}</p>
+                  <p>Misc dried beans:{{ form.protein.driedMisc }}</p>
+
+                  <mat-card-subtitle>Nuts / Nueces and snacks</mat-card-subtitle>
+                  <p>Peanut butter:{{ form.protein.nutPeanutButter }}</p>
+                  <p>Almonds:{{ form.protein.nutAlmonds }}</p>
+                  <p>Walnuts:{{ form.protein.nutWalnut }}</p>
+
+                  <mat-card-subtitle>SNACKS</mat-card-subtitle>
+                  <p>Crackers:{{ form.protein.snackCracker }}</p>
+                  <p>Cookies:{{ form.protein.snackCookies }}</p>
+                  <p>Misc snacks:{{ form.protein.snackMisc }}</p>
+
 
 
 
                 </mat-card-content>
               </mat-card>
+
+
               <br>
               </div>
 
