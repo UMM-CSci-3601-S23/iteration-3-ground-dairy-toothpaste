@@ -56,57 +56,122 @@
 
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Fruits</mat-card-title>
+      <mat-card-title>FRUITS / FRUTAS  </mat-card-title>
+      <mat-card-subtitle>1-3 in household, choose 3 options; 4-6 household = 6 options; 7+ = 10 options</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div formGroupName="fruitGroup">
-        <div *ngFor="let item of fruits.fresh.descriptions">
-          <mat-checkbox ngDefaultControl formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
-        <div *ngFor="let item of fruits.canned.descriptions">
-          <mat-checkbox ngDefaultControl formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
-        <div *ngFor="let item of fruits.dried.descriptions">
-          <mat-checkbox ngDefaultControl formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
+      <div formGroupName="fruit">
+        <mat-card-footer>Fresh / Fresca</mat-card-footer>
+        <mat-card-content>
+        <div><mat-checkbox formControlName="freshMisc">Misc Fresh Fruit as available / Varios frutas frescas como disponible</mat-checkbox></div>
+        <div><mat-checkbox formControlName="freshAppleJuice">Apple juice / Jugo de manzana</mat-checkbox></div>
+        <div><mat-checkbox formControlName="freshFrozenPeaches">Frozen peaches / Duraznos congelados</mat-checkbox></div>
+      </mat-card-content>
+      <mat-card-footer>Canned / En Lata</mat-card-footer>
+    <mat-card-content>
+        <div> <mat-checkbox formControlName="cannedMixed">Mixed fruit / Mix de fruta</mat-checkbox></div>
+        <div> <mat-checkbox formControlName="cannedPeaches">Peaches / Duraznos</mat-checkbox></div>
+        <div> <mat-checkbox formControlName="cannedAppleSauce">Apple Sauce / Puré de manzana</mat-checkbox></div>
+      </mat-card-content>
+      <mat-card-footer>Dried / Seca</mat-card-footer>
+    <mat-card-content>
+        <div><mat-checkbox formControlName="driedDates">Dates (whole OR pieces) / Dátiles (enteros O piezas)</mat-checkbox></div>
+      </mat-card-content>
       </div>
     </mat-card-content>
   </mat-card>
 
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Vegetables</mat-card-title>
+      <mat-card-title>VEGETABLES / VERDURAS</mat-card-title>
+      <mat-card-subtitle>1-3 in household, choose 3 options; 4-6 household = 6 options; 7+ = 10 options</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div formGroupName="vegetableGroup">
-        <div *ngFor="let item of vegetables.fresh.descriptions">
-          <mat-checkbox ngDefaultControl formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
-        <div *ngFor="let item of vegetables.canned.descriptions">
-          <mat-checkbox ngDefaultControl formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
+      <div formGroupName="vegetable">
+        <mat-card-footer>Fresh / Fresca</mat-card-footer>
+        <mat-card-content>
+          <div><mat-checkbox formControlName="freshCarrots">Carrots / Zanahorias</mat-checkbox></div>
+        <div><mat-checkbox formControlName="freshPotatoes">Potatoes / Papas</mat-checkbox></div>
+        <div><mat-checkbox formControlName="freshMisc">Misc veggies as available / Varias verduras como disponible</mat-checkbox></div>
+      </mat-card-content>
+      <mat-card-footer>Canned / En Lata</mat-card-footer>
+    <mat-card-content>
+        <div> <mat-checkbox formControlName="cannedCorn">Corn / Elote</mat-checkbox></div>
+        <div> <mat-checkbox formControlName="cannedGreenBeans">Green beans / Ejotes</mat-checkbox></div>
+        <div> <mat-checkbox formControlName="cannedPeas">Peas / Chicharitos</mat-checkbox></div>
+        <div> <mat-checkbox formControlName="cannedSpinach">Sweet Potatoes / Papas dulces</mat-checkbox></div>
+        <div> <mat-checkbox formControlName="cannedCarrots">Carrots / Zanahorias</mat-checkbox></div>
+        <div> <mat-checkbox formControlName="cannedTomatoes">Diced Tomatoes / Jitomates en lata</mat-checkbox></div>
+        <div> <mat-checkbox formControlName="cannedSpaghettiSauce">Spaghetti sauce/ Salsa para espagueti </mat-checkbox></div>
+      </mat-card-content>
       </div>
     </mat-card-content>
   </mat-card>
 
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Proteins</mat-card-title>
+      <mat-card-title>PROTEINS / PROTEÍNAS</mat-card-title>
+      <mat-card-subtitle>1-3 household, choose 3 options; 4-6 household = 6 options; 7+ = 10 options. Quantities are limited</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div formGroupName="proteinGroup">
-        <div *ngFor="let item of proteins.frozen.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
-        <div *ngFor="let item of proteins.fresh.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
-        <div *ngFor="let item of proteins.canned.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
-        <div *ngFor="let item of proteins.beans.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
+      <div formGroupName="protein">
+        <mat-card-footer>Frozen meat / Carne congelada</mat-card-footer>
+        <mat-card-content>
+          <div><mat-checkbox formControlName="frozenGroundBeef">Ground beef / Carne de res molido</mat-checkbox></div>
+        <div><mat-checkbox formControlName="frozenGroundBeefPork">Ground Beef/Pork Blend / Mezcla de carne de res y puerco molido</mat-checkbox></div>
+        <div><mat-checkbox formControlName="frozenPlantBurger">Plant based burgers / Hamburguesas vegetarianas</mat-checkbox></div>
+        <div><mat-checkbox formControlName="frozenPizzaRanch">Pizza Ranch Pizza / Pizza de Pizza Ranch</mat-checkbox></div>
+        <div><mat-checkbox formControlName="frozenVeggieRavioli">Veggie Ravioli (for one) / Raviolis con verduras (para uno)</mat-checkbox></div>
+        <div><mat-checkbox formControlName="frozenChickenDrum">Chicken drumsticks / Piernas de pollo (pequeños)</mat-checkbox></div>
+        <div><mat-checkbox formControlName="frozenWholeChicken">Whole chicken / Pollo entero</mat-checkbox></div>
+        <div><mat-checkbox formControlName="frozenChickenBreast">Chicken breast / Pechuga de pollo</mat-checkbox></div>
+        <div><mat-checkbox formControlName="frozenChickenLeg">Chicken Leg Qtrs / Piernas de pollo (grande)</mat-checkbox></div>
+        <div><mat-checkbox formControlName="frozenFishSticks">Fish Sticks/ Pescado</mat-checkbox></div>
+        <div><mat-checkbox formControlName="frozenHam">Ham / Jamón</mat-checkbox></div>
+        <div><mat-checkbox formControlName="frozenAssortedMeats">Assorted meats as available / Varios</mat-checkbox></div>
+      </mat-card-content>
+      <mat-card-footer>Canned / En Lata</mat-card-footer>
+    <mat-card-content>
+        <div> <mat-checkbox formControlName="cannedChicken">Chicken / Pollo</mat-checkbox></div>
+        <div> <mat-checkbox formControlName="cannedTuna">Tuna / Atún</mat-checkbox></div>
+        <div> <mat-checkbox formControlName="cannedSalmon">Salmon / Salmon  </mat-checkbox></div>
+      </mat-card-content>
+      <mat-card-footer>Ready to eat canned meals / Comida instantanea</mat-card-footer>
+      <mat-card-content>
+          <div> <mat-checkbox formControlName="cannedPastaMeatSauce">Pasta with meat sauce / Espagueti en lata con carne</mat-checkbox></div>
+          <div> <mat-checkbox formControlName="cannedPastaButterSauce">Pasta in butter sauce / Espagueti en lata con mantequilla</mat-checkbox></div>
+          <div> <mat-checkbox formControlName="cannedChili">Canned chili / Chili en lata</mat-checkbox></div>
+          <div> <mat-checkbox formControlName="cannedVegCurry">Veg Curry (for one) / Curry con verduras (para uno)</mat-checkbox></div>
+          <div> <mat-checkbox formControlName="cannedHotDogSauce">Hot Dog sauce / Salsa para salchichas</mat-checkbox></div>
+        </mat-card-content>
+        <mat-card-footer>Canned beans / Frijoles en Lata</mat-card-footer>
+      <mat-card-content>
+          <div> <mat-checkbox formControlName="beansBlackPeas">Black eyed peas / Frijol carita negro</mat-checkbox></div>
+          <div> <mat-checkbox formControlName="beansYellow">Yellow eyed beans / Frijoles amarillos</mat-checkbox></div>
+          <div> <mat-checkbox formControlName="beansPinto">Pork & beans / Frijoles con puerco</mat-checkbox></div>
+          <div> <mat-checkbox formControlName="beansPork">Pork & beans / Frijoles con puerco</mat-checkbox></div>
+        </mat-card-content>
+        <mat-card-footer>Dried beans / Frijoles secos</mat-card-footer>
+        <mat-card-content>
+            <div> <mat-checkbox formControlName="driedBlack">Black beans / Frijoles negros</mat-checkbox></div>
+            <div> <mat-checkbox formControlName="driedPinto">Pinto beans / Frijoles pintos</mat-checkbox></div>
+            <div> <mat-checkbox formControlName="driedYellow">Yellow split peas / Chícharos amarillos</mat-checkbox></div>
+            <div> <mat-checkbox formControlName="driedKidney">Kidney beans / Frijoles rojos</mat-checkbox></div>
+            <div> <mat-checkbox formControlName="driedMisc">Misc dried beans / Varios frijoles secos</mat-checkbox></div>
+          </mat-card-content>
+          <mat-card-footer>Nuts / Nueces and snacks</mat-card-footer>
+          <mat-card-content>
+              <div> <mat-checkbox formControlName="nutPeanutButter">Peanut butter / Mantequilla de cacahuate</mat-checkbox></div>
+              <div> <mat-checkbox formControlName="nutAlmonds">Almonds / Almendras</mat-checkbox></div>
+              <div> <mat-checkbox formControlName="nutWalnut">Walnuts / Nuez de nogal</mat-checkbox></div>
+            </mat-card-content>
+            <mat-card-footer>SNACKS</mat-card-footer>
+          <mat-card-content>
+              <div> <mat-checkbox formControlName="snackCracker">Crackers / Galletas saladas</mat-checkbox></div>
+              <div> <mat-checkbox formControlName="snackCookies">Cookies / Galletas dulces</mat-checkbox></div>
+              <div> <mat-checkbox formControlName="snackMisc">Misc snacks / Varios bocadillos</mat-checkbox></div>
+            </mat-card-content>
+
       </div>
     </mat-card-content>
   </mat-card>
@@ -114,18 +179,35 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>GRAINS / GRANOS</mat-card-title>
+      <mat-card-subtitle>1-3 in household choose 3 options; 4-6 household = 6 options; 7+ = 10 options</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div formGroupName="grainGroup">
-        <div *ngFor="let item of grains.breakfast.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
-        <div *ngFor="let item of grains.driedPasta.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
-        <div *ngFor="let item of grains.bakery.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
+      <div formGroupName="grain">
+        <mat-card-footer></mat-card-footer>
+        <mat-card-content>
+          <div><mat-checkbox formControlName="breakfastRice">Rice / Arroz</mat-checkbox></div>
+          <div><mat-checkbox formControlName="breakfastStuffing">Stuffing mix / Mezcla para estofada</mat-checkbox></div>
+          <div><mat-checkbox formControlName="breakfastPancake">Pancake mix / Mezcla para hot cakes</mat-checkbox></div>
+          <div><mat-checkbox formControlName="breakfastQuickOat">Quick Oats Avena instantánea </mat-checkbox></div>
+          <div><mat-checkbox formControlName="breakfastCereal">Ready-to-eat cereal / Cereal</mat-checkbox></div>
+
+      </mat-card-content>
+      <mat-card-footer>Dried pasta / Pasta seca</mat-card-footer>
+    <mat-card-content>
+      <div><mat-checkbox formControlName="pastaElbow">Elbow Noodles / Coditos</mat-checkbox></div>
+      <div><mat-checkbox formControlName="pastaMacaroni">Macaroni & cheese / Macaroni & queso</mat-checkbox></div>
+      <div><mat-checkbox formControlName="pastaPenne">Penne pasta / Pasta penne</mat-checkbox></div>
+      <div><mat-checkbox formControlName="pastaRiceInstant">Instant pasta or rice / Pasta o arroz instantánea</mat-checkbox></div>
+      </mat-card-content>
+
+      <mat-card-footer>Bakery / Panaderia</mat-card-footer>
+    <mat-card-content>
+      <div><mat-checkbox formControlName="bakeryBread">Bread / Pan</mat-checkbox></div>
+      <div><mat-checkbox formControlName="bakeryHamburger">Hamburger buns / Pan para hamburguesas</mat-checkbox></div>
+      <div><mat-checkbox formControlName="bakeryDawg">Hot dog buns / Pan para Hot Dog</mat-checkbox></div>
+      <div><mat-checkbox formControlName="bakeryGoods">Baked goods / Postres</mat-checkbox></div>
+      </mat-card-content>
+
       </div>
     </mat-card-content>
   </mat-card>
@@ -133,12 +215,19 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>MILK & CHEESE / LÁCTEOS</mat-card-title>
+      <mat-card-subtitle>1-3 in household choose 2 options; 4-6 household = 4 options; 7+ = 6 options</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div formGroupName="dairyGroup">
-        <div *ngFor="let item of dairy.fresh.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
+      <div formGroupName="dairy">
+        <mat-card-footer></mat-card-footer>
+        <mat-card-content>
+          <div><mat-checkbox formControlName="freshMilk">Fresh milk (lactose free) / Leche (sin lactosa)</mat-checkbox></div>
+          <div><mat-checkbox formControlName="miscDairy">Misc dairy products / Varios productos lácteos </mat-checkbox></div>
+          <div><mat-checkbox formControlName="freshCheese">Cheese / Queso</mat-checkbox></div>
+          <div><mat-checkbox formControlName="freshYogurt">Yogurt / Yogur</mat-checkbox></div>
+          <div><mat-checkbox formControlName="freshButter">Butter / Mantequilla</mat-checkbox></div>
+          <div><mat-checkbox formControlName="shelfStableMilk">Shelf stable milk / Leche que no necesita refrigeración</mat-checkbox></div>
+      </mat-card-content>
 
       </div>
     </mat-card-content>
@@ -147,18 +236,64 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>PANTRY, COOKING, & BAKING / COCINAR y HORNEAR</mat-card-title>
+      <mat-card-subtitle>1-3 in household choose 3 options; 4-6 household = 6 options; 7+ = 10 options</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div formGroupName="pantryGroup">
-        <div *ngFor="let item of pantry.baking.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
-        <div *ngFor="let item of pantry.soups.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
-        <div *ngFor="let item of pantry.condiments.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
+      <div formGroupName="pantry">
+        <mat-card-footer>Baking / Hornear</mat-card-footer>
+        <mat-card-content>
+          <div><mat-checkbox formControlName="bakingMix">Baking mix / Mezcla para panecillos</mat-checkbox></div>
+          <div><mat-checkbox formControlName="bakingCakeMix">Cake mix / Mezcla para pastel </mat-checkbox></div>
+          <div><mat-checkbox formControlName="bakingFlour">Flour / Harina</mat-checkbox></div>
+          <div><mat-checkbox formControlName="bakingMuffinMix">Muffin mix / O mezcla para panquecitos</mat-checkbox></div>
+          <div><mat-checkbox formControlName="bakingCookieMix">Cookie mix / Mezcla para galletas</mat-checkbox></div>
+          <div><mat-checkbox formControlName="bakingMisc">Miscellaneous baking items / Varios productos para hornear</mat-checkbox></div>
+          <div><mat-checkbox formControlName="bakingVegOil">Vegetable oil / Aceite vegetal</mat-checkbox></div>
+
+      </mat-card-content>
+      <mat-card-footer>Soups / Sopas</mat-card-footer>
+    <mat-card-content>
+      <div><mat-checkbox formControlName="soupChicken">Chicken noodle / Espagueti con pollo</mat-checkbox></div>
+      <div><mat-checkbox formControlName="soupTomato">Tomato soup / Crema de jitomate</mat-checkbox></div>
+      <div><mat-checkbox formControlName="soupVegetable">Vegetable soup / Sopa de vegetales</mat-checkbox></div>
+      <div><mat-checkbox formControlName="soupCreamy">Creamy canned soup / Crema de hongos o pollo</mat-checkbox></div>
+      <div><mat-checkbox formControlName="soupMisc">Misc soups, as available / Varios sopas en lata, disponibilidad variable</mat-checkbox></div>
+      </mat-card-content>
+
+      <mat-card-footer>Condiments / Condimentos</mat-card-footer>
+    <mat-card-content>
+      <div><mat-checkbox formControlName="condimentSeasonings">Seasonings / Condimentos</mat-checkbox></div>
+      <div><mat-checkbox formControlName="condimentHotSauce">Hot Sauce / Salsa picante</mat-checkbox></div>
+      <div><mat-checkbox formControlName="condimentDressing">Salad dressing (miscellaneous) / Varios aderezos</mat-checkbox></div>
+      <div><mat-checkbox formControlName="condimentRanch">Ranch dressing / Aderezo “Ranch”</mat-checkbox></div>
+      <div><mat-checkbox formControlName="condimentMustard">Mustard / Mostaza</mat-checkbox></div>
+      <div><mat-checkbox formControlName="condimentSyrup">Syrup / Jarabe para panqueques</mat-checkbox></div>
+      <div><mat-checkbox formControlName="condimentPicklesOlives">Misc pickles, olives, etc / Varios encurtidos, olivas, etc.</mat-checkbox></div>
+      </mat-card-content>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>BABY / PARA BEBE</mat-card-title>
+      <mat-card-subtitle></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div formGroupName="baby">
+        <mat-card-footer></mat-card-footer>
+        <mat-card-content>
+          <div><mat-checkbox formControlName="babyFruit">Fruit or Vegetable puree / Puré de fruta o verdura</mat-checkbox></div>
+          <div><mat-checkbox formControlName="babyCereal">Baby cereal / Cereal para bebe</mat-checkbox></div>
+          <div><mat-checkbox formControlName="babyFormula">Formula / Formula láctea</mat-checkbox></div>
+          <div><mat-checkbox formControlName="babyNewbornGiftBag">Newborn gift bag / Regalo para bebe recien nacido</mat-checkbox></div>
+          <div><mat-form-field>
+            <mat-label>Diapers size/ Pañales tamaño</mat-label>
+            <input matInput formControlName="babyDiaperSize">
+          </mat-form-field></div>
+      </mat-card-content>
+
       </div>
     </mat-card-content>
   </mat-card>
@@ -166,12 +301,21 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>PERSONAL / PERSONAL</mat-card-title>
+      <mat-card-subtitle>Choose up to 2+ depending on household size / Escojan hasta 2+ dependiente de gente en casa</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div formGroupName="personalGroup">
-        <div *ngFor="let item of personal.hygiene.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
+      <div formGroupName="personal">
+        <mat-card-footer></mat-card-footer>
+        <mat-card-content>
+          <div><mat-checkbox formControlName="hygieneShampoo">Shampoo / Shampu</mat-checkbox></div>
+          <div><mat-checkbox formControlName="hygieneBody">Body or hand soap / Jabón para el cuerpo o manos</mat-checkbox></div>
+          <div><mat-checkbox formControlName="hygieneToothpaste">Toothpaste / Pasta dental</mat-checkbox></div>
+          <div><mat-checkbox formControlName="hygieneToothbrush">Toothbrushes / Cepillo dental</mat-checkbox></div>
+          <div><mat-checkbox formControlName="birthdayPartyKit">Birthday Party Kit / Kit para una fiesta de cumpleaños </mat-checkbox></div>
+          <div><mat-checkbox formControlName="hygieneHandSanitizer">Hand sanitizer / Desinfectante de manos</mat-checkbox></div>
+          <div><mat-checkbox formControlName="hygieneFemale">Feminine hygiene / Artículos higiénicos para mujer</mat-checkbox></div>
+      </mat-card-content>
+
       </div>
     </mat-card-content>
   </mat-card>
@@ -179,15 +323,24 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>HOUSEHOLD / PARA LA CASA</mat-card-title>
+      <mat-card-subtitle></mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div formGroupName="householdGroup">
-        <div *ngFor="let item of household.cleaning.descriptions">
-          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
-        </div>
+      <div formGroupName="household">
+        <mat-card-footer></mat-card-footer>
+        <mat-card-content>
+          <div><mat-checkbox formControlName="dishSoap">Dish soap / Jabón para trastes</mat-checkbox></div>
+          <div><mat-checkbox formControlName="laundryDetergent">Laundry detergent / Detergente para ropa</mat-checkbox></div>
+          <div><mat-checkbox formControlName="disinfectingWipes">Disinfecting wipes / Toallitas desinfectantes</mat-checkbox></div>
+      </mat-card-content>
+
       </div>
     </mat-card-content>
   </mat-card>
+
+
+
+
 
   <button mat-raised-button type="submit">Submit</button>
 </form>

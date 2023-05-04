@@ -4,8 +4,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, } from '@angular/forms';
 import { FormService } from './form.service';
-import { fruitLiteral, proteinLiteral, vegetableLiteral,
-  grainLiteral, pantryLiteral, dairyLiteral, personalLiteral, householdLiteral } from './form';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 
@@ -19,14 +17,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class ClientFormComponent implements OnInit {
 
-  fruits = fruitLiteral;
-  vegetables = vegetableLiteral;
-  proteins = proteinLiteral;
-  grains = grainLiteral;
-  pantry = pantryLiteral;
-  dairy = dairyLiteral;
-  personal = personalLiteral;
-  household = householdLiteral;
   shoppingForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private formService: FormService, private snackBar: MatSnackBar) { }
@@ -50,7 +40,7 @@ export class ClientFormComponent implements OnInit {
       fruit: this.formBuilder.group({
         freshMisc: false,
         freshAppleJuice: false,
-        freshFrozen: false,
+        freshFrozenPeaches: false,
         cannedMixed: false,
         cannedPeaches: false,
         cannedAppleSauce: false,
@@ -65,21 +55,23 @@ export class ClientFormComponent implements OnInit {
         cannedPeas: false,
         cannedSweetPotatoes: false,
         cannedSpinach: false,
-        cannedCarrots: false
+        cannedCarrots: false,
+        cannedTomatoes: false,
+        cannedSpaghettiSauce: false
       }),
       protein: this.formBuilder.group({
         frozenGroundBeef: false,
         frozenGroundBeefPork: false,
         frozenPlantBurger: false,
-        frozenPizzaRach: false,
+        frozenPizzaRanch: false,
         frozenVeggieRavioli: false,
-        freshChickenDrum: false,
-        freshWholeChicken: false,
-        freshChickenBreast: false,
-        freshChickenLeg: false,
-        freshFishSticks: false,
-        freshHam: false,
-        freshAssortedMeats: false,
+        frozenChickenDrum: false,
+        frozenWholeChicken: false,
+        frozenChickenBreast: false,
+        frozenChickenLeg: false,
+        frozenFishSticks: false,
+        frozenHam: false,
+        frozenAssortedMeats: false,
         cannedChicken: false,
         cannedTuna: false,
         cannedSalmon: false,
@@ -93,16 +85,26 @@ export class ClientFormComponent implements OnInit {
         beansYellow: false,
         beansPinto: false,
         beansPork: false,
-        beansRefried: false,
-        beansWhite: false,
+        driedBlack: false,
+        driedPinto: false,
+        driedYellow: false,
+        driedKidney: false,
+        driedMisc: false,
+        nutPeanutButter: false,
+        nutAlmonds: false,
+        nutWalnut: false,
+        snackCracker: false,
+        snackCookies: false,
+        snackMisc: false,
       }),
       grain: this.formBuilder.group({
+        breakfastRice: false,
         breakfastStuffing: false,
         breakfastPancake: false,
         breakfastQuickOat: false,
         breakfastCereal: false,
         pastaElbow: false,
-        pastaMacaronie: false,
+        pastaMacaroni: false,
         pastaPenne: false,
         pastaRiceInstant: false,
         bakeryBread: false,
@@ -134,6 +136,7 @@ export class ClientFormComponent implements OnInit {
         soupMisc: false,
         condimentSeasonings: false,
         condimentHotSauce: false,
+        condimentDressing: false,
         condimentRanch: false,
         condimentMustard: false,
         condimentSyrup: false,
@@ -164,21 +167,6 @@ export class ClientFormComponent implements OnInit {
       }),
 
 
-      fruitGroup: this.formBuilder.group(this.getFruitControls()),
-
-      vegetableGroup: this.formBuilder.group(this.getVegetableControls()),
-
-      proteinGroup: this.formBuilder.group(this.getProteinControls()),
-
-      grainGroup: this.formBuilder.group(this.getGrainControls()),
-
-      pantryGroup: this.formBuilder.group(this.getPantryControls()),
-
-      dairyGroup: this.formBuilder.group(this.getDairyControls()),
-
-      personalGroup: this.formBuilder.group(this.getPersonalControls()),
-
-      householdGroup: this.formBuilder.group(this.getHouseholdControls()),
     });
     console.log(this.shoppingForm);
   }
@@ -201,103 +189,6 @@ export class ClientFormComponent implements OnInit {
         );
       },
     });
-  }
-
-  private getFruitControls(): { [key: string]: any } {
-    const controls = {};
-    this.fruits.fresh.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-    this.fruits.canned.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-    this.fruits.dried.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-    return controls;
-  }
-
-  private getVegetableControls(): { [key: string]: any } {
-    const controls = {};
-    this.vegetables.fresh.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-    this.vegetables.canned.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-    return controls;
-  }
-
-  private getProteinControls(): { [key: string]: any } {
-    const controls = {};
-    this.proteins.frozen.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-    this.proteins.fresh.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-    this.proteins.canned.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-    this.proteins.beans.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-    return controls;
-  }
-
-  private getGrainControls(): { [key: string]: any } {
-    const controls = {};
-    this.grains.breakfast.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-    this.grains.driedPasta.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-    this.grains.bakery.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-    return controls;
-  }
-
-  private getPantryControls(): { [key: string]: any } {
-    const controls = {};
-    this.pantry.baking.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-    this.pantry.soups.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-    this.pantry.condiments.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-    return controls;
-  }
-
-  private getDairyControls(): { [key: string]: any } {
-    const controls = {};
-    this.dairy.fresh.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-
-    return controls;
-  }
-
-  private getPersonalControls(): { [key: string]: any } {
-    const controls = {};
-    this.personal.hygiene.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-
-    return controls;
-  }
-
-  private getHouseholdControls(): { [key: string]: any } {
-    const controls = {};
-    this.household.cleaning.descriptions.forEach((item) => {
-      controls[item.description] = [false];
-    });
-
-    return controls;
   }
 
 
