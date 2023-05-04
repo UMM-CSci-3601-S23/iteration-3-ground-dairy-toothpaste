@@ -31,7 +31,6 @@ import org.mockito.MockitoAnnotations;
 
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-import io.javalin.json.JavalinJackson;
 
 /**
  * Tests the logic of the FormController
@@ -64,7 +63,6 @@ class FormControllerSpec {
   private static MongoDatabase db;
 
   // Used to translate between JSON and POJOs.
-  private static JavalinJackson javalinJackson = new JavalinJackson();
 
   @Mock
   private Context ctx;
