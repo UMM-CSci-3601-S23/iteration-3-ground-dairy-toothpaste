@@ -6,13 +6,37 @@
             <mat-card-title class="volunteer-view-title">Submitted shopping forms</mat-card-title>
           </mat-card-header>
           <mat-card>
-
+            <mat-card>
             <div *ngFor="let form of servedForms">
               <mat-card>
                 <mat-card-title>{{ form.personalInfo.fullName }}</mat-card-title>
                 <mat-card-content>
-                  <p><strong>Zip Code:</strong> {{ form.personalInfo.zipCode }}</p>
+                  <p>Full Name: {{ form.personalInfo.fullName }}</p>
+                  <p>Zip Code: {{ form.personalInfo.zipCode }}</p>
+                  <p>Form Date {{ form.personalInfo.date }}</p>
+                  <p>Number of persons in Home/Número de Personas en Casa?
+                    {{ form.personalInfo.personsInHome }}</p>
+                    <p>Number under 18?
+                      {{ form.personalInfo.personsUnder18 }}</p>
+                      <p>Number over 65?
+                        {{ form.personalInfo.personsOver65 }}</p>
+                        <p>Is income less than the guideline for family size?
+                          {{ form.personalInfo.incomeLessThanGuideline }}</p>
+                          <p>Gluten-free/ Sin gluten {{ form.personalInfo.glutenFree }}</p>
+                          <p>Low-sugar/ Bajo azúcar {{ form.personalInfo.lowSugar }}</p>
+                          <p>Lactose free/ Sin lactosa {{ form.personalInfo.lactoseFree }}</p>
+                          <p>Vegetarian/ Vegetariano {{ form.personalInfo.vegetarian }}</p>
+                </mat-card-content>
+                <mat-card-title>FRUITS / FRUTAS </mat-card-title>
+                <mat-card-footer>Fresh / Fresca</mat-card-footer>
+                <mat-card-content>
+                  <p>Misc Fresh Fruit as available / Varios frutas frescas como disponible
+                    <!-- {{ form.fruit.cannedAppleSauce }}</p> -->
+
+
 
                 </mat-card-content>
               </mat-card>
-            </div>
+              <br>
+              </div>
+
