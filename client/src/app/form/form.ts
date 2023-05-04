@@ -9,14 +9,24 @@ export interface Form {personalInfo: PersonalInfo;
   pantryGroup: PantryType;
   personalGroup: PersonalType;
   houseHoldGroup: HouseholdType;
-
   }
+
+  export interface VolunteerForm {personalInfo: PersonalInfo;
+    fruit: Fruit;
+    vegetable: Vegetable;
+    protein: Protein;
+    grain: Grain;
+    dairy: Dairy;
+    pantry: Pantry;
+    personal: Personal;
+    houseHold: Household;
+    }
 
 ///////////////////// We just need a type for PersonalInfo //////////////////////////
 type PersonalInfo = {
   fullName: string;
   zipCode: string;
-  todayDate: Date;
+  date: Date;
   personsInHome: number;
   personsUnder18: number;
   personsOver65: number;
@@ -26,6 +36,127 @@ type PersonalInfo = {
   lactoseFree: boolean;
   vegetarian: boolean;
 };
+
+type Fruit = {
+  freshMisc: boolean;
+        freshAppleJuice: boolean;
+        freshFrozen: boolean;
+        cannedMixed: boolean;
+        cannedPeaches: boolean;
+        cannedAppleSauce: boolean;
+        driedDates: boolean;
+};
+type Vegetable = {
+  freshCarrots: boolean;
+        freshPotatoes: boolean;
+        freshMisc: boolean;
+        cannedCorn: boolean;
+        cannedGreenBeans: boolean;
+        cannedPeas: boolean;
+        cannedSweetPotatoes: boolean;
+        cannedSpinach: boolean;
+        cannedCarrots: boolean;
+};
+type Protein = {
+  frozenGroundBeef: boolean;
+        frozenGroundBeefPork: boolean;
+        frozenPlantBurger: boolean;
+        frozenPizzaRach: boolean;
+        frozenVeggieRavioli: boolean;
+        freshChickenDrum: boolean;
+        freshWholeChicken: boolean;
+        freshChickenBreast: boolean;
+        freshChickenLeg: boolean;
+        freshFishSticks: boolean;
+        freshHam: boolean;
+        freshAssortedMeats: boolean;
+        cannedChicken: boolean;
+        cannedTuna: boolean;
+        cannedSalmon: boolean;
+        cannedMeals: boolean;
+        cannedPastaMeatSauce: boolean;
+        cannedPastaButterSauce: boolean;
+        cannedChili: boolean;
+        cannedVegCurry: boolean;
+        cannedHotDogSauce: boolean;
+        beansBlackPeas: boolean;
+        beansYellow: boolean;
+        beansPinto: boolean;
+        beansPork: boolean;
+        beansRefried: boolean;
+        beansWhite: boolean;
+};
+type Grain = {
+  breakfastStuffing: boolean;
+        breakfastPancake: boolean;
+        breakfastQuickOat: boolean;
+        breakfastCereal: boolean;
+        pastaElbow: boolean;
+        pastaMacaronie: boolean;
+        pastaPenne: boolean;
+        pastaRiceInstant: boolean;
+        bakeryBread: boolean;
+        bakeryHamburger: boolean;
+        bakeryDawg: boolean;
+        bakeryGoods: boolean;
+};
+
+type Dairy = {
+  freshMilk: boolean;
+        miscDairy: boolean;
+        freshCheese: boolean;
+        freshYogurt: boolean;
+        freshButter: boolean;
+        shelfStableMilk: boolean;
+};
+
+type Pantry = {
+  bakingMix: boolean;
+        bakingCakeMix: boolean;
+        bakingFlour: boolean;
+        bakingMuffinMix: boolean;
+        bakingCookieMix: boolean;
+        bakingMisc: boolean;
+        bakingVegOil: boolean;
+        soupChicken: boolean;
+        soupTomato: boolean;
+        soupVegetable: boolean;
+        soupCreamy: boolean;
+        soupMisc: boolean;
+        condimentSeasonings: boolean;
+        condimentHotSauce: boolean;
+        condimentRanch: boolean;
+        condimentMustard: boolean;
+        condimentSyrup: boolean;
+        condimentPicklesOlives: boolean;
+};
+
+type Baby = {
+  babyFruit: boolean;
+        babyCereal: boolean;
+        babyFormula: boolean;
+        babyNewbornGiftBag: boolean;
+        babyDiaper: boolean;
+        babyDiaperSize: '';
+};
+
+type Personal = {
+  hygieneShampoo: boolean;
+      hygieneBody: boolean;
+      hygieneToothpaste: boolean;
+      hygieneToothbrush: boolean;
+      birthdayPartyKit: boolean;
+      hygieneHandSanitizer: boolean;
+      hygieneFemale: boolean;
+};
+
+type Household ={
+  dishSoap: boolean;
+        laundryDetergent: boolean;
+        disinfectingWipes: boolean;
+};
+
+
 
 ///// We have an Object Literal and a type for each form Group. ////
 

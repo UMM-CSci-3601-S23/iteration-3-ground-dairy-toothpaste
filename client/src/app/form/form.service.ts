@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Form } from './form';
+import { VolunteerForm, Form } from './form';
 import { map } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 
@@ -17,8 +17,8 @@ export class FormService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getAllForms(): Observable<Form[]> {
-    return this.httpClient.get<Form[]>(this.formUrl);
+  getAllForms(): Observable<VolunteerForm[]> {
+    return this.httpClient.get<VolunteerForm[]>(this.formUrl);
   }
 
 

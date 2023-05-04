@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
-import { Form } from './form';
+import { VolunteerForm } from './form';
 import { FormService } from './form.service';
 import { FormGroup } from '@angular/forms';
 
@@ -15,7 +15,7 @@ import { FormGroup } from '@angular/forms';
 })
 
 export class FormVolunteerComponent implements OnInit, OnDestroy {
-  public servedForms: Form[];
+  public servedForms: VolunteerForm[];
 
   private ngUnsubscribe = new Subject<void>();
 
