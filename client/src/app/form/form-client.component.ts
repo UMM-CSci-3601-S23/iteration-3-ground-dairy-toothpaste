@@ -4,7 +4,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, } from '@angular/forms';
 import { FormService } from './form.service';
-import { fruitLiteral, proteinLiteral, vegetableLiteral, grainLiteral, dairyLiteral } from './form';
+import { fruitLiteral, proteinLiteral, vegetableLiteral,
+  grainLiteral, pantryLiteral, dairyLiteral, personalLiteral, householdLiteral } from './form';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 
@@ -19,10 +20,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ClientFormComponent implements OnInit {
 
   fruits = fruitLiteral;
-  proteins = proteinLiteral;
   vegetables = vegetableLiteral;
+  proteins = proteinLiteral;
   grains = grainLiteral;
+  pantry = pantryLiteral;
   dairy = dairyLiteral;
+  personal = personalLiteral;
+  household = householdLiteral;
   shoppingForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private formService: FormService, private snackBar: MatSnackBar) { }
@@ -50,6 +54,14 @@ export class ClientFormComponent implements OnInit {
       proteinGroup: this.formBuilder.group(this.getProteinControls()),
 
       grainGroup: this.formBuilder.group(this.getGrainControls()),
+
+      pantryGroup: this.formBuilder.group(this.getPantryControls()),
+
+      dairyGroup: this.formBuilder.group(this.getDairyControls()),
+
+      personalGroup: this.formBuilder.group(this.getPersonalControls()),
+
+      householdGroup: this.formBuilder.group(this.getHouseholdControls()),
     });
     console.log(this.shoppingForm);
   }
@@ -130,6 +142,20 @@ export class ClientFormComponent implements OnInit {
     return controls;
   }
 
+  private getPantryControls(): { [key: string]: any } {
+    const controls = {};
+    this.pantry.baking.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+    this.pantry.soups.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+    this.pantry.condiments.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+    return controls;
+  }
+
   private getDairyControls(): { [key: string]: any } {
     const controls = {};
     this.dairy.fresh.descriptions.forEach((item) => {
@@ -138,6 +164,25 @@ export class ClientFormComponent implements OnInit {
 
     return controls;
   }
+
+  private getPersonalControls(): { [key: string]: any } {
+    const controls = {};
+    this.personal.hygiene.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+
+    return controls;
+  }
+
+  private getHouseholdControls(): { [key: string]: any } {
+    const controls = {};
+    this.household.cleaning.descriptions.forEach((item) => {
+      controls[item.description] = [false];
+    });
+
+    return controls;
+  }
+
 
 }
 

@@ -6,14 +6,26 @@
             <mat-card-title class="volunteer-view-title">Submitted shopping forms</mat-card-title>
           </mat-card-header>
           <mat-card>
+            <mat-card>
 
-            <div *ngFor="let form of servedForms">
-              <div *ngIf=""></div>
-              <mat-card>
-                <!-- <mat-card-title>{{ form.personalInfo.fullName }}</mat-card-title> -->
-                <mat-card-content>
-                  <p><strong>Zip Code:</strong> {{ form.personalInfo.zipCode }}</p>
+              <div *ngFor="let form of servedForms">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Fruits</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                  <div *ngFor="let item of form.fruitGroup.section">
+                    {{ item }}
+                  </div>
+              </mat-card-content>
+            </mat-card>
+           </div>
+          </mat-card>
 
-                </mat-card-content>
-              </mat-card>
-            </div>
+            <!-- <mat-card>
+              <mat-card-content>
+                <p><strong>Zip Code:</strong> {{ form.personalInfo.zipCode }}</p>
+
+              </mat-card-content>
+            </mat-card> -->
+            <!-- <div *ngIf="form"></div> -->

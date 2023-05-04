@@ -111,5 +111,83 @@
     </mat-card-content>
   </mat-card>
 
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>GRAINS / GRANOS</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div formGroupName="grainGroup">
+        <div *ngFor="let item of grains.breakfast.descriptions">
+          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+        </div>
+        <div *ngFor="let item of grains.driedPasta.descriptions">
+          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+        </div>
+        <div *ngFor="let item of grains.bakery.descriptions">
+          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>MILK & CHEESE / LÁCTEOS</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div formGroupName="dairyGroup">
+        <div *ngFor="let item of dairy.fresh.descriptions">
+          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+        </div>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>PANTRY, COOKING, & BAKING / COCINAR y HORNEAR</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div formGroupName="pantryGroup">
+        <div *ngFor="let item of pantry.baking.descriptions">
+          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+        </div>
+        <div *ngFor="let item of pantry.soups.descriptions">
+          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+        </div>
+        <div *ngFor="let item of pantry.condiments.descriptions">
+          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>PERSONAL / PERSONAL</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div formGroupName="personalGroup">
+        <div *ngFor="let item of personal.hygiene.descriptions">
+          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>HOUSEHOLD / PARA LA CASA</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div formGroupName="householdGroup">
+        <div *ngFor="let item of household.cleaning.descriptions">
+          <mat-checkbox formControlName="{{item.description}}">{{item.description}}</mat-checkbox>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
   <button mat-raised-button type="submit">Submit</button>
 </form>

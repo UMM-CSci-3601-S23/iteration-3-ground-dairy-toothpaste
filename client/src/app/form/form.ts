@@ -1,6 +1,16 @@
 ////////////// Interface for the whole form ////////////////////
 
-export interface Form {personalInfo: PersonalInfo; fruitGroup: FruitsType; vegetableGroup: VegetablesType}
+export interface Form {personalInfo: PersonalInfo;
+  fruitGroup: FruitsType;
+  vegetableGroup: VegetablesType;
+  proteinGroup: ProteinsType;
+  grainGroup: GrainsType;
+  dairyGroup: DairyType;
+  pantryGroup: PantryType;
+  personalGroup: PersonalType;
+  houseHoldGroup: HouseholdType;
+
+  }
 
 ///////////////////// We just need a type for PersonalInfo //////////////////////////
 type PersonalInfo = {
