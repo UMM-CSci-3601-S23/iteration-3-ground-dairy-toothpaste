@@ -14,28 +14,32 @@ export class MockRequestService extends RequestService {
       itemType: 'food',
       description: 'I would like some ground beef',
       foodType: 'meat',
-      dateAdded: '2023-4-20'
+      dateAdded: '2023-4-20',
+      generalNeed: false
     },
     {
       _id: '2_id',
       itemType: 'toiletries',
       description: 'I need more toothpaste',
       foodType: '',
-      dateAdded: '1998-6-12'
+      dateAdded: '1998-6-12',
+      generalNeed: false
     },
     {
       _id: '3_id',
       itemType: 'other',
       description: 'I need more paper plates',
       foodType: '',
-      dateAdded: '2023-2-28'
+      dateAdded: '2023-2-28',
+      generalNeed: false
     },
     {
       _id: '4_id',
       itemType: 'food',
       description: 'I would like some milk',
       foodType: 'dairy',
-      dateAdded: '2023-3-19'
+      dateAdded: '2023-3-19',
+      generalNeed: false
     }
   ];
 
@@ -84,4 +88,7 @@ export class MockRequestService extends RequestService {
     return of('added! <3');
   }
 
+  getDonorRequestById(id: string): Observable<Request> {
+    return of(MockRequestService.testRequests[2]);
+  }
 }

@@ -45,7 +45,6 @@ public class FormController {
     // Set the JSON body of the response to be the list of requests returned by the database.
     // According to the Javalin documentation (https://javalin.io/documentation#context),
     // this calls result(jsonString), and also sets content type to json
-    System.out.println(allForms);
     ctx.json(allForms);
 
     // Explicitly set the context status to OK

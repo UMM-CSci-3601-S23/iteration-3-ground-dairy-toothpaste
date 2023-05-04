@@ -75,6 +75,7 @@ public class Server {
 
     // Get a request by a specific ID
     server.get("/api/clientRequests/{id}", clientRequestController::getRequest);
+    server.get("/api/donorRequests/{id}", donorRequestController::getRequest);
     // List requests, filtered using query parameters
     server.get("/api/clientRequests", clientRequestController::getRequests);
     server.get("/api/donorRequests", donorRequestController::getRequests);

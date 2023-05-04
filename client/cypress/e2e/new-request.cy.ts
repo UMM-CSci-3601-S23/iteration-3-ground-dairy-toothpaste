@@ -14,6 +14,10 @@ describe('Add donor request', () => {
     page.getTitle().should('have.text',' Item Request Form ');
   });
 
+  it('Should have a help button and display the correct information', () => {
+    cy.get('[data-test=new-request-help-button]').click();
+    cy.get('[data-test=help-title]').should('contain.text', 'How To Use Item Request Form');
+  });
   it('Should enable the submit request button once all criteria are met', () => {
     // ADD USER button should be disabled until all the necessary fields
     // are filled. Once the last (`#emailField`) is filled, then the button should
@@ -72,8 +76,9 @@ describe('Add donor request', () => {
         _id: null,
         itemType: 'food',
         foodType: 'meat',
-        description: ' TEST REQUEST!!!!',
-        dateAdded: '2023-4-18'
+        description: 'TEST REQUEST!!!!',
+        dateAdded: '2023-4-18',
+        generalNeed: true
       };
       page.setMatSelect('itemType', 'Other');
       page.newRequest(request);
@@ -91,6 +96,18 @@ describe('Add donor request', () => {
       cy.get('.volunteer-list-dateAdded').should('contain.text', 'Date Added: ');
       // We should see the confirmation message at the bottom of the screen
     });
+  });
+});
+describe('Test volunteer help button', () =>{
+  const page = new NewRequestPage();
+  beforeEach(() => {
+    cy.task('seed:database');
+    cy.setCookie('auth_token', 'TOKEN');
+  });
+  it('Should go to the right page, and press help button', () => {
+    cy.visit('/requests/volunteer');
+    page.selectHelpButton();
+    cy.get('[data-test=VolunteerHelpWindow]').should('exist').and('be.visible');
   });
 });
 
@@ -164,7 +181,8 @@ describe('Add volunteer request', () => {
         itemType: 'food',
         foodType: 'meat',
         description: ' TEST REQUEST!!!!',
-        dateAdded: '2023-4-18'
+        dateAdded: '2023-4-18',
+        generalNeed: true
       };
       page.setMatSelect('itemType', 'Other');
       page.newRequest(request);
@@ -176,9 +194,10 @@ describe('Add volunteer request', () => {
 
       // The new request should have all the same attributes as we entered
       cy.visit('/requests/donor');
-      cy.get('.donor-list-description').should('contain.text', request.description);
-      cy.get('.donor-list-itemType').should('contain.text', request.itemType);
-      cy.get('.donor-list-foodType').should('contain.text', request.foodType);
+      cy.get('.request-list-description').should('contain.text', request.description);
+      cy.get('.request-list-itemType').should('contain.text', request.itemType);
+      cy.get('.request-list-foodType').should('contain.text', request.foodType);
+      cy.get('[data-test=checkbox]').should('contain.text', '*Request from the foodshelf');
       // We should see the confirmation message at the bottom of the screen
     });
   });

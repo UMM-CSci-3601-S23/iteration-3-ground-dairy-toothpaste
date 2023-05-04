@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -25,6 +26,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
@@ -32,8 +34,12 @@ import { RequestDonorComponent } from './requests/request-donor.component';
 import { RequestVolunteerComponent } from './requests/request-volunteer.component';
 import { NewRequestComponent } from './requests/new-request/new-request.component';
 import { EditRequestComponent } from './requests/edit-request.component';
+import { RequestCardComponent } from './request-card/request-card.component';
+import { DetailedRequestComponent } from './detailed-request/detailed-request.component';
 import { ClientFormComponent } from './form/form-client.component';
 import { FormVolunteerComponent } from './form/form-volunteer.component';
+import { NewRequestHelpComponent } from './requests/new-request/new-request-help/new-request-help.component';
+import { VolunteerHelpComponent } from './volunteer-help/volunteer-help.component';
 
 
 
@@ -56,6 +62,7 @@ const MATERIAL_MODULES: any[] = [
   MatTooltipModule,
   MatCheckboxModule,
   MatStepperModule,
+  MatDialogModule
 ];
 
 @NgModule({
@@ -66,8 +73,11 @@ const MATERIAL_MODULES: any[] = [
     RequestDonorComponent,
     RequestVolunteerComponent,
     EditRequestComponent,
+    RequestCardComponent,
+    DetailedRequestComponent,
     ClientFormComponent,
     FormVolunteerComponent,
+    VolunteerHelpComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,7 +88,8 @@ const MATERIAL_MODULES: any[] = [
     HttpClientModule,
     MATERIAL_MODULES,
     LayoutModule,
+    MatDialogModule,
   ],
-  bootstrap: [AppComponent]
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
