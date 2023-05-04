@@ -24,11 +24,13 @@ This app also allows volunteers who work at the food shelf to more easily see wh
 Finally this app allows people who want to donate to the food shelf the ability to easily see the needs of the food shelf providing them an easy way to make sure that they are making a meaningful donation. 
 
 # How to use PocketShelf
-PocketShelf is broken down to four main parts. The home page, Client page, volunteer page, and donor page. at the top of each page there are navigation buttons for each page.
+PocketShelf is broken down to five main parts. The home page, Client page, volunteer page, grocery form, and donor page. at the top of each page there are navigation buttons for each page.
 
 The home page currently displays the title of our project along with a link to the food shelf's official website. in the future this page could also be used to display other relevant information.  
 
-The client page is for people who want to request food and/or other products from the food shelf. the client page has a digital version of the request form that clients would normally fill out in person.
+The client page is for people who want to request food and/or other products from the food shelf. clients have two ways to request items. the first one is the client page.the client page has a request form that asks them to fill out the items category. If they choose the food category they can also choose the category that the food belongs to but this part is optional. finally, they say the food that they want to request in the item description box. there they can go into more detail about the item they want. for example, if they want a specific brand. 
+
+The second way for clients to request items is through the grocery form. the grocery form page has a digital version of the request form that clients would normally fill out in person. after a client fills out the form and submit it, the form is sent to the view form page where it can be more easily viewed. 
 
 The volunteer page is for the people working at the food shelf. at the top of this page there is a "Needs requested" section. these fields allow volunteers to filter requests by item type, description, and food type. this page also allows volunteers to see requests made by clients. On each request there is an "Edit Request", "Post", and "Delete" button. this allows volunteers to edit requests in case it contains errors, post the request to the donor page for donors to fill the request, or delete the request in case it is not needed or not a legit request. at the bottom of the page there is a request form for the volunteers to make requests to donors themselves. 
 
