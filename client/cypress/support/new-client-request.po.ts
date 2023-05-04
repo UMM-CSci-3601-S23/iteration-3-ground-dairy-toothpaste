@@ -11,6 +11,7 @@ export class NewRequestPage {
   private readonly descFieldName = 'description';
   private readonly formFieldSelector = `mat-form-field`;
   private readonly dropDownSelector = `mat-option`;
+  private readonly helpButton = '[data-test=VolunteerHelpButton]';
 
   navigateTo() {
     return cy.visit(this.url);
@@ -24,6 +25,10 @@ export class NewRequestPage {
     return str[0].toUpperCase() + str.substr(1);
   }
 
+
+  selectHelpButton() {
+    return cy.get(this.helpButton).click();
+  }
   newRequestButton() {
     return cy.get(this.button);
   }

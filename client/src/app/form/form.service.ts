@@ -22,7 +22,7 @@ export class FormService {
   }
 
 
-  addForm(form: FormGroup): Observable<string> {
+  addForm(form: any): Observable<string> {
     const formJson = JSON.stringify(form);
     return this.httpClient.post<{id: string}>(this.newFormUrl, formJson).pipe(map(res => res.id));
   }

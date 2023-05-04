@@ -19,6 +19,9 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
   public requestItemType: ItemType;
   public requestDescription: string;
   public requestFoodType: FoodType;
+  public requestGeneralNeed: boolean;
+
+  public deleteRequestCallback: (Request) => void;
 
   authHypothesis: boolean;
 
@@ -32,7 +35,8 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
     this.requestService.getDonorRequests({
       itemType: this.requestItemType,
       foodType: this.requestFoodType,
-      description: this.requestDescription
+      description: this.requestDescription,
+      generalNeed: this.requestGeneralNeed
     }).pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe({
@@ -55,6 +59,7 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
       this.getRequestsFromServer();
       this.authHypothesis = document.cookie.includes('auth_token');
+      this.deleteRequestCallback = this.deleteRequest.bind(this);
   }
 
   ngOnDestroy(): void {

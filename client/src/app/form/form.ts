@@ -13,6 +13,9 @@
     houseHold: Household;
     }
 
+export interface Form {_id: string; personalInfo: PersonalInfo; fruitGroup: FruitsType| any; vegetableGroup: VegetablesType| any}
+
+
 ///////////////////// We just need a type for PersonalInfo //////////////////////////
 type PersonalInfo = {
   fullName: string;

@@ -12,14 +12,54 @@ import { Observable } from 'rxjs';
 import { MockRequestService } from 'src/testing/request.service.mock';;
 import { RequestService } from '../request.service';
 import { NewRequestComponent } from './new-request.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatOptionModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RequestVolunteerComponent } from '../request-volunteer.component';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { UrlSegment } from '@angular/router';
+
+const COMMON_IMPORTS: unknown[] = [
+  FormsModule,
+  MatCardModule,
+  MatFormFieldModule,
+  MatSelectModule,
+  MatOptionModule,
+  MatButtonModule,
+  MatInputModule,
+  MatExpansionModule,
+  MatTooltipModule,
+  MatListModule,
+  MatDividerModule,
+  MatRadioModule,
+  MatIconModule,
+  MatSnackBarModule,
+  BrowserAnimationsModule,
+  RouterTestingModule,
+];
 
 describe('NewRequestComponent', () => {
   let newRequestComponent: NewRequestComponent;
   let newRequestForm: FormGroup;
   let fixture: ComponentFixture<NewRequestComponent>;
   const service: MockRequestService = new MockRequestService();
+  let dialogStub: {
+    open: (stuff) => void;
+    calledWith: any;
+  };
 
   beforeEach(waitForAsync(() => {
+    dialogStub = {
+      open: (stuff) => { dialogStub.calledWith = stuff; },
+      calledWith: undefined
+    };
+
     TestBed.overrideProvider(RequestService, { useValue: service });
     TestBed.configureTestingModule({
       imports: [
@@ -34,6 +74,20 @@ describe('NewRequestComponent', () => {
         RouterTestingModule
       ],
       declarations: [NewRequestComponent],
+      providers: [{ provide: RequestService, useValue: service },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              url: [
+                { path: 'some-path' },
+                { path: 'volunteer' }
+              ],
+              paramMap: convertToParamMap({ id: '123' })
+            }
+          }
+        },
+      { provide: MatDialog, useValue: dialogStub }]
     }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
@@ -46,6 +100,19 @@ describe('NewRequestComponent', () => {
     newRequestForm = newRequestComponent.newRequestForm;
     expect(newRequestForm).toBeDefined();
     expect(newRequestForm.controls).toBeDefined();
+  });
+
+
+  it('should return false if route snapshot url length is less than 2', () => {
+    newRequestComponent.route.snapshot.url = [new UrlSegment ('requests', {})];
+    expect(newRequestComponent.onPage()).toBe(false);
+  });
+
+  it('should return true if route snapshot url has "volunteer" as the second path', () => {
+
+    newRequestComponent.route.snapshot.url = [ new UrlSegment('requests', {}), new UrlSegment('volunteer', {})];
+    expect(newRequestComponent.onPage()).toBe(true);
+
   });
 
   // Not terribly important; if the component doesn't create
@@ -62,6 +129,12 @@ describe('NewRequestComponent', () => {
   // people can't submit an empty form.
   it('form should be invalid when empty', () => {
     expect(newRequestForm.valid).toBeFalsy();
+  });
+
+  it('should be able to open the dialog', () => {
+    expect(dialogStub.calledWith).toBeUndefined();
+    newRequestComponent.openDialog();
+    expect(dialogStub.calledWith).toBeDefined();
   });
 
   describe('The description field', () => {
@@ -178,25 +251,33 @@ describe('NewRequestComponent', () => {
       foodTypeControl.setValue('cars');
       expect(foodTypeControl.valid).toBeFalsy();
     });
+
+    it('should be clearable by `resetForm`', () => {
+      foodTypeControl.setValue('vegetable');
+      expect(foodTypeControl.value).toEqual('vegetable');
+      newRequestComponent.resetForm();
+      expect(foodTypeControl.value).toBeFalsy();
+
+    });
   });
-  describe('The getErrorMessage method', ()=>{
+  describe('The getErrorMessage method', () => {
     let itemTypeControl: AbstractControl;
 
     beforeEach(() => {
       itemTypeControl = newRequestForm.controls.itemType;
     });
 
-    it('should return "unknown error" when passed an invalid error code', ()=> {
+    it('should return "unknown error" when passed an invalid error code', () => {
       expect(newRequestComponent.getErrorMessage('foodType') === 'Unknown error');
     });
 
-    it('should return "required" error when itemType is empty', ()=> {
+    it('should return "required" error when itemType is empty', () => {
       itemTypeControl.setValue('--');
       expect(newRequestComponent.getErrorMessage('itemType')).toBeTruthy();
     });
   });
 
-  describe('Can we submit stuff to the client database?', ()=>{
+  describe('Can we submit stuff to the client database?', () => {
     let itemTypeControl: AbstractControl;
     let foodTypeControl: AbstractControl;
     let descControl: AbstractControl;
@@ -207,7 +288,7 @@ describe('NewRequestComponent', () => {
       descControl = newRequestComponent.newRequestForm.controls.description;
     });
 
-    it('should not get angy', ()=> {
+    it('should not get angy', () => {
       foodTypeControl.setValue('dairy');
       itemTypeControl.setValue('food');
       descControl.setValue('this is a description I guess');
@@ -220,7 +301,7 @@ describe('NewRequestComponent', () => {
     });
   });
 
-  describe('Can we submit stuff to the donor database?', ()=>{
+  describe('Can we submit stuff to the donor database?', () => {
     let itemTypeControl: AbstractControl;
     let foodTypeControl: AbstractControl;
     let descControl: AbstractControl;
@@ -231,7 +312,7 @@ describe('NewRequestComponent', () => {
       descControl = newRequestComponent.newRequestForm.controls.description;
     });
 
-    it('should not get angy', ()=> {
+    it('should not get angy', () => {
       newRequestComponent.destination = 'donor';
 
       foodTypeControl.setValue('dairy');
@@ -262,6 +343,10 @@ describe('Misbehaving request service', () => {
     getClientRequests: () => Observable<Request[]>;
     getDonorRequests: () => Observable<Request[]>;
   };
+  let dialogStub: {
+    open: (stuff) => void;
+    calledWith: any;
+  };
 
   beforeEach(() => {
     requestServiceStub = {
@@ -282,6 +367,20 @@ describe('Misbehaving request service', () => {
         observer.error('deleteRequest() Observer generates an error');
       })
     };
+
+    dialogStub = {
+      open: (stuff: any) => {
+        dialogStub.calledWith = stuff;
+      },
+      calledWith: undefined
+    };
+
+    TestBed.configureTestingModule({
+      imports: [COMMON_IMPORTS],
+      declarations: [RequestVolunteerComponent],
+      providers: [{provide: RequestService, useValue: requestServiceStub},
+        {provide: MatDialog, useValue: dialogStub},]
+    });
   });
 
   beforeEach(waitForAsync(() => {
@@ -297,7 +396,7 @@ describe('Misbehaving request service', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
       ],
-      providers: [{provide: RequestService, useValue: requestServiceStub}],
+      providers: [{ provide: RequestService, useValue: requestServiceStub }],
       declarations: [NewRequestComponent]
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(NewRequestComponent);
@@ -322,7 +421,7 @@ describe('Misbehaving request service', () => {
     expect(newRequestForm.controls).toBeDefined();
   });
 
-  it('should get angy when talking with the donor database', ()=> {
+  it('should get angy when talking with the donor database', () => {
     newRequestComponent.destination = 'donor';
 
     foodTypeControl.setValue('dairy');
@@ -332,7 +431,7 @@ describe('Misbehaving request service', () => {
     newRequestComponent.submitForm();
   });
 
-  it('should get angy when talking with the client database', ()=> {
+  it('should get angy when talking with the client database', () => {
     newRequestComponent.destination = 'client';
 
     foodTypeControl.setValue('dairy');

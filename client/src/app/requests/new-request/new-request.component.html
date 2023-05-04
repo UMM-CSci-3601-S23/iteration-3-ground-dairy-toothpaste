@@ -4,6 +4,7 @@
       <mat-card-header>
         <mat-card-title class = "new-request-title">
           Item Request Form
+
         </mat-card-title>
       </mat-card-header>
     <mat-card-content>
@@ -52,9 +53,18 @@
           {{getErrorMessage('description')}}
         </mat-error>
       </mat-form-field>
+
+
+      <div *ngIf="onPage()">
+        <div>
+          <mat-label>Indicate to donors that this request is from the food shelf</mat-label>
+        </div>
+        <input type="checkbox" class="from-volunteer-checkbox" data-test="checkbox" [(ngModel)]="generalNeed" formControlName="generalNeed">
+      </div>
+      <mat-divider></mat-divider>
     </div>
     </mat-card-content>
-    <div>
+    <a>
     <mat-card-actions align="end">
       <button
         mat-button
@@ -68,7 +78,8 @@
         SUBMIT REQUEST
       </button>
     </mat-card-actions>
-  </div>
+  </a>
 </form>
+<button mat-button (click)="openDialog()" data-test="new-request-help-button"><mat-icon>help_outline</mat-icon></button>
 </div>
 </div>

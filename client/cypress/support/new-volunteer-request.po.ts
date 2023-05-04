@@ -11,6 +11,7 @@ export class NewVolunteerRequestPage {
   private readonly descFieldName = 'description';
   private readonly formFieldSelector = `mat-form-field`;
   private readonly dropDownSelector = `mat-option`;
+  private readonly checkbox = '[data-test=checkbox]';
 
   navigateTo() {
     return cy.visit(this.url);
@@ -40,6 +41,10 @@ export class NewVolunteerRequestPage {
     cy.get('mat-option').contains(`${value}`).click();
   }
 
+  getMatCheckbox(){
+    cy.get(this.checkbox).click();
+  }
+
   getMatSelect(formControlName: string){
     return cy.get(`mat-select[formControlName=${formControlName}]`).click();
   }
@@ -57,6 +62,9 @@ export class NewVolunteerRequestPage {
     this.setMatSelect('itemType', this.capitalize(newRequest.itemType));
     if (newRequest.itemType === 'food'){
       this.setMatSelect('foodType', this.capitalize(newRequest.foodType));
+    }
+    if (newRequest.generalNeed === true){
+      this.getMatCheckbox();
     }
     return this.newRequestButton().click();
   }

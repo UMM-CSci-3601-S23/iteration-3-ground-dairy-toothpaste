@@ -1,0 +1,29 @@
+<mat-card class="example-card" *ngIf="request" class="request-list-item">
+  <mat-card-header>
+    <mat-card-title class="request-list-itemType">{{request.itemType}}</mat-card-title>
+    <mat-card-subtitle class="request-list-foodType">{{request.foodType}}</mat-card-subtitle>
+
+    <mat-card-subtitle class="request-list-dateAdded">Date Added: {{request.dateAdded}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p matListItemBody class="request-list-description"> {{request.description}} </p>
+
+
+      <mat-card-subtitle class="request-list-origin" data-test="checkbox" *ngIf="request.generalNeed"> *Request from the foodshelf
+    </mat-card-subtitle>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button matToolTip="Edit Request" [routerLink]="['/requests/volunteer', request._id]" data-test="editRequestButton" *ngIf="this.editable">
+      Edit Request
+    </button>
+    <button mat-button matToolTip="View Detailed" [routerLink]="['/requests/donor', request._id]" data-test="detailedButton" *ngIf="this.showDetail">
+      View Detailed
+    </button>
+    <button mat-button data-test="postRequestButton" (click)="postRequest()" *ngIf="this.editable">
+      Post
+    </button>
+    <button mat-icon-button data-test="deleteRequestButton" (click)="deleteRequest()" *ngIf="this.deletable">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>
