@@ -14,6 +14,8 @@
   - [Contributors](#contributors)
   - [Changing the name](#changing-the-name)
 
+![screen shots of application](./PocketShelf.png)
+
 # What is PocketShelf?
 PocketShelf is an app that makes the process of requesting and donating food and other products to the food shelf easy and convenient. 
 
