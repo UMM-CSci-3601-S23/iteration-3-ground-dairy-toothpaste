@@ -13,18 +13,19 @@ describe('FormService', () => {
   let httpTestingController: HttpTestingController;
 
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       imports: [HttpClientTestingModule]
-//     });
-//     httpClient = TestBed.inject(HttpClient);
-//     httpTestingController = TestBed.inject(HttpTestingController);
-//     formService = TestBed.inject(FormService);
-//   });
 
-//   afterEach(() => {
-//     httpTestingController.verify();
-//   });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule]
+    });
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    formService = TestBed.inject(FormService);
+  });
+
+  afterEach(() => {
+    httpTestingController.verify();
+  });
 
 
   describe('When getForms() is called with no parameters', () => {

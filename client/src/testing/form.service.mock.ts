@@ -11,7 +11,7 @@ import { FormService } from 'src/app/form/form.service';
 export class MockFormService extends FormService {
   static testForms: VolunteerForm[] = [
     {
-      // eslint-disable-line
+
         personalInfo: {
         fullName: 'Ash',
         zipCode: '56701',
