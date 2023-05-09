@@ -84,6 +84,7 @@ describe('ClientFormComponent but it\'s bwoken', () => {
   let testComponent: ClientFormComponent;
   let formGroup: FormGroup;
   let fixture: ComponentFixture<ClientFormComponent>;
+  let volunteerForm: VolunteerForm;
   // const service: MockFormService = new MockFormService();
   let snackbarModuleStub: {
     open: (msg, buttons, settings) => void;
@@ -123,7 +124,9 @@ describe('ClientFormComponent but it\'s bwoken', () => {
         RouterTestingModule
       ],
       declarations: [ClientFormComponent],
-      providers: [{provide: FormService, useValue: service}, {provide: MatSnackBar, useValue: snackbarModuleStub}],
+      providers: [{provide: FormService, useValue: service}, {provide: MatSnackBar, useValue: snackbarModuleStub},
+        {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => volunteerForm),
+          multi: true,}],
     }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
