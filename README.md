@@ -43,6 +43,7 @@ finally, there is a donor page that shows all the requests posted by the volunte
 - Make it so the view form page only shows what the client filled out. 
 - Clean up the request form page.
 - Google authentication.
+- link to full list of issues and todos https://docs.google.com/document/d/1GsxLsKFngpfIdW6_--EInzTerLmo_a2VjopoMJbDjdI/edit?usp=sharing
 
 
 ## [Development](DEVELOPMENT.md)
