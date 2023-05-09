@@ -74,7 +74,9 @@ From the `database` directory:
 
 ## [Deployment](DEPLOYMENT.md)
 
-Instructions on how to create a DigitalOcean Droplet and setup your project are in [the deployment guide](DEPLOYMENT.md).
+Instructions on how to create a DigitalOcean Droplet to host the project on and deploy can be found here in [the deployment guide](DEPLOYMENT.md).
+
+Additionally, it is necessary to "fake" authentication for the partial implementation currently in place. Authentication can be achieved by accessing `/api/auth` via a GET request. This sets a cookie which is used to prove verification to the server.
 
 ## [Resources](RESOURCES.md)
 
