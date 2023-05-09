@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
-// import { OldForm } from './form';
+ import { VolunteerForm } from './form';
 import { FormService } from './form.service';
 import { MockFormService } from 'src/testing/form.service.mock';
 
@@ -13,18 +13,19 @@ describe('FormService', () => {
   let httpTestingController: HttpTestingController;
 
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       imports: [HttpClientTestingModule]
-//     });
-//     httpClient = TestBed.inject(HttpClient);
-//     httpTestingController = TestBed.inject(HttpTestingController);
-//     formService = TestBed.inject(FormService);
-//   });
 
-//   afterEach(() => {
-//     httpTestingController.verify();
-//   });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule]
+    });
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    formService = TestBed.inject(FormService);
+  });
+
+  afterEach(() => {
+    httpTestingController.verify();
+  });
 
 
   describe('When getForms() is called with no parameters', () => {

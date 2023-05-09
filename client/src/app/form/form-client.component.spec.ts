@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule, FormGroup, AbstractControl } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormGroup, AbstractControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -11,10 +11,14 @@ import { ClientFormComponent } from './form-client.component';
 import { FormService } from './form.service';
 import { MockFormService } from 'src/testing/form.service.mock';
 import { Observable } from 'rxjs';
+import { forwardRef } from '@angular/core';
+import { VolunteerForm } from './form';
+
 
 
 describe('ClientFormComponent', () => {
   let testComponent: ClientFormComponent;
+  let volunteerForm: VolunteerForm;
   let formGroup: FormGroup;
   let fixture: ComponentFixture<ClientFormComponent>;
   const service: MockFormService = new MockFormService();
@@ -46,7 +50,9 @@ describe('ClientFormComponent', () => {
         RouterTestingModule
       ],
       declarations: [ClientFormComponent],
-      providers: [{provide: FormService, useValue: service}, {provide: MatSnackBar, useValue: snackbarModuleStub}],
+      providers: [{provide: FormService, useValue: service}, {provide: MatSnackBar, useValue: snackbarModuleStub},
+      {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => volunteerForm),
+      multi: true,}],
     }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
@@ -78,6 +84,7 @@ describe('ClientFormComponent but it\'s bwoken', () => {
   let testComponent: ClientFormComponent;
   let formGroup: FormGroup;
   let fixture: ComponentFixture<ClientFormComponent>;
+  let volunteerForm: VolunteerForm;
   // const service: MockFormService = new MockFormService();
   let snackbarModuleStub: {
     open: (msg, buttons, settings) => void;
@@ -117,7 +124,9 @@ describe('ClientFormComponent but it\'s bwoken', () => {
         RouterTestingModule
       ],
       declarations: [ClientFormComponent],
-      providers: [{provide: FormService, useValue: service}, {provide: MatSnackBar, useValue: snackbarModuleStub}],
+      providers: [{provide: FormService, useValue: service}, {provide: MatSnackBar, useValue: snackbarModuleStub},
+        {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => volunteerForm),
+          multi: true,}],
     }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
