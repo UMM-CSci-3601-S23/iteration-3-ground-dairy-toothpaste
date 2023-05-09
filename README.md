@@ -39,10 +39,10 @@ The volunteer page is for the people working at the food shelf. at the top of th
 finally, there is a donor page that shows all the requests posted by the volunteers. on the requests it shows if it came from a client or the food shelf itself. if a volunteer is on the donor page they can delete requests that are no longer needed. 
 
 # Issues and to-dos
--make it so only volunteers can see the view form page.
--make it so the view form page only shows what the client filled out. 
--clean up the request form page.
--google authentication.
+- Make it so only volunteers can see the view form page.
+- Make it so the view form page only shows what the client filled out. 
+- Clean up the request form page.
+- Google authentication.
 
 
 ## [Development](DEVELOPMENT.md)
